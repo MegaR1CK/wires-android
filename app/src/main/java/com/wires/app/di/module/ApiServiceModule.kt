@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.wires.app.data.remote.WiresApiService
+import com.wires.app.domain.repository.TokenRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -25,13 +26,12 @@ open class ApiServiceModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(context: Context): OkHttpClient {
+    fun provideOkHttpClient(context: Context, tokenRepository: TokenRepository): OkHttpClient {
         return OkHttpClient.Builder().apply {
             setTimeouts()
             addInterceptor { chain ->
                 val original = chain.request()
-//                val token = tokensRepository.getAccessToken() ?: ""
-                val token = ""
+                val token = tokenRepository.getAccessToken() ?: ""
                 val requestBuilder = original.newBuilder()
                 Timber.tag("OkHttp").d("Auth-Token: %s", token)
                 if (!TextUtils.isEmpty(token)) {

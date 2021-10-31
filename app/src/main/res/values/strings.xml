@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">wires-android</string>
+    <string name="app_name">Wires</string>
 
     <string name="share">Поделиться</string>
+
+    <!-- SPLASH -->
+    <string name="splash_subtitle">Social community app for developers</string>
 </resources>

@@ -4,17 +4,27 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBinding
 import com.wires.app.managers.BottomNavigationViewManager
 import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 abstract class BaseFragment(@LayoutRes layout: Int): Fragment(layout) {
+
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     open val showBottomNavigationView: Boolean
         get() = (parentFragment as? BaseFragment)?.showBottomNavigationView ?: false
 
     private var bottomNavigationViewManager: BottomNavigationViewManager? = null
+
+    private lateinit var binding: ViewBinding
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -45,4 +55,8 @@ abstract class BaseFragment(@LayoutRes layout: Int): Fragment(layout) {
     protected infix fun <T> LiveData<T>.observe(block: (T) -> Unit) {
         observe(this@BaseFragment.viewLifecycleOwner, { block.invoke(it) })
     }
+
+    @MainThread
+    inline fun <reified VM : ViewModel> Fragment.appViewModels() =
+        createViewModelLazy(VM::class, { this.viewModelStore }, { viewModelFactory })
 }
