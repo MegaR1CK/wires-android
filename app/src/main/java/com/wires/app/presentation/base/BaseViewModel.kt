@@ -8,10 +8,10 @@ import androidx.paging.cachedIn
 import com.wires.app.data.LoadableResult
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
 

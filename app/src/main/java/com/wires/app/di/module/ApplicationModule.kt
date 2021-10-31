@@ -2,9 +2,9 @@ package com.wires.app.di.module
 
 import android.app.Application
 import android.content.Context
+import com.wires.app.WiresApplication
 import com.wires.app.data.DiffUtilCallbackFactory
 import com.wires.app.data.DiffUtilItemCallbackFactory
-import com.wires.app.WiresApplication
 import dagger.Module
 import dagger.Provides
 

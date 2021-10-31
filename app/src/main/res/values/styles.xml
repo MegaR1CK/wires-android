@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ButtonStyle">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAppearance">@style/FontStyle.ButtonRegular.Bold</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="ButtonStyle.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAppearance">@style/FontStyle.ButtonRegular.Bold</item>
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="strokeColor">?colorPrimary</item>
+    </style>
+</resources>

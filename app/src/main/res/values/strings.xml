@@ -3,6 +3,9 @@
 
     <string name="share">Поделиться</string>
 
-    <!-- SPLASH -->
     <string name="splash_subtitle">Social community app for developers</string>
+
+    <!-- AUTH -->
+    <string name="login_label">Login</string>
+    <string name="register_label">Register</string>
 </resources>

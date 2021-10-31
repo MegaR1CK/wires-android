@@ -12,7 +12,6 @@ import com.wires.app.data.LoadableResult
 import com.wires.app.data.remote.NetworkError
 import com.wires.app.data.remote.ParsedError
 
-
 class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlipper(context, attrs) {
 
     enum class State(val displayedChild: Int) {

@@ -58,7 +58,6 @@ private fun Fragment.showErrorSnackbar(
             .make(it, message, Snackbar.LENGTH_LONG)
             .setAction(actionText) {
                 action.invoke()
-
             }.show()
     }
 }

@@ -33,5 +33,4 @@ class PreferenceStorage @Inject constructor(
     var accessToken: String?
         get() = securePref.getString(ACCESS_TOKEN_KEY, null)
         set(value) = securePref.edit().putString(ACCESS_TOKEN_KEY, value).apply()
-
 }

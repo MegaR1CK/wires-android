@@ -2,8 +2,9 @@ package com.wires.app.presentation.base
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.LayoutRes
+import android.view.ViewGroup
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
@@ -15,16 +16,18 @@ import com.wires.app.managers.BottomNavigationViewManager
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-abstract class BaseFragment(@LayoutRes layout: Int): Fragment(layout) {
+abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     open val showBottomNavigationView: Boolean
-        get() = (parentFragment as? BaseFragment)?.showBottomNavigationView ?: false
+        get() = (parentFragment as? BaseFragment<*>)?.showBottomNavigationView ?: false
 
     private var bottomNavigationViewManager: BottomNavigationViewManager? = null
 
-    private lateinit var binding: ViewBinding
+    protected var binding: ViewBinding? = null
+
+    abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -39,11 +42,21 @@ abstract class BaseFragment(@LayoutRes layout: Int): Fragment(layout) {
         callOperations()
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = bindingInflater.invoke(inflater, container, false)
+        return requireNotNull(binding).root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomNavigationViewManager?.setNavigationViewVisibility(showBottomNavigationView)
         onSetupLayout(savedInstanceState)
         onBindViewModel()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     abstract fun callOperations()
