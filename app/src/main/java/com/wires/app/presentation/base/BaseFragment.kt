@@ -25,7 +25,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     private var bottomNavigationViewManager: BottomNavigationViewManager? = null
 
-    protected var binding: ViewBinding? = null
+    private var _binding: VB? = null
+    protected lateinit var binding: VB
 
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
 
@@ -43,8 +44,9 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = bindingInflater.invoke(inflater, container, false)
-        return requireNotNull(binding).root
+        _binding = bindingInflater.invoke(inflater, container, false)
+        _binding?.let { binding = it }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,7 +58,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     abstract fun callOperations()

@@ -8,4 +8,13 @@
     <!-- AUTH -->
     <string name="login_label">Login</string>
     <string name="register_label">Register</string>
+    <string name="login_title">Login to your account</string>
+    <string name="email_hint">E-mail</string>
+    <string name="password_hint">Password</string>
+    <string name="error_empty_email">E-mail cannot be empty!</string>
+    <string name="error_incorrect_email">Incorrect e-mail!</string>
+    <string name="error_empty_password">Password cannot be empty!</string>
+    <string name="error_short_password">Password must contain at least 8 symbols!</string>
+    <string name="error_weak_password">Password must contain uppercase and lowercase letters and numbers!</string>
+    <string name="pattern_password" translatable="false"></string>
 </resources>

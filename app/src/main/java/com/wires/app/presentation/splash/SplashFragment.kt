@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.wires.app.databinding.FragmentSplashBinding
 import com.wires.app.extensions.fitTopAndBottomInsetsWithPadding
+import com.wires.app.extensions.showToast
 import com.wires.app.presentation.base.BaseFragment
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>() {
@@ -20,7 +21,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
         viewModel.runIntroFlow()
     }
 
-    override fun onSetupLayout(savedInstanceState: Bundle?) = with(requireNotNull(binding)) {
+    override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitTopAndBottomInsetsWithPadding()
     }
 
@@ -29,6 +30,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>() {
             result.doOnSuccess {
                 when (it) {
                     SplashViewModel.SplashResult.MAIN_SCREEN -> {
+                        showToast("To main screen")
                     }
                     SplashViewModel.SplashResult.AUTH -> {
                         findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToAuthGraph())

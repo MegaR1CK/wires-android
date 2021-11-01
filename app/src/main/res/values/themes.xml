@@ -13,6 +13,7 @@
         <item name="textColorPrimary">@color/black</item>
         <item name="textColorTitle">@color/blue</item>
         <item name="textColorSubtitle">@color/dark_blue</item>
+        <item name="errorColor">@color/red</item>
 
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>

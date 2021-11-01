@@ -17,3 +17,5 @@ fun TextInputEditText.setErrorResetHandler(inputLayout: TextInputLayout) {
     }
     doAfterTextChanged { inputLayout.error = null }
 }
+
+fun TextInputEditText.getInputText() = text.toString()

@@ -17,4 +17,14 @@
         <item name="cornerRadius">8dp</item>
         <item name="strokeColor">?colorPrimary</item>
     </style>
+
+    <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxStrokeColor">?colorPrimary</item>
+        <item name="boxStrokeErrorColor">?errorColor</item>
+        <item name="errorTextColor">?errorColor</item>
+    </style>
 </resources>
