@@ -26,5 +26,6 @@
         <item name="boxStrokeColor">?colorPrimary</item>
         <item name="boxStrokeErrorColor">?errorColor</item>
         <item name="errorTextColor">?errorColor</item>
+        <item name="errorEnabled">true</item>
     </style>
 </resources>

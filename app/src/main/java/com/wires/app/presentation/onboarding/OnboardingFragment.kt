@@ -23,11 +23,17 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>() {
         buttonOnboardingLogin.setOnClickListener {
             viewModel.navigateToLogin()
         }
+        buttonOnboardingRegister.setOnClickListener {
+            viewModel.navigateToRegister()
+        }
     }
 
     override fun onBindViewModel() = with(viewModel) {
         navigateToLoginLiveEvent.observe {
             findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
+        }
+        navigateToRegisterLiveEvent.observe {
+            findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToRegisterFragment())
         }
     }
 }

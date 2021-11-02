@@ -9,6 +9,7 @@ import com.wires.app.extensions.getInputText
 import com.wires.app.extensions.hideSoftKeyboard
 import com.wires.app.extensions.showToast
 import com.wires.app.presentation.base.BaseFragment
+import timber.log.Timber
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
@@ -44,6 +45,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         loginLiveEvent.observe { result ->
             result.doOnSuccess {
                 showToast("Success")
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
             }
         }
     }

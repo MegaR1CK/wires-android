@@ -6,6 +6,7 @@ import com.wires.app.di.util.ViewModelFactory
 import com.wires.app.di.util.ViewModelKey
 import com.wires.app.presentation.login.LoginViewModel
 import com.wires.app.presentation.onboarding.OnboardingViewModel
+import com.wires.app.presentation.register.RegisterViewModel
 import com.wires.app.presentation.splash.SplashViewModel
 import dagger.Binds
 import dagger.Module
@@ -31,4 +32,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LoginViewModel::class)
     abstract fun loginViewModel(viewModel: LoginViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RegisterViewModel::class)
+    abstract fun registerViewModel(viewModel: RegisterViewModel): ViewModel
 }

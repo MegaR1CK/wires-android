@@ -12,4 +12,12 @@ class MockManager @Inject constructor() {
             .map { allowedChars.random() }
             .joinToString("")
     }
+
+    suspend fun registerUser(email: String, passwordHash: String, username: String): String {
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        delay(1000)
+        return (1..10)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
 }

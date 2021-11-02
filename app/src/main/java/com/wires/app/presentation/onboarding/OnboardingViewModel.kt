@@ -16,4 +16,8 @@ class OnboardingViewModel @Inject constructor() : BaseViewModel() {
     fun navigateToLogin() {
         _navigateToLoginLiveEvent.postValue(Unit)
     }
+
+    fun navigateToRegister() {
+        _navigateToRegisterLiveEvent.postValue(Unit)
+    }
 }

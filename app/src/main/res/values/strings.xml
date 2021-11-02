@@ -9,11 +9,15 @@
     <string name="login_label">Login</string>
     <string name="register_label">Register</string>
     <string name="login_title">Login to your account</string>
+    <string name="register_title">Register account</string>
     <string name="email_hint">E-mail</string>
     <string name="password_hint">Password</string>
-    <string name="error_empty_email">E-mail cannot be empty!</string>
+    <string name="confirm_password_hint">Confirm password</string>
+    <string name="username_hint">Username</string>
+    <string name="error_empty_field">Field cannot be empty!</string>
     <string name="error_incorrect_email">Incorrect e-mail!</string>
-    <string name="error_empty_password">Password cannot be empty!</string>
     <string name="error_short_password">Password must contain at least 8 symbols!</string>
     <string name="error_weak_password">Password must contain uppercase and lowercase letters and numbers!</string>
+    <string name="error_different_passwords">Passwords don\'t match!</string>
+    <string name="error_incorrect_username">Username may contain only letters, numbers and whitespaces!</string>
 </resources>
