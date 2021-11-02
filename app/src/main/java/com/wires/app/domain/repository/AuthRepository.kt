@@ -6,6 +6,7 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val mockManager: MockManager
 ) {
+    // TODO: return user from method
     suspend fun loginUser(email: String, passwordHash: String): String {
         return mockManager.loginUser(email, passwordHash)
     }

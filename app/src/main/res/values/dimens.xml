@@ -5,4 +5,7 @@
     <dimen name="padding_16">16dp</dimen>
     <dimen name="padding_20">20dp</dimen>
     <dimen name="padding_24">24dp</dimen>
+
+
+    <dimen name="auth_horizontal_padding">40dp</dimen>
 </resources>

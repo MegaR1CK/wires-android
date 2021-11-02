@@ -42,6 +42,7 @@ class LoginViewModel @Inject constructor(
         // TODO: use stronger hash
         _loginLiveEvent.launchLoadData {
             preferenceStorage.accessToken = authRepository.loginUser(email, cryptor.getMd5Hash(password))
+            // TODO: save user in db
         }
     }
 }
