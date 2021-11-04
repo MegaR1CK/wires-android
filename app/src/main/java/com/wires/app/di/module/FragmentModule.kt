@@ -1,5 +1,7 @@
 package com.wires.app.di.module
 
+import com.wires.app.presentation.feed.FeedFragment
+import com.wires.app.presentation.feed.feedchild.FeedChildFragment
 import com.wires.app.presentation.login.LoginFragment
 import com.wires.app.presentation.onboarding.OnboardingFragment
 import com.wires.app.presentation.register.RegisterFragment
@@ -21,4 +23,10 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun registerFragment(): RegisterFragment
+
+    @ContributesAndroidInjector
+    abstract fun feedFragment(): FeedFragment
+
+    @ContributesAndroidInjector
+    abstract fun feedChildFragment(): FeedChildFragment
 }

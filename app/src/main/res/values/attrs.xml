@@ -4,5 +4,10 @@
     <attr name="textColorTitle" format="reference|color" />
     <attr name="textColorSubtitle" format="reference|color" />
 
+    <attr name="textColorOnContrast" format="reference|color" />
+
     <attr name="errorColor" format="reference|color" />
+
+    <attr name="colorTabSelected" format="reference|color" />
+    <attr name="colorTabUnselected" format="reference|color" />
 </resources>

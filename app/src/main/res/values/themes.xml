@@ -15,6 +15,11 @@
         <item name="textColorSubtitle">@color/dark_blue</item>
         <item name="errorColor">@color/red</item>
 
+        <item name="textColorOnContrast">@color/white</item>
+
+        <item name="colorTabSelected">@color/orange</item>
+        <item name="colorTabUnselected">@color/light_orange</item>
+
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
 

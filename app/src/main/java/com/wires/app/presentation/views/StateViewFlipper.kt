@@ -3,11 +3,16 @@ package com.wires.app.presentation.views
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
+import com.wires.app.R
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.remote.NetworkError
 import com.wires.app.data.remote.ParsedError
@@ -23,8 +28,13 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
 
     private var state = State.LOADING
 
-//    private var loadingView: View
-//    private val errorView: View
+    private var loadingView: View
+    private lateinit var errorView: View
+
+    private val buttonError: Button by lazy { errorView.findViewById(R.id.buttonError) }
+    private val textErrorTitle: TextView? by lazy { errorView.findViewById(R.id.textErrorTitle) }
+    private val textErrorDescription: TextView? by lazy { errorView.findViewById(R.id.textErrorComment) }
+    private val imageViewError: ImageView? by lazy { errorView.findViewById(R.id.imageViewError) }
 
     private val disabledStates = mutableListOf<State>()
 
@@ -32,11 +42,11 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
         val layoutInflater = LayoutInflater.from(context)
         val layoutResProvider = LayoutResProvider(context, attrs)
 
-//        loadingView = layoutInflater.inflate(layoutResProvider.loadingRes, this, false)
-//        addView(loadingView)
+        loadingView = layoutInflater.inflate(layoutResProvider.loadingRes, this, false)
+        addView(loadingView)
 
-//        errorView = layoutInflater.inflate(layoutResProvider.errorRes, this, false)
-//        addView(errorView)
+        errorView = layoutInflater.inflate(layoutResProvider.errorRes, this, false)
+        addView(errorView)
     }
 
     fun <T> setStateFromResult(loadableResult: LoadableResult<T>) {
@@ -48,7 +58,7 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
     }
 
     fun setRetryMethod(retry: () -> Unit) {
-//        errorView.buttonError.setOnClickListener { retry.invoke() }
+        buttonError.setOnClickListener { retry.invoke() }
     }
 
     fun setCustomState() {
@@ -67,9 +77,9 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
     }
 
     fun setLoadingView(@LayoutRes layout: Int) {
-//        removeView(loadingView)
-//        loadingView = LayoutInflater.from(context).inflate(layout, this, false)
-//        addView(loadingView, 0)
+        removeView(loadingView)
+        loadingView = LayoutInflater.from(context).inflate(layout, this, false)
+        addView(loadingView, 0)
         changeState(state)
     }
 
@@ -102,32 +112,32 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
      * Ошибка "Что-то с интернетом"
      */
     private fun setStateNetworkError() {
-//        setErrorStateContent(
-//            titleRes = R.string.error_no_network_title,
-//            descriptionRes = R.string.error_no_network_description,
-//            errorImageRes = R.drawable.ic_no_internet,
-//        )
+        setErrorStateContent(
+            titleRes = R.string.error_no_network_title,
+            descriptionRes = R.string.error_no_network_description,
+            errorImageRes = R.drawable.ic_no_internet,
+        )
     }
 
     /**
      * Ошибка "Что-то не так"
      */
     private fun setGeneralError() {
-//        setErrorStateContent(
-//            titleRes = R.string.error_something_wrong_title,
-//            descriptionRes = R.string.error_something_wrong_description,
-//            errorImageRes = R.drawable.ic_something_wrong,
-//        )
+        setErrorStateContent(
+            titleRes = R.string.error_something_wrong_title,
+            descriptionRes = R.string.error_something_wrong_description,
+            errorImageRes = R.drawable.ic_something_wrong,
+        )
     }
 
     private fun setErrorStateContent(@StringRes titleRes: Int, @StringRes descriptionRes: Int, @DrawableRes errorImageRes: Int) {
-//        errorView.textErrorTitle?.setText(titleRes)
-//        errorView.textErrorComment?.setText(descriptionRes)
-//        errorView.imageViewError?.setImageResource(errorImageRes)
+        textErrorTitle?.setText(titleRes)
+        textErrorDescription?.setText(descriptionRes)
+        imageViewError?.setImageResource(errorImageRes)
     }
 
     fun setErrorImageVisibility(isVisible: Boolean) {
-//        errorView.imageViewError.isVisible = isVisible
+        imageViewError?.isVisible = isVisible
     }
 
     private fun stateIsDisabled(state: State): Boolean {
@@ -137,14 +147,14 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
     private class LayoutResProvider(context: Context, attrs: AttributeSet?) {
 
         companion object {
-//            @LayoutRes
-//            val DEFAULT_ERROR_LAYOUT = R.layout.view_state_error
-//
-//            @LayoutRes
-//            val DEFAULT_LOADING_LAYOUT = R.layout.view_state_loading
+            @LayoutRes
+            val DEFAULT_ERROR_LAYOUT = R.layout.view_state_error
+
+            @LayoutRes
+            val DEFAULT_LOADING_LAYOUT = R.layout.view_state_loading
         }
 
-//        @LayoutRes val loadingRes: Int = DEFAULT_LOADING_LAYOUT
-//        @LayoutRes val errorRes: Int = DEFAULT_ERROR_LAYOUT
+        @LayoutRes val loadingRes: Int = DEFAULT_LOADING_LAYOUT
+        @LayoutRes val errorRes: Int = DEFAULT_ERROR_LAYOUT
     }
 }

@@ -3,11 +3,11 @@ package com.wires.app.presentation.register
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.wires.app.databinding.FragmentRegisterBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getInputText
 import com.wires.app.extensions.hideSoftKeyboard
-import com.wires.app.extensions.showToast
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 
@@ -78,7 +78,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         }
         registerLiveEvent.observe { result ->
             result.doOnSuccess {
-                showToast("Success!")
+                findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToFeedGraph())
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)

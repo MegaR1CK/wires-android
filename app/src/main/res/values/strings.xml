@@ -2,7 +2,8 @@
     <string name="app_name">Wires</string>
     <string name="app_subtitle">Social community app for developers</string>
 
-    <string name="share">Поделиться</string>
+    <string name="share">Share</string>
+    <string name="refresh">Refresh</string>
 
 
     <!-- AUTH -->
@@ -15,6 +16,10 @@
     <string name="confirm_password_hint">Confirm password</string>
     <string name="username_hint">Username</string>
 
+    <!-- FEED -->
+    <string name="feed_title">Hello, %s</string>
+    <string name="feed_first_tab_text">For you</string>
+
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>
     <string name="error_incorrect_email">Incorrect e-mail!</string>
@@ -22,4 +27,13 @@
     <string name="error_weak_password">Password must contain uppercase and lowercase letters and numbers!</string>
     <string name="error_different_passwords">Passwords don\'t match!</string>
     <string name="error_incorrect_username">Username may contain only letters, numbers and whitespaces!</string>
+    <string name="error_no_network_title">Connection error!</string>
+    <string name="error_no_network_description">Please, check your connection and refresh the page</string>
+    <string name="error_something_wrong_title">Something went wrong!</string>
+    <string name="error_something_wrong_description">Try to refresh the page</string>
+
+    <!-- BOTTOM NAVIGATION -->
+    <string name="menu_label_feed">Feed</string>
+    <string name="menu_label_messages">Messages</string>
+    <string name="menu_label_profile">Profile</string>
 </resources>

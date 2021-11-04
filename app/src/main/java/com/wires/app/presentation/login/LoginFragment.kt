@@ -3,11 +3,11 @@ package com.wires.app.presentation.login
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.wires.app.databinding.FragmentLoginBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getInputText
 import com.wires.app.extensions.hideSoftKeyboard
-import com.wires.app.extensions.showToast
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 
@@ -44,7 +44,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
         loginLiveEvent.observe { result ->
             result.doOnSuccess {
-                showToast("Success")
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToFeedGraph())
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
