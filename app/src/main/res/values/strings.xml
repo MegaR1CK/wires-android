@@ -19,6 +19,7 @@
     <!-- FEED -->
     <string name="feed_title">Hello, %s</string>
     <string name="feed_first_tab_text">For you</string>
+    <string name="feed_post_author_name">%s %s</string>
 
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>

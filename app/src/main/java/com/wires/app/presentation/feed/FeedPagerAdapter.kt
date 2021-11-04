@@ -10,7 +10,7 @@ import com.wires.app.databinding.ViewFeedTabBinding
 class FeedPagerAdapter(
     private val fragment: Fragment,
     private val pageCount: Int,
-    private val createFragment: () -> Fragment
+    private val createFragment: (Int) -> Fragment
 ) : FragmentStateAdapter(fragment) {
 
     lateinit var interests: List<UserInterest>
@@ -18,13 +18,7 @@ class FeedPagerAdapter(
 
     override fun getItemCount() = pageCount
 
-    override fun createFragment(position: Int): Fragment {
-        return if (position == 0) {
-            createFragment.invoke()
-        } else {
-            createFragment.invoke()
-        }
-    }
+    override fun createFragment(position: Int): Fragment = createFragment.invoke(position)
 
     fun getTabView(position: Int): View {
         val tabBinding = ViewFeedTabBinding.inflate(fragment.layoutInflater)

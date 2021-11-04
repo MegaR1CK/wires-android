@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.wires.app.di.util.ViewModelFactory
 import com.wires.app.di.util.ViewModelKey
 import com.wires.app.presentation.feed.FeedViewModel
+import com.wires.app.presentation.feed.feedchild.FeedChildViewModel
 import com.wires.app.presentation.login.LoginViewModel
 import com.wires.app.presentation.onboarding.OnboardingViewModel
 import com.wires.app.presentation.register.RegisterViewModel
@@ -43,4 +44,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FeedViewModel::class)
     abstract fun feedViewModel(viewModel: FeedViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FeedChildViewModel::class)
+    abstract fun feedChildViewModel(viewModel: FeedChildViewModel): ViewModel
 }

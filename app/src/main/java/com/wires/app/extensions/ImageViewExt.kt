@@ -19,7 +19,7 @@ import com.wires.app.R
  */
 fun ImageView.load(
     imageUrl: String?,
-    @DrawableRes placeHolderRes: Int? = R.color.gray,
+    @DrawableRes placeHolderRes: Int? = context.resolveAttribute(R.attr.colorImagePlaceholder),
     @DrawableRes errorRes: Int? = placeHolderRes,
     @DrawableRes fallbackRes: Int? = placeHolderRes,
     isCircle: Boolean = false,

@@ -1,8 +1,10 @@
 package com.wires.app.managers
 
+import com.wires.app.data.model.Post
 import com.wires.app.data.model.User
 import com.wires.app.data.model.UserInterest
 import kotlinx.coroutines.delay
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class MockManager @Inject constructor() {
@@ -31,8 +33,24 @@ class MockManager @Inject constructor() {
             firstName = "Konstantin",
             lastName = "Goncharov",
             email = "test@test.ru",
-            avatarUrl = null,
+            avatarUrl = "https://placekitten.com/70/70",
             interests = listOf(UserInterest.ANDROID_DEVELOPMENT)
         )
+    }
+
+    suspend fun getPosts(interests: List<UserInterest>): List<Post> {
+        return List(10) {
+            Post(
+                id = 1,
+                author = getStoredUser(),
+                publishTime = LocalDateTime.parse("2021-11-03T10:15:30"),
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris, ac" +
+                    " tincidunt risus pellentesque id. Curabitur tincidunt enim sed eros elementum, vel pretium nisl congue.",
+                imageUrl = "https://4.img-dpreview.com/files/p/TC1200x630S1200x630~sample_galleries/1330372094/1693761761.jpg",
+                likesCount = 100,
+                commentsCount = 150,
+                isLiked = false
+            )
+        }
     }
 }

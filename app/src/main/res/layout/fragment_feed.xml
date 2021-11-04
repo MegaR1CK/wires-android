@@ -14,13 +14,13 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorSurface"
-            app:elevation="0dp">
+            android:background="?colorSurface">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbarFeed"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                app:layout_scrollFlags="scroll"
                 app:contentInsetStart="28dp"
                 app:titleTextAppearance="@style/FontStyle.Body.Bold"
                 tools:title="Здравствуйте, Константин" />
@@ -29,6 +29,7 @@
                 android:id="@+id/tabLayoutFeed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways"
                 app:tabRippleColor="@null"
                 app:tabContentStart="28dp"
                 app:tabMode="auto"

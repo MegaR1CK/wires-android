@@ -7,7 +7,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.wires.app.R
 import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentFeedBinding
-import com.wires.app.extensions.fitTopInsetsWithPadding
+import com.wires.app.extensions.fitTopAndBottomInsetsWithPadding
 import com.wires.app.extensions.toInt
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.feed.feedchild.FeedChildFragment
@@ -27,14 +27,14 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>() {
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
-        root.fitTopInsetsWithPadding()
+        root.fitTopAndBottomInsetsWithPadding()
     }
 
     override fun onBindViewModel() = with(viewModel) {
         userData.observe { result ->
             binding.stateViewFlipperFeed.setStateFromResult(result)
             result.doOnSuccess { user ->
-                binding.toolbarFeed.title = getString(R.string.feed_title, user.firstName ?: user.username)
+                binding.toolbarFeed.title = getString(R.string.feed_title, user.firstName)
                 setupPager(user.interests.orEmpty())
             }
             result.doOnFailure { error ->
@@ -47,8 +47,12 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>() {
         val pagerAdapter = FeedPagerAdapter(
             this@FeedFragment,
             UserInterest.values().size + interests.isNotEmpty().toInt()
-        ) {
-            FeedChildFragment.newInstance()
+        ) { position ->
+            when {
+                interests.isEmpty() -> FeedChildFragment(listOf(UserInterest.values()[position]))
+                position == 0 -> FeedChildFragment(interests)
+                else -> FeedChildFragment(listOf(UserInterest.values()[position - 1]))
+            }
         }
         pagerAdapter.userInterests = interests
         pagerAdapter.interests = UserInterest.values().toList()
