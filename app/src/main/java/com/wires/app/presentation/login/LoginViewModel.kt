@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun validatePassword(password: String) {
-        _passwordErrorLiveData.value = validator.validatePassword(password)
+        _passwordErrorLiveData.value = validator.validatePassword(password, patternValidation = false)
     }
 
     fun login(email: String, password: String) {

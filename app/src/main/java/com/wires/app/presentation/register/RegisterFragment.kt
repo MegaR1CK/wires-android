@@ -3,6 +3,7 @@ package com.wires.app.presentation.register
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.navigation.fragment.findNavController
 import com.wires.app.databinding.FragmentRegisterBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
@@ -46,16 +47,11 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         editTextRegisterUsername.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) viewModel.validateUsername(editTextRegisterUsername.getInputText())
         }
-
-        buttonRegister.setOnClickListener {
-            hideSoftKeyboard()
-            viewModel.registerUser(
-                editTextRegisterEmail.getInputText(),
-                editTextRegisterPassword.getInputText(),
-                editTextRegisterPasswordRepeat.getInputText(),
-                editTextRegisterUsername.getInputText()
-            )
+        editTextRegisterPasswordRepeat.setOnEditorActionListener { _, _, _ ->
+            performRegister()
+            true
         }
+        buttonRegister.setOnClickListener { performRegister() }
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -66,17 +62,16 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             binding.textInputLayoutRegisterPassword.error = errorRes?.let { getString(it) }
         }
         confirmPasswordErrorLiveData.observe { errorRes ->
-            errorRes?.let {
-                binding.textInputLayoutRegisterPasswordRepeat.error = getString(it)
-                if (binding.editTextRegisterPassword.getInputText().isEmpty()) {
-                    binding.textInputLayoutRegisterPassword.error = getString(it)
-                }
+            binding.textInputLayoutRegisterPasswordRepeat.error = errorRes?.let { getString(it) }
+            if (binding.textInputLayoutRegisterPassword.error.isNullOrEmpty()) {
+                binding.textInputLayoutRegisterPassword.error = errorRes?.let { getString(it) }
             }
         }
         usernameErrorLiveData.observe { errorRes ->
             binding.textInputLayoutRegisterUsername.error = errorRes?.let { getString(it) }
         }
         registerLiveEvent.observe { result ->
+            binding.buttonRegister.isLoading = result.isLoading
             result.doOnSuccess {
                 findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToFeedGraph())
             }
@@ -84,5 +79,16 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
                 Timber.e(error.message)
             }
         }
+    }
+
+    private fun performRegister() = with(binding) {
+        hideSoftKeyboard()
+        linearLayoutRegister.children.forEach { it.clearFocus() }
+        viewModel.registerUser(
+            editTextRegisterEmail.getInputText(),
+            editTextRegisterPassword.getInputText(),
+            editTextRegisterPasswordRepeat.getInputText(),
+            editTextRegisterUsername.getInputText()
+        )
     }
 }

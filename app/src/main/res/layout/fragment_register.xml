@@ -9,6 +9,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/linearLayoutRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -43,7 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/username_hint"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,7 +61,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email_hint"
-                    android:inputType="textEmailAddress"/>
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +78,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password_hint"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,12 +95,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/confirm_password_hint"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <com.google.android.material.button.MaterialButton
+            <com.wires.app.presentation.views.StatefulMaterialButton
                 android:id="@+id/buttonRegister"
                 style="@style/ButtonStyle"
                 android:layout_width="match_parent"

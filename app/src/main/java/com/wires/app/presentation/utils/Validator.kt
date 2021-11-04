@@ -20,11 +20,11 @@ class Validator @Inject constructor() {
         }
     }
 
-    fun validatePassword(password: String): Int? {
+    fun validatePassword(password: String, patternValidation: Boolean = true): Int? {
         return when {
             password.isBlank() -> R.string.error_empty_field
-            password.length < MIN_PASSWORD_LENGTH -> R.string.error_short_password
-            !password.matches(PATTERN_PASSWORD.toRegex()) -> R.string.error_weak_password
+            password.length < MIN_PASSWORD_LENGTH -> R.string.error_short_password.takeIf { patternValidation }
+            !password.matches(PATTERN_PASSWORD.toRegex()) -> R.string.error_weak_password.takeIf { patternValidation }
             else -> null
         }
     }

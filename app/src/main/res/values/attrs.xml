@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <declare-styleable name="StatefulMaterialButton">
+        <attr name="progressColor" format="color" />
+        <attr name="backgroundColor" format="color" />
+    </declare-styleable>
+
     <attr name="textColorPrimary" format="reference|color" />
     <attr name="textColorTitle" format="reference|color" />
     <attr name="textColorSubtitle" format="reference|color" />

@@ -3,6 +3,7 @@ package com.wires.app.presentation.login
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.navigation.fragment.findNavController
 import com.wires.app.databinding.FragmentLoginBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
@@ -29,10 +30,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         editTextLoginPassword.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) viewModel.validatePassword(editTextLoginPassword.getInputText())
         }
-        buttonLogin.setOnClickListener {
-            hideSoftKeyboard()
-            viewModel.login(editTextLoginEmail.getInputText(), editTextLoginPassword.getInputText())
+        editTextLoginPassword.setOnEditorActionListener { _, _, _ ->
+            performLogin()
+            true
         }
+        buttonLogin.setOnClickListener { performLogin() }
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -43,6 +45,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             binding.textInputLayoutLoginPassword.error = errorRes?.let { getString(it) }
         }
         loginLiveEvent.observe { result ->
+            binding.buttonLogin.isLoading = result.isLoading
             result.doOnSuccess {
                 findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToFeedGraph())
             }
@@ -50,5 +53,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                 Timber.e(error.message)
             }
         }
+    }
+
+    private fun performLogin() = with(binding) {
+        hideSoftKeyboard()
+        linearLayoutLogin.children.forEach { it.clearFocus() }
+        viewModel.login(editTextLoginEmail.getInputText(), editTextLoginPassword.getInputText())
     }
 }
