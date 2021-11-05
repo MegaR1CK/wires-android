@@ -24,3 +24,9 @@ fun Context.resolveAttribute(@AttrRes attrRes: Int): Int {
         0
     }
 }
+
+fun Context.getColorAttribute(attrRes: Int): Int {
+    val typedValue = TypedValue()
+    theme.resolveAttribute(attrRes, typedValue, true)
+    return typedValue.data
+}

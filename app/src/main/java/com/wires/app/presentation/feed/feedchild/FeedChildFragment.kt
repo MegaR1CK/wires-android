@@ -8,7 +8,7 @@ import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentFeedChildBinding
 import com.wires.app.extensions.addLinearSpaceItemDecoration
 import com.wires.app.extensions.addVerticalDividerItemDecoration
-import com.wires.app.extensions.fitTopAndBottomInsetsWithPadding
+import com.wires.app.extensions.getColorAttribute
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,20 +30,30 @@ class FeedChildFragment(private val interests: List<UserInterest>) : BaseFragmen
 
     @Inject lateinit var postsAdapter: PostsAdapter
 
+    var onLoadingCompleteListener: OnLoadingCompleteListener? = null
+
     override fun callOperations() {
         viewModel.getPosts(interests)
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
-        root.fitTopAndBottomInsetsWithPadding()
         setupPostsList()
+        swipeRefreshLayoutFeedChild.setColorSchemeColors(requireContext().getColorAttribute(R.attr.colorPrimary))
+        swipeRefreshLayoutFeedChild.setOnRefreshListener {
+            callOperations()
+        }
     }
 
     override fun onBindViewModel() = with(viewModel) {
         postsLiveData.observe { result ->
-            binding.stateViewFlipperFeedChild.setStateFromResult(result)
+            (result.isLoading && binding.recyclerViewFeedChildPosts.adapter?.itemCount != 0).let {
+                binding.swipeRefreshLayoutFeedChild.isRefreshing = it
+                if (!it) binding.stateViewFlipperFeedChild.setStateFromResult(result)
+            }
             result.doOnSuccess { items ->
                 postsAdapter.submitList(items)
+                binding.recyclerViewFeedChildPosts.scrollToPosition(0)
+                onLoadingCompleteListener?.onLoadingComplete()
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)

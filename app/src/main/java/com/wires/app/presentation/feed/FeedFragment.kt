@@ -7,10 +7,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.wires.app.R
 import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentFeedBinding
-import com.wires.app.extensions.fitTopAndBottomInsetsWithPadding
+import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.toInt
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.feed.feedchild.FeedChildFragment
+import com.wires.app.presentation.feed.feedchild.OnLoadingCompleteListener
 import timber.log.Timber
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>() {
@@ -27,7 +28,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>() {
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
-        root.fitTopAndBottomInsetsWithPadding()
+        root.fitTopInsetsWithPadding()
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -48,11 +49,17 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>() {
             this@FeedFragment,
             UserInterest.values().size + interests.isNotEmpty().toInt()
         ) { position ->
-            when {
+            val fragment = when {
                 interests.isEmpty() -> FeedChildFragment(listOf(UserInterest.values()[position]))
                 position == 0 -> FeedChildFragment(interests)
                 else -> FeedChildFragment(listOf(UserInterest.values()[position - 1]))
             }
+            fragment.onLoadingCompleteListener = object : OnLoadingCompleteListener {
+                override fun onLoadingComplete() {
+                    appBarLayoutFeed.setExpanded(true)
+                }
+            }
+            fragment
         }
         pagerAdapter.userInterests = interests
         pagerAdapter.interests = UserInterest.values().toList()

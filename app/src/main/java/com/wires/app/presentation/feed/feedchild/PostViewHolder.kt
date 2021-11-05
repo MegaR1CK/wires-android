@@ -1,7 +1,6 @@
 package com.wires.app.presentation.feed.feedchild
 
 import android.annotation.SuppressLint
-import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import com.wires.app.R
 import com.wires.app.data.model.Post
@@ -15,7 +14,6 @@ class PostViewHolder(
     private val dateFormatter: DateFormatter
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-    @SuppressLint("ClickableViewAccessibility")
     fun bind(post: Post) = with(itemBinding) {
         val context = itemView.context
         textViewPostAuthor.text = context.getString(
@@ -33,20 +31,5 @@ class PostViewHolder(
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
         root.setOnClickListener { onItemClick.invoke(post.id) }
-        constraintLayoutPostAuthor.setOnTouchListener { view, motionEvent ->
-            root.isClickable = motionEvent.action != MotionEvent.ACTION_DOWN
-            view.performClick()
-            false
-        }
-        val savedAuthorBackground = constraintLayoutPostAuthor.background
-        root.setOnTouchListener { view, motionEvent ->
-            if (motionEvent.action == MotionEvent.ACTION_DOWN) {
-                constraintLayoutPostAuthor.background = null
-            } else {
-                constraintLayoutPostAuthor.background = savedAuthorBackground
-            }
-            view.performClick()
-            false
-        }
     }
 }

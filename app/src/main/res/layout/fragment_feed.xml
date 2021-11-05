@@ -12,6 +12,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayoutFeed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?colorSurface">
@@ -29,6 +30,7 @@
                 android:id="@+id/tabLayoutFeed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:tabRippleColor="@null"
                 app:tabContentStart="28dp"
