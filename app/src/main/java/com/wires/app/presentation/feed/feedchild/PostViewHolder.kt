@@ -1,6 +1,5 @@
 package com.wires.app.presentation.feed.feedchild
 
-import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 import com.wires.app.R
 import com.wires.app.data.model.Post

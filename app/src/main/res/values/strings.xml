@@ -5,6 +5,20 @@
     <string name="share">Share</string>
     <string name="refresh">Refresh</string>
 
+    <!-- DATES -->
+    <string name="date_relative_less_minute">less than a minute ago</string>
+    <string name="date_relative_today">today at %s</string>
+    <string name="date_relative_yesterday">yesterday at %s</string>
+
+    <plurals name="date_relative_minute_ago">
+        <item quantity="one">%d minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+    <plurals name="date_relative_hour_ago">
+        <item quantity="one">%d hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+
 
     <!-- AUTH -->
     <string name="login_label">Login</string>
