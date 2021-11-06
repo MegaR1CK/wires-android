@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.wires.app.data.LoadableResult
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -22,7 +23,9 @@ abstract class BaseViewModel : ViewModel() {
             emit(LoadableResult.loading())
             emit(LoadableResult.success(block()))
         } catch (error: Throwable) {
-            emit(LoadableResult.failure(error))
+            if (error !is CancellationException) {
+                emit(LoadableResult.failure(error))
+            }
         }
     }
 
