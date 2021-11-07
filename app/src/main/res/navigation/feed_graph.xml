@@ -9,6 +9,26 @@
         android:id="@+id/feedFragment"
         android:name="com.wires.app.presentation.feed.FeedFragment"
         android:label="FeedFragment"
-        tools:layout="@layout/fragment_feed" />
+        tools:layout="@layout/fragment_feed">
 
+        <action
+            android:id="@+id/action_feedFragment_to_postFragment"
+            app:destination="@id/postFragment">
+
+            <argument
+                android:name="postId"
+                app:argType="integer" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.wires.app.presentation.post.PostFragment"
+        android:label="PostFragment"
+        tools:layout="@layout/fragment_post">
+
+        <argument
+            android:name="postId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

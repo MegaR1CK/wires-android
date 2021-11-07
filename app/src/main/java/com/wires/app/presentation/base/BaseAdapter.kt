@@ -18,4 +18,9 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapt
         }
         notifyDataSetChanged()
     }
+
+    open fun addItem(item: T) {
+        items.add(item)
+        notifyItemInserted(items.lastIndex)
+    }
 }

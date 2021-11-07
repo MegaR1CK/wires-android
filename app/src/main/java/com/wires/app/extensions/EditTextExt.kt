@@ -1,5 +1,6 @@
 package com.wires.app.extensions
 
+import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -19,3 +20,5 @@ fun TextInputEditText.setErrorResetHandler(inputLayout: TextInputLayout) {
 }
 
 fun TextInputEditText.getInputText() = text.toString()
+
+fun EditText.getInputText() = text.toString()

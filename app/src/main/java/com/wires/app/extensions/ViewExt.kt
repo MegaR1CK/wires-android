@@ -92,13 +92,14 @@ fun View.fitTopAndBottomInsetsWithPadding(callback: (WindowInsetsCompat) -> Unit
  * и паддинг снизу, равный высоте клавиатуры.
  * При этом помечает, что обработал top и bottom insets
  */
-fun View.fitKeyboardInsetsWithPadding() {
+fun View.fitKeyboardInsetsWithPadding(block: (View, WindowInsetsCompat, Rect) -> Unit = { _, _, _ -> }) {
     this.doOnApplyWindowInsets { view, insets, paddings ->
         val windowInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
         view.updatePadding(
             top = windowInsets.top + paddings.top,
             bottom = windowInsets.bottom + paddings.bottom
         )
+        block.invoke(view, insets, paddings)
         WindowInsetsCompat.Builder().setInsets(
             WindowInsetsCompat.Type.systemBars(),
             Insets.of(

@@ -8,6 +8,7 @@ import com.wires.app.presentation.feed.FeedViewModel
 import com.wires.app.presentation.feed.feedchild.FeedChildViewModel
 import com.wires.app.presentation.login.LoginViewModel
 import com.wires.app.presentation.onboarding.OnboardingViewModel
+import com.wires.app.presentation.post.PostViewModel
 import com.wires.app.presentation.register.RegisterViewModel
 import com.wires.app.presentation.splash.SplashViewModel
 import dagger.Binds
@@ -49,4 +50,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FeedChildViewModel::class)
     abstract fun feedChildViewModel(viewModel: FeedChildViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PostViewModel::class)
+    abstract fun postViewModel(viewModel: PostViewModel): ViewModel
 }

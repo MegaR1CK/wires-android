@@ -18,6 +18,7 @@
     <attr name="colorTabUnselected" format="reference|color" />
 
     <attr name="dividerColor" format="reference|color" />
+    <attr name="colorToolbarIcons" format="reference|color" />
 
     <attr name="colorImagePlaceholder" format="reference|color" />
 </resources>

@@ -35,6 +35,10 @@
     <string name="feed_first_tab_text">For you</string>
     <string name="feed_post_author_name">%s %s</string>
 
+    <!-- POST -->
+    <string name="post_title">Post comments</string>
+    <string name="post_comment_hint">Comment</string>
+
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>
     <string name="error_incorrect_email">Incorrect e-mail!</string>

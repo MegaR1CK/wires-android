@@ -3,6 +3,7 @@ package com.wires.app.presentation.feed.feedchild
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.wires.app.R
 import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentFeedChildBinding
@@ -10,6 +11,7 @@ import com.wires.app.extensions.addLinearSpaceItemDecoration
 import com.wires.app.extensions.addVerticalDividerItemDecoration
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.presentation.base.BaseFragment
+import com.wires.app.presentation.feed.FeedFragmentDirections
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -59,10 +61,16 @@ class FeedChildFragment(private val interests: List<UserInterest>) : BaseFragmen
                 Timber.e(error.message)
             }
         }
+        openPostLiveEvent.observe { postId ->
+            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostFragment(postId))
+        }
     }
 
     private fun setupPostsList() = with(binding.recyclerViewFeedChildPosts) {
         adapter = postsAdapter
+        postsAdapter.onPostClick = { postId ->
+            viewModel.openPost(postId)
+        }
         addLinearSpaceItemDecoration(R.dimen.feed_post_spacing)
         addVerticalDividerItemDecoration()
     }

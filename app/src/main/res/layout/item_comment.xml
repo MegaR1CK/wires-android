@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/padding_20"
+    android:paddingVertical="8dp">
+
+    <ImageView
+        android:id="@+id/imageViewCommentAuthorAvatar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textViewCommentAuthorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:textAppearance="@style/FontStyle.XSmall.Bold"
+        app:layout_constraintStart_toEndOf="@+id/imageViewCommentAuthorAvatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Estelle Shea" />
+
+    <TextView
+        android:id="@+id/textViewCommentBody"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:textAppearance="@style/FontStyle.XSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewCommentAuthorAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCommentAuthorName"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris, ac tincidunt risus pellentesque id." />
+
+
+    <TextView
+        android:id="@+id/textViewCommentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="4dp"
+        android:textAppearance="@style/FontStyle.XSmall"
+        android:textColor="?textColorSubtitle"
+        app:layout_constraintStart_toEndOf="@+id/imageViewCommentAuthorAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCommentBody"
+        tools:text="10 minutes ago" />
+</androidx.constraintlayout.widget.ConstraintLayout>
