@@ -1,9 +1,8 @@
 package com.wires.app.presentation.feed.feedchild
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentFeedChildBinding
@@ -15,7 +14,7 @@ import com.wires.app.presentation.feed.FeedFragmentDirections
 import timber.log.Timber
 import javax.inject.Inject
 
-class FeedChildFragment(private val interests: List<UserInterest>) : BaseFragment<FragmentFeedChildBinding>() {
+class FeedChildFragment(private val interests: List<UserInterest>) : BaseFragment(R.layout.fragment_feed_child) {
 
     companion object {
         fun newInstance(interests: List<UserInterest>): FeedChildFragment {
@@ -24,11 +23,7 @@ class FeedChildFragment(private val interests: List<UserInterest>) : BaseFragmen
     }
 
     private val viewModel: FeedChildViewModel by appViewModels()
-
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFeedChildBinding
-        get() = { inflater, viewGroup, attachToRoot ->
-            FragmentFeedChildBinding.inflate(inflater, viewGroup, attachToRoot)
-        }
+    private val binding by viewBinding(FragmentFeedChildBinding::bind)
 
     @Inject lateinit var postsAdapter: PostsAdapter
 

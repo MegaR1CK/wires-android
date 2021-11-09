@@ -1,10 +1,10 @@
 package com.wires.app.presentation.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.wires.app.R
 import com.wires.app.databinding.FragmentLoginBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getInputText
@@ -12,13 +12,10 @@ import com.wires.app.extensions.hideSoftKeyboard
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 
-class LoginFragment : BaseFragment<FragmentLoginBinding>() {
+class LoginFragment : BaseFragment(R.layout.fragment_login) {
 
     private val viewModel: LoginViewModel by appViewModels()
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLoginBinding
-        get() = { inflater, viewGroup, attachToRoot ->
-            FragmentLoginBinding.inflate(inflater, viewGroup, attachToRoot)
-        }
+    private val binding by viewBinding(FragmentLoginBinding::bind)
 
     override fun callOperations() = Unit
 

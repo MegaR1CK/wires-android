@@ -1,8 +1,7 @@
 package com.wires.app.presentation.feed
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.wires.app.R
 import com.wires.app.data.model.UserInterest
@@ -14,14 +13,12 @@ import com.wires.app.presentation.feed.feedchild.FeedChildFragment
 import com.wires.app.presentation.feed.feedchild.OnLoadingCompleteListener
 import timber.log.Timber
 
-class FeedFragment : BaseFragment<FragmentFeedBinding>() {
+class FeedFragment : BaseFragment(R.layout.fragment_feed) {
 
     private val viewModel: FeedViewModel by appViewModels()
+    private val binding by viewBinding(FragmentFeedBinding::bind)
+
     override val showBottomNavigationView = true
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentFeedBinding
-        get() = { inflater, viewGroup, attachToRoot ->
-            FragmentFeedBinding.inflate(inflater, viewGroup, attachToRoot)
-        }
 
     override fun callOperations() {
         viewModel.getUser()

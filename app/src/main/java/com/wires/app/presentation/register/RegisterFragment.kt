@@ -1,10 +1,10 @@
 package com.wires.app.presentation.register
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.wires.app.R
 import com.wires.app.databinding.FragmentRegisterBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getInputText
@@ -12,13 +12,10 @@ import com.wires.app.extensions.hideSoftKeyboard
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 
-class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
+class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     private val viewModel: RegisterViewModel by appViewModels()
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentRegisterBinding
-        get() = { inflater, viewGroup, attachToRoot ->
-            FragmentRegisterBinding.inflate(inflater, viewGroup, attachToRoot)
-        }
+    private val binding by viewBinding(FragmentRegisterBinding::bind)
 
     override fun callOperations() = Unit
 

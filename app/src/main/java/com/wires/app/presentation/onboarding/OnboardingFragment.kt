@@ -1,20 +1,17 @@
 package com.wires.app.presentation.onboarding
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.wires.app.R
 import com.wires.app.databinding.FragmentOnboardingBinding
 import com.wires.app.extensions.fitTopAndBottomInsetsWithPadding
 import com.wires.app.presentation.base.BaseFragment
 
-class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>() {
+class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
     private val viewModel: OnboardingViewModel by appViewModels()
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentOnboardingBinding
-        get() = { inflater, viewGroup, attachToRoot ->
-            FragmentOnboardingBinding.inflate(inflater, viewGroup, attachToRoot)
-        }
+    private val binding by viewBinding(FragmentOnboardingBinding::bind)
 
     override fun callOperations() = Unit
 

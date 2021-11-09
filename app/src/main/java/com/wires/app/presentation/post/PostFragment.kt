@@ -1,12 +1,11 @@
 package com.wires.app.presentation.post
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.data.model.Post
 import com.wires.app.databinding.FragmentPostBinding
@@ -21,15 +20,11 @@ import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 import javax.inject.Inject
 
-class PostFragment : BaseFragment<FragmentPostBinding>() {
+class PostFragment : BaseFragment(R.layout.fragment_post) {
 
     private val viewModel: PostViewModel by appViewModels()
     private val args: PostFragmentArgs by navArgs()
-
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPostBinding
-        get() = { inflater, viewGroup, attachToRoot ->
-            FragmentPostBinding.inflate(inflater, viewGroup, attachToRoot)
-        }
+    private val binding by viewBinding(FragmentPostBinding::bind)
 
     @Inject lateinit var commentsAdapter: CommentsAdapter
     @Inject lateinit var dateFormatter: DateFormatter

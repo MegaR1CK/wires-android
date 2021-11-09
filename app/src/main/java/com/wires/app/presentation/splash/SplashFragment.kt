@@ -1,20 +1,17 @@
 package com.wires.app.presentation.splash
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.wires.app.R
 import com.wires.app.databinding.FragmentSplashBinding
 import com.wires.app.extensions.fitTopAndBottomInsetsWithPadding
 import com.wires.app.presentation.base.BaseFragment
 
-class SplashFragment : BaseFragment<FragmentSplashBinding>() {
+class SplashFragment : BaseFragment(R.layout.fragment_splash) {
 
     private val viewModel: SplashViewModel by appViewModels()
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSplashBinding
-        get() = { inflater, viewGroup, attachToRoot ->
-            FragmentSplashBinding.inflate(inflater, viewGroup, attachToRoot)
-        }
+    private val binding by viewBinding(FragmentSplashBinding::bind)
 
     override fun callOperations() {
         viewModel.runIntroFlow()
