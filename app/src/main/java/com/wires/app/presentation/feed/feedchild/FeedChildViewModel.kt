@@ -1,7 +1,6 @@
 package com.wires.app.presentation.feed.feedchild
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.UserInterest
@@ -14,7 +13,9 @@ class FeedChildViewModel @Inject constructor(
     private val postsRepository: PostsRepository
 ) : BaseViewModel() {
 
-    private val _postsLiveData = MutableLiveData<LoadableResult<List<Post>>>()
+    /** Данные о постах. SingleLiveEvent, чтобы при возвращении с
+     * CreatePostFragment посты не загружались в список заново после очистки */
+    private val _postsLiveData = SingleLiveEvent<LoadableResult<List<Post>>>()
     val postsLiveData: LiveData<LoadableResult<List<Post>>> = _postsLiveData
 
     private val _openPostLiveEvent = SingleLiveEvent<Int>()

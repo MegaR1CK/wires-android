@@ -1,6 +1,7 @@
 package com.wires.app.domain.repository
 
 import com.wires.app.data.model.Comment
+import com.wires.app.data.model.CreatedPost
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.UserInterest
 import com.wires.app.managers.MockManager
@@ -15,6 +16,10 @@ class PostsRepository @Inject constructor(
 
     suspend fun getPost(postId: Int): Post {
         return mockManager.getPost(postId)
+    }
+
+    suspend fun createPost(post: CreatedPost) {
+        return mockManager.createPost(post)
     }
 
     suspend fun getComments(postId: Int): List<Comment> {

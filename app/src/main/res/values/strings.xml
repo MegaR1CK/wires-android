@@ -39,6 +39,12 @@
     <string name="post_title">Post comments</string>
     <string name="post_comment_hint">Comment</string>
 
+    <!-- ADD POST -->
+    <string name="create_post_title">Create a new post</string>
+    <string name="create_post_hint">What\'s new?</string>
+    <string name="create_post_add_image_text">Add image</string>
+    <string name="create_post_remove_image_text">Remove image</string>
+
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>
     <string name="error_incorrect_email">Incorrect e-mail!</string>

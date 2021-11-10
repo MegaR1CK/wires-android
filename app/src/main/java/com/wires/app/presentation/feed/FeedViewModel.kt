@@ -6,6 +6,7 @@ import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.User
 import com.wires.app.domain.repository.UserRepository
 import com.wires.app.presentation.base.BaseViewModel
+import com.wires.app.presentation.base.SingleLiveEvent
 import javax.inject.Inject
 
 class FeedViewModel @Inject constructor(
@@ -15,7 +16,14 @@ class FeedViewModel @Inject constructor(
     private val _userData = MutableLiveData<LoadableResult<User>>()
     val userData: LiveData<LoadableResult<User>> = _userData
 
+    private val _createPostLiveEvent = SingleLiveEvent<Unit>()
+    val createPostLiveEvent: LiveData<Unit> = _createPostLiveEvent
+
     fun getUser() {
         _userData.launchLoadData { userRepository.getStoredUser() }
+    }
+
+    fun openCreatePost() {
+        _createPostLiveEvent.postValue(Unit)
     }
 }

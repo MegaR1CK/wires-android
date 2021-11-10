@@ -1,5 +1,6 @@
 package com.wires.app.presentation.feed.feedchild
 
+import android.content.Context
 import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -43,7 +44,7 @@ class FeedChildFragment(private val interests: List<UserInterest>) : BaseFragmen
 
     override fun onBindViewModel() = with(viewModel) {
         postsLiveData.observe { result ->
-            (result.isLoading && binding.recyclerViewFeedChildPosts.adapter?.itemCount != 0).let {
+            (result.isLoading && postsAdapter.itemCount != 0).let {
                 binding.swipeRefreshLayoutFeedChild.isRefreshing = it
                 if (!it) binding.stateViewFlipperFeedChild.setStateFromResult(result)
             }
@@ -59,6 +60,19 @@ class FeedChildFragment(private val interests: List<UserInterest>) : BaseFragmen
         openPostLiveEvent.observe { postId ->
             findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostFragment(postId))
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (parentFragment as? OnLoadingCompleteListener)?.let {
+            onLoadingCompleteListener = it
+        }
+    }
+
+    fun refreshFragment() {
+        postsAdapter.submitList(emptyList())
+        viewModel.postsLiveData.value
+        callOperations()
     }
 
     private fun setupPostsList() = with(binding.recyclerViewFeedChildPosts) {

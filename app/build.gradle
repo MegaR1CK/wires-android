@@ -106,6 +106,8 @@ dependencies {
     //UI
     implementation "com.github.ybq:Android-SpinKit:1.4.0"
     implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.0-beta01"
+    implementation "com.github.Drjacky:ImagePicker:2.1.14"
+
 
     // core
     implementation 'androidx.core:core-ktx:1.6.0'

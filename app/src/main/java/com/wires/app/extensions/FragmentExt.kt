@@ -37,7 +37,7 @@ fun Fragment.isKeyboardVisible(insets: WindowInsetsCompat): Boolean {
 fun Fragment.errorSnackbar(
     message: String,
     actionText: String? = null,
-    action: () -> Unit
+    action: () -> Unit = { }
 ) {
     showErrorSnackbar(message, actionText, action = action)
 }

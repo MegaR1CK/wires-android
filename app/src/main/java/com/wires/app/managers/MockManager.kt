@@ -1,6 +1,7 @@
 package com.wires.app.managers
 
 import com.wires.app.data.model.Comment
+import com.wires.app.data.model.CreatedPost
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.User
 import com.wires.app.data.model.UserInterest
@@ -82,6 +83,10 @@ class MockManager @Inject constructor() {
     }
 
     suspend fun addComment(comment: Comment) {
+        delay(1000)
+    }
+
+    suspend fun createPost(post: CreatedPost) {
         delay(1000)
     }
 }

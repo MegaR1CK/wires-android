@@ -19,6 +19,10 @@
                 android:name="postId"
                 app:argType="integer" />
         </action>
+
+        <action
+            android:id="@+id/action_feedFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
     </fragment>
 
     <fragment
@@ -31,4 +35,10 @@
             android:name="postId"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.wires.app.presentation.createpost.CreatePostFragment"
+        android:label="CreatePostFragment"
+        tools:layout="@layout/fragment_create_post" />
 </navigation>
