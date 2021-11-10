@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayoutChannels"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?colorSurface">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarChannels"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:title="@string/channels_title"
+            app:titleTextAppearance="@style/FontStyle.Body.Bold"
+            app:layout_scrollFlags="scroll|enterAlways"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.wires.app.presentation.views.StateViewFlipper
+        android:id="@+id/stateViewFlipperChannels"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.stfalcon.chatkit.dialogs.DialogsList
+            android:id="@+id/channelsListChannels"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.wires.app.presentation.views.StateViewFlipper>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

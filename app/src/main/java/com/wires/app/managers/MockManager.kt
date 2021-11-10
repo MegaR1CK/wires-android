@@ -1,7 +1,9 @@
 package com.wires.app.managers
 
+import com.wires.app.data.model.Channel
 import com.wires.app.data.model.Comment
 import com.wires.app.data.model.CreatedPost
+import com.wires.app.data.model.Message
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.User
 import com.wires.app.data.model.UserInterest
@@ -88,5 +90,24 @@ class MockManager @Inject constructor() {
 
     suspend fun createPost(post: CreatedPost) {
         delay(1000)
+    }
+
+    suspend fun getChannels(): List<Channel> {
+        return List(10) {
+            Channel(
+                id = 1,
+                name = "ChannelName",
+                members = List(3) { getStoredUser() },
+                imageUrl = "https://placekitten.com/70/70",
+                channelLastMessage = Message(
+                    id = 1,
+                    author = getStoredUser(),
+                    sendTime = LocalDateTime.parse("2021-11-03T10:15:30"),
+                    messageText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris.",
+                    isUnread = false
+                ),
+                unreadMessages = 0
+            )
+        }
     }
 }

@@ -45,6 +45,9 @@
     <string name="create_post_add_image_text">Add image</string>
     <string name="create_post_remove_image_text">Remove image</string>
 
+    <!-- CHANNELS -->
+    <string name="channels_title">Channels</string>
+
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>
     <string name="error_incorrect_email">Incorrect e-mail!</string>

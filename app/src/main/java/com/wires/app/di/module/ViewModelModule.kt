@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.wires.app.di.util.ViewModelFactory
 import com.wires.app.di.util.ViewModelKey
+import com.wires.app.presentation.channels.ChannelsViewModel
 import com.wires.app.presentation.createpost.CreatePostViewModel
 import com.wires.app.presentation.feed.FeedViewModel
 import com.wires.app.presentation.feed.feedchild.FeedChildViewModel
@@ -61,4 +62,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CreatePostViewModel::class)
     abstract fun createPostViewModel(viewModel: CreatePostViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChannelsViewModel::class)
+    abstract fun channelsViewModel(viewModel: ChannelsViewModel): ViewModel
 }

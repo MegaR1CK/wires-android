@@ -28,5 +28,6 @@
 
     <include app:graph="@navigation/auth_graph" />
     <include app:graph="@navigation/feed_graph" />
+    <include app:graph="@navigation/messages_graph" />
 
 </navigation>
