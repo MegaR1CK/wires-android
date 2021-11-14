@@ -9,6 +9,36 @@
         android:id="@+id/channelsFragment"
         android:name="com.wires.app.presentation.channels.ChannelsFragment"
         android:label="ChannelsFragment"
-        tools:layout="@layout/fragment_channels" />
+        tools:layout="@layout/fragment_channels">
 
+        <action
+            android:id="@+id/action_channelFragment_to_chatFragment"
+            app:destination="@id/chatFragment">
+
+            <argument
+                android:name="channelId"
+                app:argType="integer" />
+
+            <argument
+                android:name="channelName"
+                app:argType="string" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.wires.app.presentation.chat.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/fragment_chat">
+
+        <argument
+            android:name="channelId"
+            app:argType="integer" />
+
+        <argument
+            android:name="channelName"
+            app:argType="string" />
+
+    </fragment>
 </navigation>

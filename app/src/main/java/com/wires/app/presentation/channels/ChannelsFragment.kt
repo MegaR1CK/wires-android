@@ -1,6 +1,7 @@
 package com.wires.app.presentation.channels
 
 import android.os.Bundle
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter
 import com.wires.app.R
@@ -13,10 +14,14 @@ import timber.log.Timber
 
 class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
 
+    companion object {
+        private const val MAX_CHAT_TITLE_MEMBERS = 3
+    }
+
     private val binding by viewBinding(FragmentChannelsBinding::bind)
     private val viewModel: ChannelsViewModel by appViewModels()
 
-    lateinit var channelsAdapter: DialogsListAdapter<Channel>
+    private lateinit var channelsAdapter: DialogsListAdapter<Channel>
 
     override val showBottomNavigationView = true
 
@@ -28,6 +33,13 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
         root.fitTopInsetsWithPadding()
         channelsAdapter = DialogsListAdapter<Channel> { imageView, url, _ ->
             imageView.load(url, isCircle = true)
+        }.apply {
+            setOnDialogClickListener { channel ->
+                viewModel.openChat(
+                    channelId = channel.id,
+                    channelName = channel.name ?: channel.members.joinToString(limit = MAX_CHAT_TITLE_MEMBERS)
+                )
+            }
         }
     }
 
@@ -41,6 +53,15 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
             result.doOnFailure { error ->
                 Timber.e(error.message)
             }
+        }
+
+        openChatLiveEvent.observe { params ->
+            findNavController().navigate(
+                ChannelsFragmentDirections.actionChannelFragmentToChatFragment(
+                    params.channelId,
+                    params.channelName
+                )
+            )
         }
     }
 }

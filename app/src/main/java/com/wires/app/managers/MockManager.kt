@@ -93,7 +93,7 @@ class MockManager @Inject constructor() {
     }
 
     suspend fun getChannels(): List<Channel> {
-        return List(10) {
+        return List(3) {
             Channel(
                 id = 1,
                 name = "ChannelName",
@@ -109,5 +109,30 @@ class MockManager @Inject constructor() {
                 unreadMessages = 0
             )
         }
+    }
+
+    suspend fun getMessages(channelId: Int): List<Message> {
+        delay(1000)
+        return List(10) {
+            Message(
+                id = 1,
+                author = User(
+                    id = 10,
+                    username = "TestUser",
+                    firstName = "John",
+                    lastName = "Smith",
+                    email = "213@mail.com",
+                    avatarUrl = "https://placekitten.com/70/70",
+                    interests = null
+                ),
+                sendTime = LocalDateTime.parse("2021-11-03T10:15:30"),
+                messageText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris.",
+                isUnread = false
+            )
+        }
+    }
+
+    suspend fun sendMessage(channelId: Int, message: Message) {
+        delay(1000)
     }
 }

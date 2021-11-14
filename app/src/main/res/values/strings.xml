@@ -48,6 +48,9 @@
     <!-- CHANNELS -->
     <string name="channels_title">Channels</string>
 
+    <!-- CHAT -->
+    <string name="chat_message_input_hint">Enter a message</string>
+
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>
     <string name="error_incorrect_email">Incorrect e-mail!</string>
@@ -59,6 +62,7 @@
     <string name="error_no_network_description">Please, check your connection and refresh the page</string>
     <string name="error_something_wrong_title">Something went wrong!</string>
     <string name="error_something_wrong_description">Try to refresh the page</string>
+    <string name="error_empty_message">Message cannot be empty!</string>
 
     <!-- BOTTOM NAVIGATION -->
     <string name="menu_label_feed">Feed</string>

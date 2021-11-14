@@ -105,7 +105,7 @@
                         android:layout_marginStart="4dp"
                         android:padding="8dp"
                         android:background="@drawable/bg_circle_ripple"
-                        android:src="@drawable/ic_send"
+                        android:src="@drawable/ic_send_primary"
                         android:visibility="invisible"
                         app:tint="?colorPrimary"
                         tools:visibility="visible" />
