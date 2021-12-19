@@ -39,8 +39,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     override fun onBindViewModel() = with(viewModel) {
         messagesLiveData.observe { result ->
-            val isFirstRequest = messagesAdapter.isEmpty
-            if (isFirstRequest) binding.stateViewFlipperChat.setStateFromResult(result)
+            if (messagesAdapter.isEmpty) binding.stateViewFlipperChat.setStateFromResult(result)
             result.doOnSuccess { items ->
                 messagesAdapter.addToEnd(items, false)
             }

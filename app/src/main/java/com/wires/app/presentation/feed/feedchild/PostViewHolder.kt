@@ -1,5 +1,6 @@
 package com.wires.app.presentation.feed.feedchild
 
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.wires.app.R
 import com.wires.app.data.model.Post
@@ -26,7 +27,12 @@ class PostViewHolder(
             isCircle = true
         )
         textViewPostBody.text = post.text
-        imageViewPostImage.load(post.imageUrl)
+        if (!post.imageUrl.isNullOrEmpty()) {
+            // TODO: set image height from api response
+            imageViewPostImage.isVisible = true
+            imageViewPostImage.load(post.imageUrl)
+        }
+
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
         root.setOnClickListener { onItemClick.invoke(post.id) }

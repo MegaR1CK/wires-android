@@ -1,61 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.wires.app.presentation.views.StateViewFlipper
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/stateViewFlipperFeed"
+    android:id="@+id/coordinatorLayoutFeed"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayoutFeed"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="?colorSurface"
+        tools:visibility="visible">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayoutFeed"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarFeed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorSurface">
+            app:layout_scrollFlags="scroll"
+            app:contentInsetStart="28dp"
+            app:titleTextAppearance="@style/FontStyle.Body.Bold"
+            tools:title="Здравствуйте, Константин" />
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbarFeed"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                app:layout_scrollFlags="scroll"
-                app:contentInsetStart="28dp"
-                app:titleTextAppearance="@style/FontStyle.Body.Bold"
-                tools:title="Здравствуйте, Константин" />
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayoutFeed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="4dp"
-                app:layout_scrollFlags="scroll|enterAlways"
                 app:tabRippleColor="@null"
                 app:tabContentStart="28dp"
                 app:tabMode="auto"
                 app:tabIndicator="@null" />
 
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.wires.app.presentation.views.StateViewFlipper
+        android:id="@+id/stateViewFlipperFeed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPagerFeed"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_height="match_parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/buttonFeedCreatePost"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/margin_16"
-            android:src="@drawable/ic_add"
-            android:visibility="gone"
-            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-            tools:visibility="visible" />
+    </com.wires.app.presentation.views.StateViewFlipper>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</com.wires.app.presentation.views.StateViewFlipper>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonFeedCreatePost"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/margin_16"
+        android:src="@drawable/ic_add"
+        android:visibility="gone"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+        tools:visibility="visible" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 

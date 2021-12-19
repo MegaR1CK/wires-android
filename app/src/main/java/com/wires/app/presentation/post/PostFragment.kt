@@ -1,8 +1,11 @@
 package com.wires.app.presentation.post
 
 import android.os.Bundle
+import androidx.activity.addCallback
+import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -22,6 +25,10 @@ import javax.inject.Inject
 
 class PostFragment : BaseFragment(R.layout.fragment_post) {
 
+    companion object {
+        const val POST_RETURN_KEY = "post_return"
+    }
+
     private val viewModel: PostViewModel by appViewModels()
     private val args: PostFragmentArgs by navArgs()
     private val binding by viewBinding(FragmentPostBinding::bind)
@@ -38,7 +45,8 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         root.fitKeyboardInsetsWithPadding { _, insets, _ ->
             if (insets.getKeyboardInset() > 0) nestedScrollViewPost.scrollToEnd()
         }
-        toolbarPost.setNavigationOnClickListener { findNavController().popBackStack() }
+        toolbarPost.setNavigationOnClickListener { onBackPressed() }
+        activity?.onBackPressedDispatcher?.addCallback { onBackPressed() }
         recyclerViewPostComments.adapter = commentsAdapter
         editTextPostComment.doOnTextChanged { text, _, _, _ ->
             buttonPostCommentSend.isInvisible = text.isNullOrBlank()
@@ -107,5 +115,10 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         imageViewPostImage.load(post.imageUrl)
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
+    }
+
+    private fun onBackPressed() {
+        setFragmentResult(POST_RETURN_KEY, bundleOf())
+        findNavController().popBackStack()
     }
 }
