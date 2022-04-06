@@ -1,17 +1,22 @@
 package com.wires.app.domain.repository
 
-import com.wires.app.managers.MockManager
+import com.wires.app.data.mapper.AuthMapper
+import com.wires.app.data.model.Token
+import com.wires.app.data.remote.WiresApiService
+import com.wires.app.data.remote.params.UserLoginParams
+import com.wires.app.data.remote.params.UserRegisterParams
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
-    private val mockManager: MockManager
+    private val apiService: WiresApiService,
+    private val authMapper: AuthMapper
 ) {
-    // TODO: return user from methods
-    suspend fun loginUser(email: String, passwordHash: String): String {
-        return mockManager.loginUser(email, passwordHash)
+
+    suspend fun loginUser(email: String, passwordHash: String): Token {
+        return authMapper.fromResponseToModel(apiService.loginUser(UserLoginParams(email, passwordHash)).data)
     }
 
-    suspend fun registerUser(email: String, passwordHash: String, username: String): String {
-        return mockManager.registerUser(email, passwordHash, username)
+    suspend fun registerUser(username: String, email: String, passwordHash: String) {
+        apiService.registerUser(UserRegisterParams(username, email, passwordHash))
     }
 }

@@ -6,12 +6,13 @@ import javax.inject.Inject
 class Cryptor @Inject constructor() {
 
     companion object {
-        private const val MD5_ALGORITHM_NAME = "MD5"
+        private const val SHA256_ALGORITHM_NAME = "SHA-256"
     }
 
-    fun getMd5Hash(str: String): String {
-        val messageDigest = MessageDigest.getInstance(MD5_ALGORITHM_NAME)
-        return messageDigest.digest(str.toByteArray(Charsets.UTF_8)).toHexString()
+    fun getSha256Hash(string: String, salt: String): String {
+        val messageDigest = MessageDigest.getInstance(SHA256_ALGORITHM_NAME)
+        val saltedString = string + salt
+        return messageDigest.digest(saltedString.toByteArray(Charsets.UTF_8)).toHexString()
     }
 
     private fun ByteArray.toHexString() = joinToString("") { "%02x".format(it) }

@@ -13,7 +13,9 @@ import javax.inject.Inject
 
 class RegisterViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: TokenRepository,
+    private val validator: Validator,
+    private val cryptor: Cryptor
 ) : BaseViewModel() {
 
     private val _usernameErrorLiveData = MutableLiveData<Int?>()
@@ -30,9 +32,6 @@ class RegisterViewModel @Inject constructor(
 
     private val _registerLiveEvent = SingleLiveEvent<LoadableResult<Unit>>()
     val registerLiveEvent: LiveData<LoadableResult<Unit>> = _registerLiveEvent
-
-    @Inject lateinit var validator: Validator
-    @Inject lateinit var cryptor: Cryptor
 
     fun validateEmail(email: String) {
         _emailErrorLiveData.value = validator.validateEmail(email)
@@ -60,10 +59,10 @@ class RegisterViewModel @Inject constructor(
             _passwordErrorLiveData.value != null ||
             _confirmPasswordErrorLiveData.value != null
         ) return
-        // TODO: use stronger hash
+        val passwordHash = cryptor.getSha256Hash(password, email)
         _registerLiveEvent.launchLoadData {
-            tokenRepository.setAccessToken(authRepository.registerUser(email, cryptor.getMd5Hash(password), username))
-            // TODO: save user in db
+            authRepository.registerUser(username, email, passwordHash)
+            tokenRepository.setAccessToken(authRepository.loginUser(email, passwordHash).token)
         }
     }
 }

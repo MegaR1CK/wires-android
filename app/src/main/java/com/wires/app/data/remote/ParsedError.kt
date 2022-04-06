@@ -25,4 +25,4 @@ data class ApiError(
 )
 
 const val DEFAULT_ERROR_CODE = "TEXT_ERROR"
-lateinit var DEFAULT_ERROR_MESSAGE: String
+const val DEFAULT_ERROR_MESSAGE = "ERROR"

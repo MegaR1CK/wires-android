@@ -1,7 +1,6 @@
 package com.wires.app.di.module
 
 import android.content.Context
-import android.text.TextUtils
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.wires.app.data.remote.WiresApiService
 import com.wires.app.domain.repository.TokenRepository
@@ -20,7 +19,8 @@ open class ApiServiceModule {
 
     companion object {
         private const val HEADER_AUTH = "Authorization"
-        private const val BASE_URL = "test"
+        private const val AUTH_TOKEN_PREFIX = "Bearer"
+        private const val BASE_URL = "https://wires-api.herokuapp.com/v1/"
         private const val CONNECTION_TIMEOUTS_MS = 20000L
     }
 
@@ -34,9 +34,9 @@ open class ApiServiceModule {
                 val token = tokenRepository.getAccessToken() ?: ""
                 val requestBuilder = original.newBuilder()
                 Timber.tag("OkHttp").d("Auth-Token: %s", token)
-                if (!TextUtils.isEmpty(token)) {
+                if (token.isNotEmpty()) {
                     requestBuilder
-                        .header(HEADER_AUTH, token)
+                        .header(HEADER_AUTH, "$AUTH_TOKEN_PREFIX $token")
                         .method(original.method, original.body)
                 }
                 chain.proceed(requestBuilder.build())
