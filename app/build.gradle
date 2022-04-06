@@ -95,10 +95,8 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
     // database
-    def room_version = "2.4.2"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+    def paper_version = "2.7.2"
+    implementation "io.github.pilgr:paperdb:$paper_version"
 
     // security
     implementation "androidx.security:security-crypto:1.1.0-alpha03"

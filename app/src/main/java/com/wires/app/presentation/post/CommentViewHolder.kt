@@ -14,11 +14,15 @@ class CommentViewHolder(
 
     fun bind(comment: Comment) = with(binding) {
         imageViewCommentAuthorAvatar.load(comment.author.avatarUrl, isCircle = true)
-        textViewCommentAuthorName.text = itemView.context.getString(
-            R.string.feed_post_author_name,
-            comment.author.firstName,
-            comment.author.lastName
-        )
+        if (!comment.author.firstName.isNullOrEmpty() && !comment.author.lastName.isNullOrEmpty()) {
+            textViewCommentAuthorName.text = itemView.context.getString(
+                R.string.feed_post_author_name,
+                comment.author.firstName,
+                comment.author.lastName
+            )
+        } else {
+            textViewCommentAuthorName.text = comment.author.username
+        }
         textViewCommentBody.text = comment.text
         textViewCommentTime.text = dateFormatter.dateTimeToStringRelative(comment.publishTime)
     }

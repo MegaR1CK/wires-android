@@ -11,7 +11,6 @@ class AuthRepository @Inject constructor(
     private val apiService: WiresApiService,
     private val authMapper: AuthMapper
 ) {
-
     suspend fun loginUser(email: String, passwordHash: String): Token {
         return authMapper.fromResponseToModel(apiService.loginUser(UserLoginParams(email, passwordHash)).data)
     }

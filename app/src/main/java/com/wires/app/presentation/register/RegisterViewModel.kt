@@ -6,6 +6,7 @@ import com.wires.app.data.LoadableResult
 import com.wires.app.domain.Cryptor
 import com.wires.app.domain.repository.AuthRepository
 import com.wires.app.domain.repository.TokenRepository
+import com.wires.app.domain.repository.UserRepository
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
 import com.wires.app.presentation.utils.Validator
@@ -14,6 +15,7 @@ import javax.inject.Inject
 class RegisterViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val tokenRepository: TokenRepository,
+    private val userRepository: UserRepository,
     private val validator: Validator,
     private val cryptor: Cryptor
 ) : BaseViewModel() {
@@ -63,6 +65,7 @@ class RegisterViewModel @Inject constructor(
         _registerLiveEvent.launchLoadData {
             authRepository.registerUser(username, email, passwordHash)
             tokenRepository.setAccessToken(authRepository.loginUser(email, passwordHash).token)
+            userRepository.storeUser(userRepository.getCurrentUser())
         }
     }
 }

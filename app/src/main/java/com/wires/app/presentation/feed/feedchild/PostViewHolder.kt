@@ -16,11 +16,16 @@ class PostViewHolder(
 
     fun bind(post: Post) = with(itemBinding) {
         val context = itemView.context
-        textViewPostAuthor.text = context.getString(
-            R.string.feed_post_author_name,
-            post.author.firstName,
-            post.author.lastName
-        )
+        if (!post.author.firstName.isNullOrEmpty() && !post.author.lastName.isNullOrEmpty()) {
+            textViewPostAuthor.text = context.getString(
+                R.string.feed_post_author_name,
+                post.author.firstName,
+                post.author.lastName
+            )
+        } else {
+            textViewPostAuthor.text = post.author.username
+        }
+
         textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
         imageViewPostAuthorAvatar.load(
             post.author.avatarUrl,
