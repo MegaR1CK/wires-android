@@ -37,8 +37,8 @@ class FeedFragment : BaseFragment(R.layout.fragment_feed), OnLoadingStateChanged
             binding.stateViewFlipperFeed.setStateFromResult(result)
             binding.appBarLayoutFeed.isVisible = result.isSuccess
             result.doOnSuccess { user ->
-                binding.toolbarFeed.title = getString(R.string.feed_title, user.firstName ?: user.username)
-                setupPager(user.interests.orEmpty())
+                binding.toolbarFeed.title = getString(R.string.feed_title, user?.firstName ?: user?.username ?: "")
+                setupPager(user?.interests.orEmpty())
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)

@@ -15,8 +15,8 @@ class UserRepository @Inject constructor(
 ) {
     val isSignedIn = !preferenceStorage.accessToken.isNullOrEmpty()
 
-    fun getStoredUser(): User {
-        return localStorage.currentUser ?: throw Exception("Cannot get user")
+    fun getStoredUser(): User? {
+        return localStorage.currentUser
     }
 
     fun storeUser(user: User) {

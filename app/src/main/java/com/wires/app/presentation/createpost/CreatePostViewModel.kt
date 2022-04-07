@@ -11,6 +11,7 @@ import com.wires.app.domain.repository.PostsRepository
 import com.wires.app.domain.repository.UserRepository
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
+import java.lang.Exception
 import javax.inject.Inject
 
 class CreatePostViewModel @Inject constructor(
@@ -25,7 +26,7 @@ class CreatePostViewModel @Inject constructor(
     val createPostLiveEvent: LiveData<LoadableResult<Unit>> = _createPostLiveEvent
 
     fun getUser() {
-        _userLiveData.launchLoadData { userRepository.getStoredUser() }
+        _userLiveData.launchLoadData { userRepository.getStoredUser() ?: throw Exception("Cannot get user") }
     }
 
     fun createPost(text: String, image: Bitmap? = null) {

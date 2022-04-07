@@ -59,9 +59,9 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     protected fun <T : Any> MutableLiveData<PagingData<T>>.launchPagingData(
-        block: () -> Flow<PagingData<T>>
+        block: Flow<PagingData<T>>
     ): Job = viewModelScope.launch {
-        block()
+        block
             .cachedIn(viewModelScope)
             .collectLatest { this@launchPagingData.postValue(it) }
     }

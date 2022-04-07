@@ -9,6 +9,7 @@ import com.wires.app.domain.repository.MessagesRepository
 import com.wires.app.domain.repository.UserRepository
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
+import java.lang.Exception
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -34,7 +35,7 @@ class ChatViewModel @Inject constructor(
     }
 
     fun getUser() {
-        _userLiveData.launchLoadData { userRepository.getStoredUser() }
+        _userLiveData.launchLoadData { userRepository.getStoredUser() ?: throw Exception("Cannot get user") }
     }
 
     fun sendMessage(channelId: Int, text: String) {

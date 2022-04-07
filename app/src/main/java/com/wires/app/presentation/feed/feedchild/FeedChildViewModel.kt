@@ -7,13 +7,13 @@ import androidx.paging.PagingData
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.UserInterest
-import com.wires.app.domain.repository.PostsRepository
+import com.wires.app.domain.usecase.feed.GetFeedUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
 import javax.inject.Inject
 
 class FeedChildViewModel @Inject constructor(
-    private val postsRepository: PostsRepository
+    private val getFeedUseCase: GetFeedUseCase
 ) : BaseViewModel() {
 
     private val _postsLiveData = MutableLiveData<PagingData<Post>>()
@@ -26,9 +26,7 @@ class FeedChildViewModel @Inject constructor(
     val openPostLiveEvent: LiveData<Int> = _openPostLiveEvent
 
     fun getPosts(interest: UserInterest? = null) {
-        _postsLiveData.launchPagingData {
-            postsRepository.getPostsFlow(interest)
-        }
+        _postsLiveData.launchPagingData(getFeedUseCase.execute(GetFeedUseCase.Params(interest)))
     }
 
     fun bindLoadingState(state: CombinedLoadStates) {

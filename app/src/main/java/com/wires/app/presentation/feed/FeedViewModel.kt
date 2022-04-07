@@ -13,8 +13,8 @@ class FeedViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseViewModel() {
 
-    private val _userData = MutableLiveData<LoadableResult<User>>()
-    val userData: LiveData<LoadableResult<User>> = _userData
+    private val _userData = MutableLiveData<LoadableResult<User?>>()
+    val userData: LiveData<LoadableResult<User?>> = _userData
 
     private val _createPostLiveEvent = SingleLiveEvent<Unit>()
     val createPostLiveEvent: LiveData<Unit> = _createPostLiveEvent

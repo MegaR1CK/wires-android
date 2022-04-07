@@ -9,6 +9,7 @@ import com.wires.app.databinding.FragmentRegisterBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getInputText
 import com.wires.app.extensions.hideSoftKeyboard
+import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 
@@ -73,6 +74,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
                 findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToFeedGraph())
             }
             result.doOnFailure { error ->
+                showSnackbar(error.message)
                 Timber.e(error.message)
             }
         }

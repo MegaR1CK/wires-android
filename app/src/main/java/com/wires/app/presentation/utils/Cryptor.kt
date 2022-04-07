@@ -1,4 +1,4 @@
-package com.wires.app.domain
+package com.wires.app.presentation.utils
 
 import java.security.MessageDigest
 import javax.inject.Inject

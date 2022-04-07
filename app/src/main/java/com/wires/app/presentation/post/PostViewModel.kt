@@ -30,8 +30,8 @@ class PostViewModel @Inject constructor(
     private val _displayCommentLiveEvent = SingleLiveEvent<Comment>()
     val displayCommentLiveEvent: LiveData<Comment> = _displayCommentLiveEvent
 
-    private val _userLiveData = MutableLiveData<LoadableResult<User>>()
-    val userLiveData: LiveData<LoadableResult<User>> = _userLiveData
+    private val _userLiveData = MutableLiveData<LoadableResult<User?>>()
+    val userLiveData: LiveData<LoadableResult<User?>> = _userLiveData
 
     fun getPost(postId: Int) {
         _postLiveData.launchLoadData { postsRepository.getPost(postId) }

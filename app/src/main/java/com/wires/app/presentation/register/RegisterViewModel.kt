@@ -3,21 +3,15 @@ package com.wires.app.presentation.register
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.wires.app.data.LoadableResult
-import com.wires.app.domain.Cryptor
-import com.wires.app.domain.repository.AuthRepository
-import com.wires.app.domain.repository.TokenRepository
-import com.wires.app.domain.repository.UserRepository
+import com.wires.app.domain.usecase.auth.RegisterUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
 import com.wires.app.presentation.utils.Validator
 import javax.inject.Inject
 
 class RegisterViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val tokenRepository: TokenRepository,
-    private val userRepository: UserRepository,
-    private val validator: Validator,
-    private val cryptor: Cryptor
+    private val registerUseCase: RegisterUseCase,
+    private val validator: Validator
 ) : BaseViewModel() {
 
     private val _usernameErrorLiveData = MutableLiveData<Int?>()
@@ -61,11 +55,6 @@ class RegisterViewModel @Inject constructor(
             _passwordErrorLiveData.value != null ||
             _confirmPasswordErrorLiveData.value != null
         ) return
-        val passwordHash = cryptor.getSha256Hash(password, email)
-        _registerLiveEvent.launchLoadData {
-            authRepository.registerUser(username, email, passwordHash)
-            tokenRepository.setAccessToken(authRepository.loginUser(email, passwordHash).token)
-            userRepository.storeUser(userRepository.getCurrentUser())
-        }
+        _registerLiveEvent.launchLoadData(registerUseCase.executeLoadable(RegisterUseCase.Params(username, email, password)))
     }
 }
