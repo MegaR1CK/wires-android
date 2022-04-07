@@ -55,7 +55,7 @@ fun View.fitTopInsetsWithPadding(callback: (WindowInsetsCompat) -> Unit = {}) {
                 windowInsets.left,
                 0,
                 windowInsets.right,
-                windowInsets.bottom
+                0
             )
         ).build()
     }

@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException
 import com.wires.app.data.remote.ApiErrorResponse
 import com.wires.app.data.remote.DEFAULT_ERROR_CODE
 import com.wires.app.data.remote.DEFAULT_ERROR_MESSAGE
+import com.wires.app.data.remote.DEFAULT_ERROR_TITLE
 import com.wires.app.data.remote.GeneralError
 import com.wires.app.data.remote.NetworkError
 import com.wires.app.data.remote.ParsedError
@@ -19,10 +20,11 @@ fun Throwable.parseError(): ParsedError {
     Timber.e(this)
 
     val code = DEFAULT_ERROR_CODE
+    val title = DEFAULT_ERROR_TITLE
     val message = DEFAULT_ERROR_MESSAGE
 
     return when {
-        isNetworkError -> NetworkError(code, message)
+        isNetworkError -> NetworkError(code, title, message)
         /** General Http error */
         this is HttpException -> {
             val body = response()?.errorBody()
@@ -38,10 +40,10 @@ fun Throwable.parseError(): ParsedError {
             } catch (isEx: JsonSyntaxException) {
                 Timber.e(isEx)
             }
-            error ?: GeneralError(code, message)
+            error ?: GeneralError(code, title, message)
         }
         else -> {
-            GeneralError(code, message)
+            GeneralError(code, title, message)
         }
     }
 }

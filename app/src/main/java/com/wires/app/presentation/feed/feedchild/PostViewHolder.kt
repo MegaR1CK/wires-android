@@ -28,7 +28,8 @@ class PostViewHolder(
 
         textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
         imageViewPostAuthorAvatar.load(
-            post.author.avatarUrl,
+            imageUrl = post.author.avatarUrl,
+            placeHolderRes = R.drawable.ic_avatar_placeholder,
             isCircle = true
         )
         textViewPostBody.text = post.text

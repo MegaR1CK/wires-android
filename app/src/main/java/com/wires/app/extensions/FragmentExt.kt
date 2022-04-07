@@ -34,24 +34,10 @@ fun Fragment.isKeyboardVisible(insets: WindowInsetsCompat): Boolean {
     return activity?.isKeyboardVisible(insets) ?: false
 }
 
-fun Fragment.errorSnackbar(
+fun Fragment.showSnackbar(
     message: String,
     actionText: String? = null,
     action: () -> Unit = { }
-) {
-    showErrorSnackbar(message, actionText, action = action)
-}
-
-fun Fragment.showToast(message: String) {
-    view?.let {
-        Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
-    }
-}
-
-private fun Fragment.showErrorSnackbar(
-    message: String,
-    actionText: String? = null,
-    action: () -> Unit
 ) {
     view?.let {
         Snackbar
@@ -59,6 +45,12 @@ private fun Fragment.showErrorSnackbar(
             .setAction(actionText) {
                 action.invoke()
             }.show()
+    }
+}
+
+fun Fragment.showToast(message: String) {
+    view?.let {
+        Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
     }
 }
 

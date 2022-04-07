@@ -2,7 +2,10 @@ package com.wires.app.di.module
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.wires.app.data.remote.WiresApiService
+import com.wires.app.data.remote.typeadapters.LocalDateTimeAdapter
 import com.wires.app.domain.repository.TokenRepository
 import dagger.Module
 import dagger.Provides
@@ -11,6 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
+import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -47,13 +51,20 @@ open class ApiServiceModule {
 
     @Provides
     @Singleton
-    fun provideApiService(client: OkHttpClient): WiresApiService =
+    fun provideApiService(client: OkHttpClient, gson: Gson): WiresApiService =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(WiresApiService::class.java)
+
+    @Provides
+    fun provideGson(): Gson {
+        return GsonBuilder()
+            .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
+            .create()
+    }
 
     private fun OkHttpClient.Builder.setTimeouts() {
         connectTimeout(CONNECTION_TIMEOUTS_MS, TimeUnit.MILLISECONDS)

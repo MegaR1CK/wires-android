@@ -23,7 +23,7 @@ class FeedPagerAdapter(
     fun getTabView(position: Int): View {
         val tabBinding = ViewFeedTabBinding.inflate(fragment.layoutInflater)
         tabBinding.textViewTab.text = when {
-            userInterests.isEmpty() -> interests[position].name
+            userInterests.isEmpty() -> interests[position].value
             else -> if (position == 0) fragment.getString(R.string.feed_first_tab_text) else interests[position - 1].value
         }
         return tabBinding.root

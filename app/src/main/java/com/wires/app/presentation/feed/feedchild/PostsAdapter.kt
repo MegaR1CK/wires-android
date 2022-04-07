@@ -2,15 +2,17 @@ package com.wires.app.presentation.feed.feedchild
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import com.wires.app.data.DiffUtilItemCallbackFactory
 import com.wires.app.data.model.Post
 import com.wires.app.databinding.ItemPostBinding
 import com.wires.app.managers.DateFormatter
-import com.wires.app.presentation.base.BaseAdapter
 import javax.inject.Inject
 
 class PostsAdapter @Inject constructor(
+    diffUtilItemCallbackFactory: DiffUtilItemCallbackFactory,
     private val dateFormatter: DateFormatter
-) : BaseAdapter<Post, PostViewHolder>() {
+) : PagingDataAdapter<Post, PostViewHolder>(diffUtilItemCallbackFactory.create()) {
 
     var onPostClick: (Int) -> Unit = {}
 
@@ -21,6 +23,6 @@ class PostsAdapter @Inject constructor(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(items[position])
+        getItem(position)?.let { holder.bind(it) }
     }
 }

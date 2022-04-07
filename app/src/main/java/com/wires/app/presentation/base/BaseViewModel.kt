@@ -3,6 +3,8 @@ package com.wires.app.presentation.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.wires.app.data.LoadableResult
@@ -62,5 +64,16 @@ abstract class BaseViewModel : ViewModel() {
         block()
             .cachedIn(viewModelScope)
             .collectLatest { this@launchPagingData.postValue(it) }
+    }
+
+    protected fun MutableLiveData<LoadableResult<Unit>>.bindPagingState(loadState: CombinedLoadStates) {
+        when (loadState.source.refresh) {
+            // Only show the list if refresh succeeds.
+            is LoadState.NotLoading -> this.postValue(LoadableResult.success(Unit))
+            // Show loading spinner during initial load or refresh.
+            is LoadState.Loading -> this.postValue(LoadableResult.loading())
+            // Show the retry state if initial load or refresh fails.
+            is LoadState.Error -> this.postValue(LoadableResult.failure((loadState.source.refresh as LoadState.Error).error))
+        }
     }
 }

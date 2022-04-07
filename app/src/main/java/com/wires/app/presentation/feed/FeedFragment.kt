@@ -60,9 +60,9 @@ class FeedFragment : BaseFragment(R.layout.fragment_feed), OnLoadingStateChanged
             UserInterest.values().size + interests.isNotEmpty().toInt()
         ) { position ->
             when {
-                interests.isEmpty() -> FeedChildFragment.newInstance(listOf(UserInterest.values()[position]))
-                position == 0 -> FeedChildFragment.newInstance(interests)
-                else -> FeedChildFragment.newInstance(listOf(UserInterest.values()[position - 1]))
+                interests.isEmpty() -> FeedChildFragment.newInstance(UserInterest.values()[position])
+                position == 0 -> FeedChildFragment.newInstance(null)
+                else -> FeedChildFragment.newInstance(UserInterest.values()[position - 1])
             }
         }
         pagerAdapter.userInterests = interests

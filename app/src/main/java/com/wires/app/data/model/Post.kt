@@ -1,14 +1,23 @@
 package com.wires.app.data.model
 
 import java.time.LocalDateTime
-// TODO: get comments in post
+
 data class Post(
-    override val author: User,
-    override val text: String,
-    val publishTime: LocalDateTime,
     val id: Int,
+    override val author: UserPreview,
+    override val text: String,
+    val topic: String,
+    val imageUrl: String?,
+    val publishTime: LocalDateTime,
     val likesCount: Int,
     val commentsCount: Int,
     val isLiked: Boolean,
-    val imageUrl: String?
-) : BasePost(author, text)
+) : BasePost(author, text), Similarable<Post> {
+    override fun areItemsTheSame(other: Post): Boolean {
+        return this.id == other.id
+    }
+
+    override fun areContentsTheSame(other: Post): Boolean {
+        return this == other
+    }
+}

@@ -2,54 +2,51 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="@dimen/padding_20"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:paddingHorizontal="@dimen/padding_20">
 
-    <ImageView
-        android:id="@+id/imageViewError"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="130dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_something_wrong" />
-
-    <TextView
-        android:id="@+id/textErrorTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:textAppearance="@style/FontStyle.Headline4.Bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewError"
-        tools:text="Connection error!" />
-
-    <TextView
-        android:id="@+id/textErrorComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:textAppearance="@style/FontStyle.Small.Bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textErrorTitle"
-        tools:text="Please, check your connection and try again." />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonError"
-        style="@style/ButtonStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/refresh"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textErrorComment" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/imageViewError"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            tools:src="@drawable/ic_something_wrong" />
+
+        <TextView
+            android:id="@+id/textErrorTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textAppearance="@style/FontStyle.Headline4.Bold"
+            tools:text="Connection error!" />
+
+        <TextView
+            android:id="@+id/textErrorComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textAppearance="@style/FontStyle.Small.Bold"
+            tools:text="Please, check your connection and try again." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonError"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/refresh"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textErrorComment" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

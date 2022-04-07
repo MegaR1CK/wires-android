@@ -17,9 +17,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.drjacky.imagepicker.ImagePicker
 import com.wires.app.R
 import com.wires.app.databinding.FragmentCreatePostBinding
-import com.wires.app.extensions.errorSnackbar
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getInputText
+import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 
@@ -60,7 +60,7 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
         userLiveData.observe { result ->
             result.doOnFailure { error ->
                 Timber.e(error.message)
-                errorSnackbar(error.message)
+                showSnackbar(error.message)
             }
         }
         createPostLiveEvent.observe { result ->
@@ -71,7 +71,7 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
-                errorSnackbar(error.message)
+                showSnackbar(error.message)
             }
         }
     }

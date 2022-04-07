@@ -7,6 +7,7 @@ import com.wires.app.data.model.Message
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.User
 import com.wires.app.data.model.UserInterest
+import com.wires.app.data.model.UserPreview
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -46,14 +47,15 @@ class MockManager @Inject constructor() {
         return List(10) {
             Post(
                 id = 1,
-                author = getStoredUser(),
+                author = UserPreview(1, "name", null, null, null),
                 publishTime = LocalDateTime.parse("2021-11-03T10:15:30"),
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris, ac" +
                     " tincidunt risus pellentesque id. Curabitur tincidunt enim sed eros elementum, vel pretium nisl congue.",
                 imageUrl = "https://4.img-dpreview.com/files/p/TC1200x630S1200x630~sample_galleries/1330372094/1693761761.jpg",
                 likesCount = 100,
                 commentsCount = 150,
-                isLiked = false
+                isLiked = false,
+                topic = "android_dev"
             )
         }
     }
@@ -61,14 +63,15 @@ class MockManager @Inject constructor() {
     suspend fun getPost(postId: Int): Post {
         return Post(
             id = 1,
-            author = getStoredUser(),
+            author = UserPreview(1, "name", null, null, null),
             publishTime = LocalDateTime.parse("2021-11-03T10:15:30"),
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris, ac" +
                 " tincidunt risus pellentesque id. Curabitur tincidunt enim sed eros elementum, vel pretium nisl congue.",
             imageUrl = "https://4.img-dpreview.com/files/p/TC1200x630S1200x630~sample_galleries/1330372094/1693761761.jpg",
             likesCount = 100,
             commentsCount = 150,
-            isLiked = false
+            isLiked = false,
+            topic = "android_dev"
         )
     }
 

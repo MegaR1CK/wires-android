@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/padding_16"
+    android:paddingVertical="8dp">
+
+    <TextView
+        android:id="@+id/textViewPagingErrorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="4dp"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textAppearance="@style/FontStyle.Body.Bold"
+        tools:text="Timeout" />
+
+    <TextView
+        android:id="@+id/textViewPagingErrorDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="12dp"
+        android:textColor="?android:textColorSecondary"
+        android:textAlignment="center"
+        android:textAppearance="@style/FontStyle.Caption"
+        tools:text="Timeout" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBarPagingLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:trackThickness="2dp"
+        app:indicatorSize="18dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonPagingRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:minHeight="32dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:minWidth="0dp"
+        android:text="@string/refresh"
+        android:textAllCaps="true"
+        android:textAppearance="@style/FontStyle.ButtonSmall.Bold"
+        app:cornerRadius="4dp" />
+</LinearLayout>

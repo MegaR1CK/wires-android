@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.CreatedPost
 import com.wires.app.data.model.User
+import com.wires.app.data.model.UserPreview
 import com.wires.app.domain.repository.PostsRepository
 import com.wires.app.domain.repository.UserRepository
 import com.wires.app.presentation.base.BaseViewModel
@@ -32,7 +33,7 @@ class CreatePostViewModel @Inject constructor(
             _createPostLiveEvent.launchLoadData {
                 postsRepository.createPost(
                     CreatedPost(
-                        author = user,
+                        author = UserPreview(user.id, user.username, user.avatarUrl, user.firstName, user.lastName),
                         text = text,
                         imageBitmap = image
                     )
