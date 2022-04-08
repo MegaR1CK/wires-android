@@ -2,15 +2,17 @@ package com.wires.app.presentation.post
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import com.wires.app.data.DiffUtilItemCallbackFactory
 import com.wires.app.data.model.Comment
 import com.wires.app.databinding.ItemCommentBinding
 import com.wires.app.managers.DateFormatter
-import com.wires.app.presentation.base.BaseAdapter
 import javax.inject.Inject
 
 class CommentsAdapter @Inject constructor(
+    diffUtilItemCallbackFactory: DiffUtilItemCallbackFactory,
     private val dateFormatter: DateFormatter
-) : BaseAdapter<Comment, CommentViewHolder>() {
+) : PagingDataAdapter<Comment, CommentViewHolder>(diffUtilItemCallbackFactory.create()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         return CommentViewHolder(
@@ -20,6 +22,6 @@ class CommentsAdapter @Inject constructor(
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        holder.bind(items[position])
+        getItem(position)?.let { holder.bind(it) }
     }
 }

@@ -2,54 +2,49 @@ package com.wires.app.presentation.post
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.CombinedLoadStates
+import androidx.paging.PagingData
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Comment
 import com.wires.app.data.model.Post
-import com.wires.app.data.model.User
-import com.wires.app.domain.repository.PostsRepository
-import com.wires.app.domain.repository.UserRepository
+import com.wires.app.domain.usecase.posts.CommentPostUseCase
+import com.wires.app.domain.usecase.posts.GetPostCommentsUseCase
+import com.wires.app.domain.usecase.posts.GetPostUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class PostViewModel @Inject constructor(
-    private val postsRepository: PostsRepository,
-    private val userRepository: UserRepository
+    private val getPostUseCase: GetPostUseCase,
+    private val getPostCommentsUseCase: GetPostCommentsUseCase,
+    private val commentPostUseCase: CommentPostUseCase
 ) : BaseViewModel() {
 
     private val _postLiveData = MutableLiveData<LoadableResult<Post>>()
     val postLiveData: LiveData<LoadableResult<Post>> = _postLiveData
 
-    private val _commentsLiveData = MutableLiveData<LoadableResult<List<Comment>>>()
-    val commentsLiveData: LiveData<LoadableResult<List<Comment>>> = _commentsLiveData
+    private val _commentsLiveData = MutableLiveData<PagingData<Comment>>()
+    val commentsLiveData: LiveData<PagingData<Comment>> = _commentsLiveData
+
+    private val _commentsStateLiveData = MutableLiveData<LoadableResult<Unit>>()
+    val commentStateLiveData: LiveData<LoadableResult<Unit>> = _commentsStateLiveData
 
     private val _addCommentLiveEvent = SingleLiveEvent<LoadableResult<Unit>>()
     val addCommentLiveEvent: LiveData<LoadableResult<Unit>> = _addCommentLiveEvent
 
-    private val _displayCommentLiveEvent = SingleLiveEvent<Comment>()
-    val displayCommentLiveEvent: LiveData<Comment> = _displayCommentLiveEvent
-
-    private val _userLiveData = MutableLiveData<LoadableResult<User?>>()
-    val userLiveData: LiveData<LoadableResult<User?>> = _userLiveData
-
     fun getPost(postId: Int) {
-        _postLiveData.launchLoadData { postsRepository.getPost(postId) }
+        _postLiveData.launchLoadData(getPostUseCase.executeLoadable(GetPostUseCase.Params(postId)))
     }
 
     fun getComments(postId: Int) {
-        _commentsLiveData.launchLoadData { postsRepository.getComments(postId) }
+        _commentsLiveData.launchPagingData(getPostCommentsUseCase.execute(GetPostCommentsUseCase.Params(postId)))
     }
 
-    fun getUser() {
-        _userLiveData.launchLoadData { userRepository.getStoredUser() }
+    fun addComment(postId: Int, text: String) {
+        _addCommentLiveEvent.launchLoadData(commentPostUseCase.executeLoadable(CommentPostUseCase.Params(postId, text)))
     }
 
-    fun addComment(text: String) {
-        _userLiveData.value?.getOrNull()?.let { user ->
-            val comment = Comment(0, user, LocalDateTime.now(), text)
-            _addCommentLiveEvent.launchLoadData { postsRepository.addComment(comment) }
-            _displayCommentLiveEvent.postValue(comment)
-        }
+    fun bindPagingState(state: CombinedLoadStates) {
+        _commentsStateLiveData.bindPagingState(state)
     }
 }

@@ -13,6 +13,7 @@ data class Post(
     val commentsCount: Int,
     val isLiked: Boolean,
 ) : BasePost(author, text), Similarable<Post> {
+
     override fun areItemsTheSame(other: Post): Boolean {
         return this.id == other.id
     }

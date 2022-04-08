@@ -79,8 +79,8 @@ class MockManager @Inject constructor() {
         return List(10) {
             Comment(
                 id = 1,
-                author = getStoredUser(),
-                publishTime = LocalDateTime.parse("2021-11-03T10:15:30"),
+                author = UserPreview(1, "name", null, null, null),
+                sendTime = LocalDateTime.parse("2021-11-03T10:15:30"),
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris, ac" +
                     " tincidunt risus pellentesque id. Curabitur tincidunt enim sed eros elementum, vel pretium nisl congue."
             )

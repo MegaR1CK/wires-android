@@ -37,7 +37,7 @@
 
     <!-- POST -->
     <string name="post_title">Post comments</string>
-    <string name="post_comment_hint">Comment</string>
+    <string name="post_comment_input_hint">Enter a comment</string>
 
     <!-- ADD POST -->
     <string name="create_post_title">Create a new post</string>

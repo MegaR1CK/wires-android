@@ -14,6 +14,7 @@ task ktlint(type: JavaExec, group: "verification") {
     classpath = configurations.ktlint
     args "src/**/*.kt"
     args "--reporter=html,output=${reportsDir}/ktlint.html"
+    args "--reporter=plain"
 }
 check.dependsOn ktlint
 

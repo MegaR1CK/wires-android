@@ -6,11 +6,16 @@
         <attr name="backgroundColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="MessageInputView">
+        <attr name="inputHint" format="string" />
+    </declare-styleable>
+
     <attr name="textColorPrimary" format="reference|color" />
     <attr name="textColorTitle" format="reference|color" />
     <attr name="textColorSubtitle" format="reference|color" />
 
     <attr name="textColorOnContrast" format="reference|color" />
+    <attr name="iconColorOnContrast" format="reference|color" />
 
     <attr name="errorColor" format="reference|color" />
 

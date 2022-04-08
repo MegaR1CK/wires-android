@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.UserInterest
-import com.wires.app.domain.usecase.feed.GetFeedUseCase
+import com.wires.app.domain.usecase.posts.GetFeedUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
 import javax.inject.Inject

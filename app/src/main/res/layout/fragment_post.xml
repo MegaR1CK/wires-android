@@ -41,7 +41,7 @@
                     android:id="@+id/nestedScrollViewPost"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayoutPostCommentInput"
+                    app:layout_constraintBottom_toTopOf="@+id/viewInputDivider"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -67,6 +67,7 @@
                             android:layout_height="wrap_content"
                             android:nestedScrollingEnabled="false"
                             android:orientation="vertical"
+                            android:paddingTop="8dp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="4"
                             tools:listitem="@layout/item_comment" />
@@ -74,42 +75,22 @@
                     </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
 
-                <LinearLayout
-                    android:id="@+id/linearLayoutPostCommentInput"
+                <View
+                    android:id="@+id/viewInputDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?dividerColor"
+                    app:layout_constraintTop_toBottomOf="@id/nestedScrollViewPost"
+                    app:layout_constraintBottom_toTopOf="@id/messageInputViewComment"/>
+
+                <com.wires.app.presentation.views.MessageInputView
+                    android:id="@+id/messageInputViewComment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:background="?colorSurface"
-                    android:elevation="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/padding_20"
-                    android:paddingEnd="@dimen/padding_8"
-                    android:paddingVertical="4dp"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:inputHint="@string/post_comment_input_hint"
+                    app:layout_constraintTop_toBottomOf="@id/viewInputDivider"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/editTextPostComment"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?colorSurface"
-                        android:hint="@string/post_comment_hint"
-                        android:textAppearance="@style/FontStyle.Body"
-                        android:textColor="?textColorPrimary" />
-
-                    <ImageButton
-                        android:id="@+id/buttonPostCommentSend"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:padding="8dp"
-                        android:background="@drawable/bg_circle_ripple"
-                        android:src="@drawable/ic_send_primary"
-                        android:visibility="invisible"
-                        app:tint="?colorPrimary"
-                        tools:visibility="visible" />
-                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </com.wires.app.presentation.views.StateViewFlipper>

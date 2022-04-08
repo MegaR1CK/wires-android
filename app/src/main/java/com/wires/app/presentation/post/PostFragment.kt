@@ -3,21 +3,21 @@ package com.wires.app.presentation.post
 import android.os.Bundle
 import androidx.activity.addCallback
 import androidx.core.os.bundleOf
-import androidx.core.view.isInvisible
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
+import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.databinding.FragmentPostBinding
+import com.wires.app.domain.paging.PagingLoadStateAdapter
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
-import com.wires.app.extensions.getInputText
 import com.wires.app.extensions.getKeyboardInset
 import com.wires.app.extensions.load
-import com.wires.app.extensions.scrollToEnd
+import com.wires.app.extensions.showSnackbar
+import com.wires.app.extensions.showToast
 import com.wires.app.managers.DateFormatter
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
@@ -33,29 +33,39 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
     private val args: PostFragmentArgs by navArgs()
     private val binding by viewBinding(FragmentPostBinding::bind)
 
+    /**
+     * Маркер для того, чтобы отличать, обновляются ли комментарии по свайпу, или по запросу пагинации
+     */
+    private var isRefreshingBySwipe = false
+
+    /**
+     * Маркер первой загрузки списка комментариев
+     */
+    private var isFirstLoading = true
+
     @Inject lateinit var commentsAdapter: CommentsAdapter
     @Inject lateinit var dateFormatter: DateFormatter
 
     override fun callOperations() {
         viewModel.getPost(args.postId)
-        viewModel.getUser()
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
+        // Необходимо для того, чтобы при открытии клавиатуры комментарии скроллились в начало
         root.fitKeyboardInsetsWithPadding { _, insets, _ ->
-            if (insets.getKeyboardInset() > 0) nestedScrollViewPost.scrollToEnd()
+            if (insets.getKeyboardInset() > 0) nestedScrollViewPost.smoothScrollTo(0, 0)
         }
         toolbarPost.setNavigationOnClickListener { onBackPressed() }
         activity?.onBackPressedDispatcher?.addCallback { onBackPressed() }
-        recyclerViewPostComments.adapter = commentsAdapter
-        editTextPostComment.doOnTextChanged { text, _, _, _ ->
-            buttonPostCommentSend.isInvisible = text.isNullOrBlank()
-        }
-        buttonPostCommentSend.setOnClickListener {
-            viewModel.addComment(editTextPostComment.getInputText())
+        recyclerViewPostComments.adapter = commentsAdapter.apply {
+            addLoadStateListener(viewModel::bindPagingState)
+        }.withLoadStateFooter(PagingLoadStateAdapter { commentsAdapter.retry() })
+        messageInputViewComment.setOnSendClickListener { text ->
+            viewModel.addComment(args.postId, text)
         }
         swipeRefreshLayoutPost.setOnRefreshListener {
             viewModel.getComments(args.postId)
+            isRefreshingBySwipe = true
         }
         swipeRefreshLayoutPost.setColorSchemeColors(requireContext().getColorAttribute(R.attr.colorPrimary))
     }
@@ -71,30 +81,35 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
                 Timber.e(error.message)
             }
         }
-        commentsLiveData.observe { result ->
-            (result.isLoading && commentsAdapter.itemCount != 0).let {
-                binding.swipeRefreshLayoutPost.isRefreshing = it
-                if (!it) binding.stateViewFlipperPost.setStateFromResult(result)
-            }
-            result.doOnSuccess { items ->
-                commentsAdapter.submitList(items)
-            }
-            result.doOnFailure { error ->
-                Timber.e(error.message)
+        commentsLiveData.observe { data ->
+            commentsAdapter.submitData(lifecycle, data)
+        }
+        commentStateLiveData.observe { result ->
+            when {
+                isFirstLoading -> {
+                    binding.stateViewFlipperPost.setStateFromResult(result)
+                    result.doOnSuccess { isFirstLoading = false }
+                }
+                isRefreshingBySwipe -> {
+                    binding.swipeRefreshLayoutPost.isRefreshing = result.isLoading
+                    result.doOnComplete { isRefreshingBySwipe = false }
+                    result.doOnFailure { error ->
+                        showToast(error.title)
+                        Timber.e(error.title)
+                    }
+                }
+                binding.messageInputViewComment.isLoadingState -> {
+                    binding.messageInputViewComment.handleResult(LoadableResult.success(result))
+                }
             }
         }
         addCommentLiveEvent.observe { result ->
-            result.doOnFailure { error ->
-                Timber.e(error.message)
+            if (!result.isSuccess) binding.messageInputViewComment.handleResult(result)
+            result.doOnSuccess {
+                viewModel.getComments(args.postId)
             }
-        }
-        displayCommentLiveEvent.observe { comment ->
-            commentsAdapter.addItem(comment)
-            binding.editTextPostComment.text = null
-            binding.nestedScrollViewPost.post { binding.nestedScrollViewPost.scrollToEnd() }
-        }
-        userLiveData.observe { result ->
             result.doOnFailure { error ->
+                showSnackbar(error.message)
                 Timber.e(error.message)
             }
         }
@@ -112,7 +127,8 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         }
         textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
         imageViewPostAuthorAvatar.load(
-            post.author.avatarUrl,
+            imageUrl = post.author.avatarUrl,
+            placeHolderRes = R.drawable.ic_avatar_placeholder,
             isCircle = true
         )
         textViewPostBody.text = post.text

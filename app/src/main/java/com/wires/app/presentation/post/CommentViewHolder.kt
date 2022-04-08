@@ -13,7 +13,11 @@ class CommentViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(comment: Comment) = with(binding) {
-        imageViewCommentAuthorAvatar.load(comment.author.avatarUrl, isCircle = true)
+        imageViewCommentAuthorAvatar.load(
+            imageUrl = comment.author.avatarUrl,
+            placeHolderRes = R.drawable.ic_avatar_placeholder,
+            isCircle = true
+        )
         if (!comment.author.firstName.isNullOrEmpty() && !comment.author.lastName.isNullOrEmpty()) {
             textViewCommentAuthorName.text = itemView.context.getString(
                 R.string.feed_post_author_name,
@@ -24,6 +28,6 @@ class CommentViewHolder(
             textViewCommentAuthorName.text = comment.author.username
         }
         textViewCommentBody.text = comment.text
-        textViewCommentTime.text = dateFormatter.dateTimeToStringRelative(comment.publishTime)
+        textViewCommentTime.text = dateFormatter.dateTimeToStringRelative(comment.sendTime)
     }
 }

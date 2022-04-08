@@ -1,4 +1,4 @@
-package com.wires.app.domain.usecase.feed
+package com.wires.app.domain.usecase.posts
 
 import androidx.paging.PagingData
 import com.wires.app.data.model.Post
