@@ -79,8 +79,8 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
                 binding.swipeRefreshLayoutFeedChild.isRefreshing = result.isLoading
                 result.doOnComplete { isRefreshingBySwipe = false }
                 result.doOnFailure { error ->
-                    showToast(error.title)
-                    Timber.e(error.title)
+                    showToast(error.message)
+                    Timber.e(error.message)
                 }
             }
         }
