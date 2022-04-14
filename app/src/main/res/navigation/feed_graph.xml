@@ -40,5 +40,16 @@
         android:id="@+id/createPostFragment"
         android:name="com.wires.app.presentation.createpost.CreatePostFragment"
         android:label="CreatePostFragment"
-        tools:layout="@layout/fragment_create_post" />
+        tools:layout="@layout/fragment_create_post">
+
+        <action
+            android:id="@+id/action_createPostFragment_to_selectTopicDialog"
+            app:destination="@id/selectTopicDialog" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/selectTopicDialog"
+        android:name="com.wires.app.presentation.createpost.SelectTopicDialog"
+        android:label="SelectTopicDialog"
+        tools:layout="@layout/dialog_topic_select" />
 </navigation>

@@ -44,6 +44,8 @@
     <string name="create_post_hint">What\'s new?</string>
     <string name="create_post_add_image_text">Add image</string>
     <string name="create_post_remove_image_text">Remove image</string>
+    <string name="create_post_select_topic">Select a topic</string>
+    <string name="create_post_topic">Topic: %s</string>
 
     <!-- CHANNELS -->
     <string name="channels_title">Channels</string>

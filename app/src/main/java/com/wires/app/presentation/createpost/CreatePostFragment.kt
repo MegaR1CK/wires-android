@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -16,6 +17,7 @@ import com.wires.app.R
 import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentCreatePostBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
+import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getInputText
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
@@ -48,13 +50,21 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
         root.fitKeyboardInsetsWithPadding()
         toolbarCreatePost.setNavigationOnClickListener { findNavController().popBackStack() }
         editTextCreatePost.doOnTextChanged { text, _, _, _ ->
-            if (imageViewCreatePost.drawable == null) buttonCreatePostDone.isVisible = !text.isNullOrBlank()
+            if (imageViewCreatePost.drawable == null && viewModel.selectedTopic != null) {
+                buttonCreatePostDone.isVisible = !text.isNullOrBlank()
+            }
         }
         buttonCreatePostDone.setOnClickListener {
-            viewModel.createPost(editTextCreatePost.getInputText(), UserInterest.ANDROID_DEVELOPMENT)
+            viewModel.createPost(editTextCreatePost.getInputText())
         }
         buttonCreatePostImageAdd.setOnClickListener { startImagePicker() }
         buttonCreatePostImageRemove.setOnClickListener { removeImage() }
+        textViewTopicSelect.setOnClickListener { viewModel.openTopicSelect() }
+
+        setFragmentResultListener(SelectTopicDialog.SELECT_INTEREST_RESULT_KEY) { _, bundle ->
+            val topic = bundle.getSerializable(SelectTopicDialog.SELECTED_INTEREST_KEY) as? UserInterest
+            topic?.let(::setPostTopic)
+        }
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -69,6 +79,17 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
                 showSnackbar(error.message)
             }
         }
+        selectTopicLiveEvent.observe {
+            findNavController().navigate(CreatePostFragmentDirections.actionCreatePostFragmentToSelectTopicDialog())
+        }
+    }
+
+    private fun setPostTopic(topic: UserInterest) = with(binding.textViewTopicSelect) {
+        text = getString(R.string.create_post_topic, topic.value)
+        setTextColor(requireContext().getColorAttribute(R.attr.textColorPrimary))
+        viewModel.selectedTopic = topic
+        binding.buttonCreatePostDone.isVisible =
+            binding.imageViewCreatePost.drawable != null || binding.editTextCreatePost.getInputText().isNotBlank()
     }
 
     private fun setImage(imageUri: Uri) = with(binding) {
@@ -78,7 +99,7 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
             setImageURI(imageUri)
             isVisible = true
         }
-        if (editTextCreatePost.getInputText().isBlank()) buttonCreatePostDone.isVisible = true
+        buttonCreatePostDone.isVisible = viewModel.selectedTopic != null
     }
 
     private fun removeImage() = with(binding) {

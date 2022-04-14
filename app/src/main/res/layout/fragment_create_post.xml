@@ -51,19 +51,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="16dp"
-        android:paddingHorizontal="@dimen/padding_16"
         android:paddingBottom="@dimen/padding_20"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/textViewTopicSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:text="@string/create_post_select_topic"
+            android:textAppearance="@style/FontStyle.Body"
+            android:textColor="?android:textColorHint"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="@dimen/padding_16"/>
 
         <EditText
             android:id="@+id/editTextCreatePost"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:layout_marginTop="12dp"
             android:gravity="top"
             android:background="?colorSurface"
             android:textAppearance="@style/FontStyle.Body"
-            android:hint="@string/create_post_hint" />
+            android:hint="@string/create_post_hint"
+            android:paddingHorizontal="@dimen/padding_16" />
 
         <ImageView
             android:id="@+id/imageViewCreatePost"
