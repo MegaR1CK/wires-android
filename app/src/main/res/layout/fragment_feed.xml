@@ -21,8 +21,20 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll"
             app:contentInsetStart="28dp"
+            app:contentInsetEnd="20dp"
             app:titleTextAppearance="@style/FontStyle.Body.Bold"
-            tools:title="Здравствуйте, Константин" />
+            tools:title="Здравствуйте, Константин">
+
+            <ImageButton
+                android:id="@+id/buttonFeedCreatePost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add"
+                android:padding="8dp"
+                android:background="@drawable/bg_circle_ripple"
+                android:layout_gravity="center_horizontal|end" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -54,16 +66,5 @@
             android:overScrollMode="never"/>
 
     </com.wires.app.presentation.views.StateViewFlipper>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/buttonFeedCreatePost"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/margin_16"
-        android:src="@drawable/ic_add"
-        android:visibility="gone"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-        tools:visibility="visible" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

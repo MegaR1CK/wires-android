@@ -1,45 +1,25 @@
 package com.wires.app.presentation.createpost
 
-import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.wires.app.data.LoadableResult
-import com.wires.app.data.model.CreatedPost
-import com.wires.app.data.model.User
-import com.wires.app.data.model.UserPreview
-import com.wires.app.domain.repository.PostsRepository
-import com.wires.app.domain.repository.UserRepository
+import com.wires.app.data.model.UserInterest
+import com.wires.app.domain.usecase.posts.CreatePostUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
-import java.lang.Exception
 import javax.inject.Inject
 
 class CreatePostViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-    private val postsRepository: PostsRepository
+    private val createPostUseCase: CreatePostUseCase
 ) : BaseViewModel() {
-
-    private val _userLiveData = MutableLiveData<LoadableResult<User>>()
-    val userLiveData: LiveData<LoadableResult<User>> = _userLiveData
 
     private val _createPostLiveEvent = SingleLiveEvent<LoadableResult<Unit>>()
     val createPostLiveEvent: LiveData<LoadableResult<Unit>> = _createPostLiveEvent
 
-    fun getUser() {
-        _userLiveData.launchLoadData { userRepository.getStoredUser() ?: throw Exception("Cannot get user") }
-    }
+    var selectedImagePath: String? = null
 
-    fun createPost(text: String, image: Bitmap? = null) {
-        _userLiveData.value?.getOrNull()?.let { user ->
-            _createPostLiveEvent.launchLoadData {
-                postsRepository.createPost(
-                    CreatedPost(
-                        author = UserPreview(user.id, user.username, user.avatarUrl, user.firstName, user.lastName),
-                        text = text,
-                        imageBitmap = image
-                    )
-                )
-            }
-        }
+    fun createPost(text: String, topic: UserInterest) {
+        _createPostLiveEvent.launchLoadData(
+            createPostUseCase.executeLoadable(CreatePostUseCase.Params(text, topic, selectedImagePath))
+        )
     }
 }

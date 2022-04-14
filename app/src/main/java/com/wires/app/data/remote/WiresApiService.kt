@@ -9,9 +9,13 @@ import com.wires.app.data.remote.response.ObjectResponse
 import com.wires.app.data.remote.response.PostResponse
 import com.wires.app.data.remote.response.TokenResponse
 import com.wires.app.data.remote.response.UserResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -45,4 +49,11 @@ interface WiresApiService {
 
     @POST("posts/{id}/comment")
     suspend fun commentPost(@Path("id") postId: Int, @Body params: CommentAddParams): ObjectResponse<Unit>
+
+    @Multipart
+    @POST("posts/create")
+    suspend fun createPost(
+        @Part("create_params") createParams: RequestBody,
+        @Part avatar: MultipartBody.Part?
+    ): ObjectResponse<Unit>
 }
