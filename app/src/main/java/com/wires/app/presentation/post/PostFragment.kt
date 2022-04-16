@@ -1,9 +1,6 @@
 package com.wires.app.presentation.post
 
 import android.os.Bundle
-import androidx.activity.addCallback
-import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -25,10 +22,6 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class PostFragment : BaseFragment(R.layout.fragment_post) {
-
-    companion object {
-        const val POST_RETURN_KEY = "post_return"
-    }
 
     private val viewModel: PostViewModel by appViewModels()
     private val args: PostFragmentArgs by navArgs()
@@ -56,8 +49,7 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         root.fitKeyboardInsetsWithPadding { _, insets, _ ->
             if (insets.getKeyboardInset() > 0) nestedScrollViewPost.smoothScrollTo(0, 0)
         }
-        toolbarPost.setNavigationOnClickListener { onBackPressed() }
-        activity?.onBackPressedDispatcher?.addCallback { onBackPressed() }
+        toolbarPost.setNavigationOnClickListener { findNavController().popBackStack() }
         recyclerViewPostComments.adapter = commentsAdapter.apply {
             addLoadStateListener(viewModel::bindPagingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { commentsAdapter.retry() })
@@ -139,10 +131,5 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         }
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
-    }
-
-    private fun onBackPressed() {
-        setFragmentResult(POST_RETURN_KEY, bundleOf())
-        findNavController().popBackStack()
     }
 }

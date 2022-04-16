@@ -2,8 +2,8 @@ package com.wires.app.presentation.feed.feedchild
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.data.model.UserInterest
@@ -13,9 +13,7 @@ import com.wires.app.extensions.addVerticalDividerItemDecoration
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.showToast
 import com.wires.app.presentation.base.BaseFragment
-import com.wires.app.presentation.createpost.CreatePostFragment
 import com.wires.app.presentation.feed.FeedFragmentDirections
-import com.wires.app.presentation.post.PostFragment
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -33,17 +31,11 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
     @Inject lateinit var postsAdapter: PostsAdapter
 
     private var onLoadingStateChangedListener: OnLoadingStateChangedListener? = null
-    private var isReturnedFromPost = false
 
     /**
-     * Маркер для того, чтобы отличать, обновляется ли экран с постами по свайпу, или по запросу пагинации
+     * Маркер для того, чтобы отличать, обновляется ли экран с постами по свайпу PTR, или по запросу инициализации
      */
     private var isRefreshingBySwipe = false
-
-    /**
-     * Маркер первой загрузки списка постов
-     */
-    private var isFirstLoading = true
 
     override fun callOperations() {
         viewModel.getPosts(interest)
@@ -56,14 +48,8 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
             callOperations()
             isRefreshingBySwipe = true
         }
-        parentFragment?.setFragmentResultListener(CreatePostFragment.POST_CREATED_RESULT_KEY) { _, _ ->
-            callOperations()
-        }
-        parentFragment?.setFragmentResultListener(PostFragment.POST_RETURN_KEY) { _, _ ->
-            // TODO: try to remove after paging implementation
-            isReturnedFromPost = true
-        }
         stateViewFlipperFeedChild.setRetryMethod { callOperations() }
+        (recyclerViewFeedChildPosts.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -72,16 +58,19 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
         }
 
         postsLoadingStateLiveData.observe { result ->
-            if (isFirstLoading) {
-                binding.stateViewFlipperFeedChild.setStateFromResult(result)
-                result.doOnSuccess { isFirstLoading = false }
-            } else if (isRefreshingBySwipe) {
+            if (isRefreshingBySwipe) {
                 binding.swipeRefreshLayoutFeedChild.isRefreshing = result.isLoading
                 result.doOnComplete { isRefreshingBySwipe = false }
-                result.doOnFailure { error ->
-                    showToast(error.message)
-                    Timber.e(error.message)
+                result.doOnFailure { showToast(it.message) }
+                result.doOnSuccess {
+                    binding.recyclerViewFeedChildPosts.scrollToPosition(0)
+                    onLoadingStateChangedListener?.onLoadingStateChanged(result)
                 }
+            } else {
+                binding.stateViewFlipperFeedChild.setStateFromResult(result)
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
             }
         }
 

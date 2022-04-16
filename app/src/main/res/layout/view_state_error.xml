@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textAppearance="@style/FontStyle.Small.Bold"
+            android:gravity="center"
             tools:text="Please, check your connection and try again." />
 
         <com.google.android.material.button.MaterialButton

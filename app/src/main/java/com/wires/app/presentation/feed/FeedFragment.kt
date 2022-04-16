@@ -2,6 +2,7 @@ package com.wires.app.presentation.feed
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -12,13 +13,12 @@ import com.wires.app.databinding.FragmentFeedBinding
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.toInt
 import com.wires.app.presentation.base.BaseFragment
+import com.wires.app.presentation.createpost.CreatePostFragment
 import com.wires.app.presentation.feed.feedchild.FeedChildFragment
 import com.wires.app.presentation.feed.feedchild.OnLoadingStateChangedListener
 import timber.log.Timber
 
 class FeedFragment : BaseFragment(R.layout.fragment_feed), OnLoadingStateChangedListener {
-
-    // TODO: fix return from screens
 
     private val viewModel: FeedViewModel by appViewModels()
     private val binding by viewBinding(FragmentFeedBinding::bind)
@@ -32,6 +32,9 @@ class FeedFragment : BaseFragment(R.layout.fragment_feed), OnLoadingStateChanged
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitTopInsetsWithPadding()
         buttonFeedCreatePost.setOnClickListener { viewModel.openCreatePost() }
+        setFragmentResultListener(CreatePostFragment.POST_CREATED_RESULT_KEY) { _, _ ->
+            viewModel.userData.value?.getOrNull()?.interests?.let(::setupPager)
+        }
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -53,7 +56,7 @@ class FeedFragment : BaseFragment(R.layout.fragment_feed), OnLoadingStateChanged
     }
 
     override fun onLoadingStateChanged(state: LoadableResult<*>) {
-        binding.buttonFeedCreatePost.isVisible = state.isSuccess
+        state.doOnSuccess { binding.appBarLayoutFeed.setExpanded(true, false) }
     }
 
     private fun setupPager(interests: List<UserInterest>) = with(binding) {
