@@ -7,7 +7,8 @@ import com.wires.app.data.remote.response.PostResponse
 import javax.inject.Inject
 
 class PostsMapper @Inject constructor(
-    private val userMapper: UserMapper
+    private val userMapper: UserMapper,
+    private val imagesMapper: ImagesMapper
 ) {
     fun fromResponseToModel(postResponse: PostResponse): Post {
         return Post(
@@ -15,7 +16,7 @@ class PostsMapper @Inject constructor(
             author = userMapper.fromResponseToModel(postResponse.author),
             text = postResponse.text,
             topic = postResponse.topic,
-            imageUrl = postResponse.imageUrl,
+            image = postResponse.image?.let { imagesMapper.fromResponseToModel(it) },
             commentsCount = postResponse.commentsCount,
             likesCount = postResponse.likesCount,
             isLiked = postResponse.isUserLiked,

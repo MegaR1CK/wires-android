@@ -7,6 +7,6 @@ data class UserPreviewResponse(
     val id: Int,
     @SerializedName("username")
     val username: String,
-    @SerializedName("avatar_url")
-    val avatarUrl: String?
+    @SerializedName("avatar")
+    val avatar: ImageResponse?
 )

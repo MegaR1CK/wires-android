@@ -5,5 +5,5 @@ data class UserPreview(
     val username: String,
     val firstName: String?,
     val lastName: String?,
-    val avatarUrl: String?
+    val avatar: Image?
 )

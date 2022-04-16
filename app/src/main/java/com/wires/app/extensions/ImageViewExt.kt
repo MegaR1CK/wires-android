@@ -64,3 +64,9 @@ fun ImageView.load(
         .apply { transform(*transformations.toTypedArray()) }
         .into(this)
 }
+
+fun ImageView.countViewHeight(imageWidth: Int, imageHeight: Int) {
+    val imageViewWidth = getScreenWidth() - 2 * resources.getDimensionPixelSize(R.dimen.padding_24)
+    val imageViewHeight = imageViewWidth * imageHeight / imageWidth
+    layoutParams.height = imageViewHeight
+}

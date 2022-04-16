@@ -7,12 +7,12 @@ data class Channel(
     val id: Int,
     val name: String?,
     val members: List<User>,
-    val imageUrl: String?,
+    val image: Image?,
     var channelLastMessage: Message?,
     val unreadMessages: Int?
 ) : IDialog<Message> {
     override fun getId() = id.toString()
-    override fun getDialogPhoto() = imageUrl
+    override fun getDialogPhoto() = image?.url
     override fun getDialogName() = name
     override fun getUsers() = members
     override fun getLastMessage() = channelLastMessage

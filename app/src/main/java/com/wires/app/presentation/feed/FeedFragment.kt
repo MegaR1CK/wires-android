@@ -18,6 +18,8 @@ import timber.log.Timber
 
 class FeedFragment : BaseFragment(R.layout.fragment_feed), OnLoadingStateChangedListener {
 
+    // TODO: fix return from screens
+
     private val viewModel: FeedViewModel by appViewModels()
     private val binding by viewBinding(FragmentFeedBinding::bind)
 

@@ -12,8 +12,8 @@ data class PostResponse(
     val text: String,
     @SerializedName("topic")
     val topic: String,
-    @SerializedName("image_url")
-    val imageUrl: String?,
+    @SerializedName("image")
+    val image: ImageResponse?,
     @SerializedName("publish_time")
     val publishTime: LocalDateTime,
     @SerializedName("likes_count")

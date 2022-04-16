@@ -14,7 +14,7 @@ class CommentViewHolder(
 
     fun bind(comment: Comment) = with(binding) {
         imageViewCommentAuthorAvatar.load(
-            imageUrl = comment.author.avatarUrl,
+            imageUrl = comment.author.avatar?.url,
             placeHolderRes = R.drawable.ic_avatar_placeholder,
             isCircle = true
         )

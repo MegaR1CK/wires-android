@@ -12,6 +12,7 @@ import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.databinding.FragmentPostBinding
 import com.wires.app.domain.paging.PagingLoadStateAdapter
+import com.wires.app.extensions.countViewHeight
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getKeyboardInset
@@ -127,12 +128,15 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         }
         textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
         imageViewPostAuthorAvatar.load(
-            imageUrl = post.author.avatarUrl,
+            imageUrl = post.author.avatar?.url,
             placeHolderRes = R.drawable.ic_avatar_placeholder,
             isCircle = true
         )
         textViewPostBody.text = post.text
-        imageViewPostImage.load(post.imageUrl)
+        post.image?.let { image ->
+            imageViewPostImage.countViewHeight(image.size.width, image.size.height)
+            imageViewPostImage.load(image.url)
+        }
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
     }

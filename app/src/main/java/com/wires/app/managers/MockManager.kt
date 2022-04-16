@@ -2,7 +2,8 @@ package com.wires.app.managers
 
 import com.wires.app.data.model.Channel
 import com.wires.app.data.model.Comment
-import com.wires.app.data.model.CreatedPost
+import com.wires.app.data.model.Image
+import com.wires.app.data.model.ImageSize
 import com.wires.app.data.model.Message
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.User
@@ -38,7 +39,7 @@ class MockManager @Inject constructor() {
             firstName = "Konstantin",
             lastName = "Goncharov",
             email = "test@test.ru",
-            avatarUrl = "https://placekitten.com/70/70",
+            avatar = Image("https://placekitten.com/50/50", ImageSize(50, 50)),
             interests = listOf(UserInterest.ANDROID_DEVELOPMENT)
         )
     }
@@ -51,7 +52,10 @@ class MockManager @Inject constructor() {
                 publishTime = LocalDateTime.parse("2021-11-03T10:15:30"),
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris, ac" +
                     " tincidunt risus pellentesque id. Curabitur tincidunt enim sed eros elementum, vel pretium nisl congue.",
-                imageUrl = "https://4.img-dpreview.com/files/p/TC1200x630S1200x630~sample_galleries/1330372094/1693761761.jpg",
+                image = Image(
+                    "https://4.img-dpreview.com/files/p/TC1200x630S1200x630~sample_galleries/1330372094/1693761761.jpg",
+                    ImageSize(1200, 630)
+                ),
                 likesCount = 100,
                 commentsCount = 150,
                 isLiked = false,
@@ -67,7 +71,10 @@ class MockManager @Inject constructor() {
             publishTime = LocalDateTime.parse("2021-11-03T10:15:30"),
             text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris, ac" +
                 " tincidunt risus pellentesque id. Curabitur tincidunt enim sed eros elementum, vel pretium nisl congue.",
-            imageUrl = "https://4.img-dpreview.com/files/p/TC1200x630S1200x630~sample_galleries/1330372094/1693761761.jpg",
+            image = Image(
+                "https://4.img-dpreview.com/files/p/TC1200x630S1200x630~sample_galleries/1330372094/1693761761.jpg",
+                ImageSize(1200, 630)
+            ),
             likesCount = 100,
             commentsCount = 150,
             isLiked = false,
@@ -91,17 +98,13 @@ class MockManager @Inject constructor() {
         delay(1000)
     }
 
-    suspend fun createPost(post: CreatedPost) {
-        delay(1000)
-    }
-
     suspend fun getChannels(): List<Channel> {
         return List(3) {
             Channel(
                 id = 1,
                 name = "ChannelName",
                 members = List(3) { getStoredUser() },
-                imageUrl = "https://placekitten.com/70/70",
+                image = Image("https://placekitten.com/70/70", ImageSize(70, 70)),
                 channelLastMessage = Message(
                     id = 1,
                     author = getStoredUser(),
@@ -125,7 +128,7 @@ class MockManager @Inject constructor() {
                     firstName = "John",
                     lastName = "Smith",
                     email = "213@mail.com",
-                    avatarUrl = "https://placekitten.com/70/70",
+                    avatar = Image("https://placekitten.com/50/50", ImageSize(50, 50)),
                     interests = null
                 ),
                 sendTime = LocalDateTime.parse("2021-11-03T10:15:30"),

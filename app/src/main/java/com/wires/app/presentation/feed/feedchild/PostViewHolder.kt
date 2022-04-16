@@ -1,10 +1,10 @@
 package com.wires.app.presentation.feed.feedchild
 
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.wires.app.R
 import com.wires.app.data.model.Post
 import com.wires.app.databinding.ItemPostBinding
+import com.wires.app.extensions.countViewHeight
 import com.wires.app.extensions.load
 import com.wires.app.managers.DateFormatter
 
@@ -28,17 +28,15 @@ class PostViewHolder(
 
         textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
         imageViewPostAuthorAvatar.load(
-            imageUrl = post.author.avatarUrl,
+            imageUrl = post.author.avatar?.url,
             placeHolderRes = R.drawable.ic_avatar_placeholder,
             isCircle = true
         )
         textViewPostBody.text = post.text
-        if (!post.imageUrl.isNullOrEmpty()) {
-            // TODO: set image height from api response
-            imageViewPostImage.isVisible = true
-            imageViewPostImage.load(post.imageUrl)
+        post.image?.let { image ->
+            imageViewPostImage.countViewHeight(image.size.width, image.size.height)
+            imageViewPostImage.load(image.url)
         }
-
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
         root.setOnClickListener { onItemClick.invoke(post.id) }

@@ -7,7 +7,9 @@ import com.wires.app.data.remote.response.UserPreviewResponse
 import com.wires.app.data.remote.response.UserResponse
 import javax.inject.Inject
 
-class UserMapper @Inject constructor() {
+class UserMapper @Inject constructor(
+    private val imagesMapper: ImagesMapper
+) {
     fun fromResponseToModel(userResponse: UserResponse): User {
         return User(
             id = userResponse.id,
@@ -15,7 +17,7 @@ class UserMapper @Inject constructor() {
             username = userResponse.username,
             firstName = null,
             lastName = null,
-            avatarUrl = userResponse.avatarUrl,
+            avatar = userResponse.avatar?.let { imagesMapper.fromResponseToModel(it) },
             interests = userResponse.interests.map { UserInterest.valueOf(it) }
         )
     }
@@ -24,7 +26,7 @@ class UserMapper @Inject constructor() {
         return UserPreview(
             id = userPreviewResponse.id,
             username = userPreviewResponse.username,
-            avatarUrl = userPreviewResponse.avatarUrl,
+            avatar = userPreviewResponse.avatar?.let { imagesMapper.fromResponseToModel(it) },
             firstName = null,
             lastName = null
         )
