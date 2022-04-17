@@ -35,25 +35,19 @@
                 android:id="@+id/messagesListChat"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                app:layout_constraintBottom_toTopOf="@id/dividerChat"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_weight="1" />
 
             <View
                 android:id="@+id/dividerChat"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="?dividerColor"
-                app:layout_constraintBottom_toTopOf="@id/messageInputChat"/>
+                android:background="?dividerColor" />
 
-            <com.stfalcon.chatkit.messages.MessageInput
+            <com.wires.app.presentation.views.MessageInputView
                 android:id="@+id/messageInputChat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:inputButtonBackground="@drawable/bg_circle_ripple"
-                app:inputButtonIcon="@drawable/ic_send_primary"
-                app:inputHint="@string/chat_message_input_hint"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:inputHint="@string/chat_message_input_hint" />
 
         </LinearLayout>
     </com.wires.app.presentation.views.StateViewFlipper>

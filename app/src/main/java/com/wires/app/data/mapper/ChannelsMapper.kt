@@ -1,8 +1,10 @@
 package com.wires.app.data.mapper
 
+import com.wires.app.data.model.Channel
 import com.wires.app.data.model.ChannelPreview
 import com.wires.app.data.model.Message
 import com.wires.app.data.remote.response.ChannelPreviewResponse
+import com.wires.app.data.remote.response.ChannelResponse
 import com.wires.app.data.remote.response.MessageResponse
 import javax.inject.Inject
 
@@ -16,6 +18,15 @@ class ChannelsMapper @Inject constructor(
             name = channelPreviewResponse.name,
             image = channelPreviewResponse.image?.let { imagesMapper.fromResponseToModel(it) },
             lastSentMessage = channelPreviewResponse.lastMessage?.let { fromResponseToModel(it) }
+        )
+    }
+
+    fun fromResponseToModel(channelResponse: ChannelResponse): Channel {
+        return Channel(
+            id = channelResponse.id,
+            name = channelResponse.name,
+            image = channelResponse.image?.let { imagesMapper.fromResponseToModel(it) },
+            members = channelResponse.members.map(userMapper::fromResponseToModel)
         )
     }
 

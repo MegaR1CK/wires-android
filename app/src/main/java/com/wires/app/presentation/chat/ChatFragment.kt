@@ -25,6 +25,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
     private lateinit var messagesAdapter: MessagesListAdapter<Message>
 
     override fun callOperations() {
+        viewModel.getChannel(args.channelId)
         viewModel.getUser()
     }
 
@@ -32,12 +33,21 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         root.fitKeyboardInsetsWithPadding { _, insets, _ ->
             if (insets.getKeyboardInset() > 0) messagesListChat.smoothScrollToPosition(0)
         }
-//        toolbarChat.title = args.channelName
         toolbarChat.setNavigationOnClickListener { findNavController().popBackStack() }
-        setupInput()
     }
 
     override fun onBindViewModel() = with(viewModel) {
+        channelLiveData.observe { result ->
+            if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
+            result.doOnSuccess { channel ->
+                binding.toolbarChat.title = channel.name
+                viewModel.getMessages(args.channelId, 0)
+            }
+            result.doOnFailure { error ->
+                Timber.d(error.message)
+            }
+        }
+
         messagesLiveData.observe { result ->
             if (messagesAdapter.isEmpty) binding.stateViewFlipperChat.setStateFromResult(result)
             result.doOnSuccess { items ->
@@ -49,20 +59,20 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         userLiveData.observe { result ->
-            result.doOnSuccess { user ->
-                setupAdapter(user.getId())
-                viewModel.getMessages(args.channelId)
+            result.doOnSuccess { userWrapper ->
+                userWrapper.user?.getId()?.let(::setupAdapter)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
             }
         }
 
-        displayMessageLiveEvent.observe { message ->
+        receiveMessageLiveEvent.observe { message ->
             messagesAdapter.addToStart(message, true)
         }
 
         sendMessageLiveEvent.observe { result ->
+            binding.messageInputChat.handleResult(result)
             result.doOnFailure { error ->
                 Timber.e(error.message)
             }
@@ -73,22 +83,11 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         messagesAdapter = MessagesListAdapter<Message>(userId) { imageView, url, _ ->
             imageView.load(url, isCircle = true)
         }.apply {
-            setLoadMoreListener { _, _ ->
+            setLoadMoreListener { _, offset ->
                 // TODO: custom viewholder
-                viewModel.getMessages(args.channelId)
+                viewModel.getMessages(args.channelId, offset)
             }
         }
         binding.messagesListChat.setAdapter(messagesAdapter)
-    }
-
-    private fun setupInput() = with(binding.messageInputChat) {
-        inputEditText.doOnTextChanged { text, _, _, _ ->
-            button.isInvisible = text.isNullOrBlank()
-        }
-        setInputListener { text ->
-            viewModel.sendMessage(args.channelId, text.toString())
-            true
-        }
-        button.isInvisible = true
     }
 }

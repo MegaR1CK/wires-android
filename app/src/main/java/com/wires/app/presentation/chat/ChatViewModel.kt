@@ -3,38 +3,49 @@ package com.wires.app.presentation.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.wires.app.data.LoadableResult
+import com.wires.app.data.model.Channel
 import com.wires.app.data.model.Message
-import com.wires.app.data.model.User
-import com.wires.app.domain.repository.MessagesRepository
-import com.wires.app.domain.repository.UserRepository
+import com.wires.app.data.model.UserWrapper
+import com.wires.app.domain.usecase.channels.GetChannelMessagesUseCase
+import com.wires.app.domain.usecase.channels.GetChannelUseCase
+import com.wires.app.domain.usecase.user.GetStoredUserUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
-import java.lang.Exception
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
-    private val messagesRepository: MessagesRepository,
-    private val userRepository: UserRepository,
+    private val getChannelUseCase: GetChannelUseCase,
+    private val getChannelMessagesUseCase: GetChannelMessagesUseCase,
+    private val getStoredUserUseCase: GetStoredUserUseCase
 ) : BaseViewModel() {
+
+    private val _channelLiveData = MutableLiveData<LoadableResult<Channel>>()
+    val channelLiveData: LiveData<LoadableResult<Channel>> = _channelLiveData
 
     private val _messagesLiveData = MutableLiveData<LoadableResult<List<Message>>>()
     val messagesLiveData: LiveData<LoadableResult<List<Message>>> = _messagesLiveData
 
-    private val _userLiveData = MutableLiveData<LoadableResult<User>>()
-    val userLiveData: LiveData<LoadableResult<User>> = _userLiveData
+    private val _userLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
+    val userLiveData: LiveData<LoadableResult<UserWrapper>> = _userLiveData
 
     private val _sendMessageLiveEvent = SingleLiveEvent<LoadableResult<Unit>>()
     val sendMessageLiveEvent: LiveData<LoadableResult<Unit>> = _sendMessageLiveEvent
 
-    private val _displayMessageLiveEvent = SingleLiveEvent<Message>()
-    val displayMessageLiveEvent: LiveData<Message> = _displayMessageLiveEvent
-
-    fun getMessages(channelId: Int) {
-        _messagesLiveData.launchLoadData { messagesRepository.getMessages(channelId) }
-    }
+    private val _receiveMessageLiveEvent = SingleLiveEvent<Message>()
+    val receiveMessageLiveEvent: LiveData<Message> = _receiveMessageLiveEvent
 
     fun getUser() {
-        _userLiveData.launchLoadData { userRepository.getStoredUser() ?: throw Exception("Cannot get user") }
+        _userLiveData.launchLoadData(getStoredUserUseCase.executeLoadable(Unit))
+    }
+
+    fun getChannel(channelId: Int) {
+        _channelLiveData.launchLoadData(getChannelUseCase.executeLoadable(GetChannelUseCase.Params(channelId)))
+    }
+
+    fun getMessages(channelId: Int, offset: Int) {
+        _messagesLiveData.launchLoadData(
+            getChannelMessagesUseCase.executeLoadable(GetChannelMessagesUseCase.Params(channelId, offset))
+        )
     }
 
     fun sendMessage(channelId: Int, text: String) {

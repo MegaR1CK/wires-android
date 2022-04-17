@@ -4,8 +4,10 @@ import com.wires.app.data.remote.params.CommentAddParams
 import com.wires.app.data.remote.params.UserLoginParams
 import com.wires.app.data.remote.params.UserRegisterParams
 import com.wires.app.data.remote.response.ChannelPreviewResponse
+import com.wires.app.data.remote.response.ChannelResponse
 import com.wires.app.data.remote.response.CommentResponse
 import com.wires.app.data.remote.response.ListResponse
+import com.wires.app.data.remote.response.MessageResponse
 import com.wires.app.data.remote.response.ObjectResponse
 import com.wires.app.data.remote.response.PostResponse
 import com.wires.app.data.remote.response.TokenResponse
@@ -60,4 +62,14 @@ interface WiresApiService {
 
     @GET("channels")
     suspend fun getChannels(): ListResponse<ChannelPreviewResponse>
+
+    @GET("channels/{id}")
+    suspend fun getChannel(@Path("id") channelId: Int): ObjectResponse<ChannelResponse>
+
+    @GET("channels{id}/messages")
+    suspend fun getChannelMessages(
+        @Path("id") channelId: Int,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): ListResponse<MessageResponse>
 }
