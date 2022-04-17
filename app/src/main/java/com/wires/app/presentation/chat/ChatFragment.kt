@@ -32,7 +32,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         root.fitKeyboardInsetsWithPadding { _, insets, _ ->
             if (insets.getKeyboardInset() > 0) messagesListChat.smoothScrollToPosition(0)
         }
-        toolbarChat.title = args.channelName
+//        toolbarChat.title = args.channelName
         toolbarChat.setNavigationOnClickListener { findNavController().popBackStack() }
         setupInput()
     }

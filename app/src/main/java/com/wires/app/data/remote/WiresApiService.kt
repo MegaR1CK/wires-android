@@ -3,6 +3,7 @@ package com.wires.app.data.remote
 import com.wires.app.data.remote.params.CommentAddParams
 import com.wires.app.data.remote.params.UserLoginParams
 import com.wires.app.data.remote.params.UserRegisterParams
+import com.wires.app.data.remote.response.ChannelPreviewResponse
 import com.wires.app.data.remote.response.CommentResponse
 import com.wires.app.data.remote.response.ListResponse
 import com.wires.app.data.remote.response.ObjectResponse
@@ -56,4 +57,7 @@ interface WiresApiService {
         @Part("create_params") createParams: RequestBody,
         @Part avatar: MultipartBody.Part?
     ): ObjectResponse<Unit>
+
+    @GET("channels")
+    suspend fun getChannels(): ListResponse<ChannelPreviewResponse>
 }

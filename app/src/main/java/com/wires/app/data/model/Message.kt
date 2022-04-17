@@ -7,10 +7,9 @@ import java.util.Date
 
 data class Message(
     val id: Int,
-    val author: User,
-    val sendTime: LocalDateTime,
+    val author: UserPreview,
     val messageText: String,
-    val isUnread: Boolean
+    val sendTime: LocalDateTime
 ) : IMessage {
     override fun getId() = id.toString()
     override fun getText() = messageText

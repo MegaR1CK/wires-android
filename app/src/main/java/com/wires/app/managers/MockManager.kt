@@ -103,16 +103,8 @@ class MockManager @Inject constructor() {
             Channel(
                 id = 1,
                 name = "ChannelName",
-                members = List(3) { getStoredUser() },
+                members = List(3) { UserPreview(1, "name", null, null, null) },
                 image = Image("https://placekitten.com/70/70", ImageSize(70, 70)),
-                channelLastMessage = Message(
-                    id = 1,
-                    author = getStoredUser(),
-                    sendTime = LocalDateTime.parse("2021-11-03T10:15:30"),
-                    messageText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris.",
-                    isUnread = false
-                ),
-                unreadMessages = 0
             )
         }
     }
@@ -122,18 +114,9 @@ class MockManager @Inject constructor() {
         return List(10) {
             Message(
                 id = 1,
-                author = User(
-                    id = 10,
-                    username = "TestUser",
-                    firstName = "John",
-                    lastName = "Smith",
-                    email = "213@mail.com",
-                    avatar = Image("https://placekitten.com/50/50", ImageSize(50, 50)),
-                    interests = null
-                ),
+                author = UserPreview(1, "name", null, null, null),
                 sendTime = LocalDateTime.parse("2021-11-03T10:15:30"),
                 messageText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris.",
-                isUnread = false
             )
         }
     }

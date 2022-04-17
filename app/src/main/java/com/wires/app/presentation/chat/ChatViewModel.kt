@@ -10,7 +10,6 @@ import com.wires.app.domain.repository.UserRepository
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
 import java.lang.Exception
-import java.time.LocalDateTime
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
@@ -39,16 +38,16 @@ class ChatViewModel @Inject constructor(
     }
 
     fun sendMessage(channelId: Int, text: String) {
-        _userLiveData.value?.getOrNull()?.let { user ->
-            val message = Message(
-                id = -1,
-                author = user,
-                sendTime = LocalDateTime.now(),
-                messageText = text,
-                isUnread = false
-            )
-            _sendMessageLiveEvent.launchLoadData { messagesRepository.sendMessage(channelId, message) }
-            _displayMessageLiveEvent.postValue(message)
-        }
+//        _userLiveData.value?.getOrNull()?.let { user ->
+//            val message = Message(
+//                id = -1,
+//                author = user,
+//                sendTime = LocalDateTime.now(),
+//                messageText = text,
+//                isUnread = false
+//            )
+//            _sendMessageLiveEvent.launchLoadData { messagesRepository.sendMessage(channelId, message) }
+//            _displayMessageLiveEvent.postValue(message)
+//        }
     }
 }

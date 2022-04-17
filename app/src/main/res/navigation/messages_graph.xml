@@ -19,11 +19,7 @@
                 android:name="channelId"
                 app:argType="integer" />
 
-            <argument
-                android:name="channelName"
-                app:argType="string" />
         </action>
-
     </fragment>
 
     <fragment
@@ -35,10 +31,6 @@
         <argument
             android:name="channelId"
             app:argType="integer" />
-
-        <argument
-            android:name="channelName"
-            app:argType="string" />
 
     </fragment>
 </navigation>
