@@ -66,7 +66,7 @@ interface WiresApiService {
     @GET("channels/{id}")
     suspend fun getChannel(@Path("id") channelId: Int): ObjectResponse<ChannelResponse>
 
-    @GET("channels{id}/messages")
+    @GET("channels/{id}/messages")
     suspend fun getChannelMessages(
         @Path("id") channelId: Int,
         @Query("limit") limit: Int,

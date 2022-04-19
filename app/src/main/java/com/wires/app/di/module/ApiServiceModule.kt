@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.neovisionaries.ws.client.WebSocketFactory
 import com.wires.app.data.remote.WiresApiService
 import com.wires.app.data.remote.typeadapters.LocalDateTimeAdapter
 import com.wires.app.domain.repository.TokenRepository
@@ -60,11 +61,16 @@ open class ApiServiceModule {
             .create(WiresApiService::class.java)
 
     @Provides
+    @Singleton
     fun provideGson(): Gson {
         return GsonBuilder()
             .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
             .create()
     }
+
+    @Provides
+    @Singleton
+    fun provideWebSocketFactory() = WebSocketFactory()
 
     private fun OkHttpClient.Builder.setTimeouts() {
         connectTimeout(CONNECTION_TIMEOUTS_MS, TimeUnit.MILLISECONDS)

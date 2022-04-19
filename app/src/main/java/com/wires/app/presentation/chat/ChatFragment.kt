@@ -1,8 +1,6 @@
 package com.wires.app.presentation.chat
 
 import android.os.Bundle
-import androidx.core.view.isInvisible
-import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -41,7 +39,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
             result.doOnSuccess { channel ->
                 binding.toolbarChat.title = channel.name
-                viewModel.getMessages(args.channelId, 0)
+                getMessages(args.channelId, 0)
             }
             result.doOnFailure { error ->
                 Timber.d(error.message)
@@ -49,7 +47,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         messagesLiveData.observe { result ->
-            if (messagesAdapter.isEmpty) binding.stateViewFlipperChat.setStateFromResult(result)
+            if (messagesAdapter.isEmpty) {
+                binding.stateViewFlipperChat.setStateFromResult(result)
+                if (result.isSuccess) listenChannel(args.channelId)
+            }
             result.doOnSuccess { items ->
                 messagesAdapter.addToEnd(items, false)
             }
@@ -67,8 +68,8 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             }
         }
 
-        receiveMessageLiveEvent.observe { message ->
-            messagesAdapter.addToStart(message, true)
+        receiveMessageLiveEvent.observe { result ->
+            result.doOnMessage { message -> messagesAdapter.addToStart(message, true) }
         }
 
         sendMessageLiveEvent.observe { result ->

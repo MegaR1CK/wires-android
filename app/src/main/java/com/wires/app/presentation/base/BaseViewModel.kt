@@ -8,10 +8,10 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.wires.app.data.LoadableResult
+import com.wires.app.data.remote.websocket.SocketEvent
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
@@ -64,6 +64,12 @@ abstract class BaseViewModel : ViewModel() {
         block
             .cachedIn(viewModelScope)
             .collectLatest { this@launchPagingData.postValue(it) }
+    }
+
+    protected fun <T> MutableLiveData<SocketEvent<T>>.launchSocketData(
+        block: Flow<SocketEvent<T>>
+    ): Job = viewModelScope.launch {
+        block.collect { event -> this@launchSocketData.postValue(event) }
     }
 
     protected fun MutableLiveData<LoadableResult<Unit>>.bindPagingState(loadState: CombinedLoadStates) {
