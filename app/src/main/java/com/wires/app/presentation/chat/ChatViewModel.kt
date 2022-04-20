@@ -7,6 +7,7 @@ import com.wires.app.data.model.Channel
 import com.wires.app.data.model.Message
 import com.wires.app.data.model.UserWrapper
 import com.wires.app.data.remote.websocket.SocketEvent
+import com.wires.app.domain.usecase.channels.DisconnectChannelUseCase
 import com.wires.app.domain.usecase.channels.GetChannelMessagesUseCase
 import com.wires.app.domain.usecase.channels.GetChannelUseCase
 import com.wires.app.domain.usecase.channels.ListenChannelUseCase
@@ -14,6 +15,11 @@ import com.wires.app.domain.usecase.channels.SendMessageUseCase
 import com.wires.app.domain.usecase.user.GetStoredUserUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
@@ -21,7 +27,8 @@ class ChatViewModel @Inject constructor(
     private val getChannelMessagesUseCase: GetChannelMessagesUseCase,
     private val getStoredUserUseCase: GetStoredUserUseCase,
     private val listenChannelUseCase: ListenChannelUseCase,
-    private val sendMessageUseCase: SendMessageUseCase
+    private val sendMessageUseCase: SendMessageUseCase,
+    private val disconnectChannelUseCase: DisconnectChannelUseCase
 ) : BaseViewModel() {
 
     private val _channelLiveData = MutableLiveData<LoadableResult<Channel>>()
@@ -59,5 +66,13 @@ class ChatViewModel @Inject constructor(
 
     fun sendMessage(channelId: Int, text: String) {
         _sendMessageLiveEvent.launchLoadData(sendMessageUseCase.executeLoadable(SendMessageUseCase.Params(channelId, text)))
+    }
+
+    fun disconnectChannel(channelId: Int) {
+        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch {
+            disconnectChannelUseCase.executeLoadable(DisconnectChannelUseCase.Params(channelId)).collect { result ->
+                result.doOnFailure { error -> Timber.e(error.message) }
+            }
+        }
     }
 }

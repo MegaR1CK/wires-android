@@ -33,6 +33,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         root.fitKeyboardInsetsWithPadding { _, insets, _ ->
             if (insets.getKeyboardInset() > 0) messagesListChat.smoothScrollToPosition(0)
         }
+        stateViewFlipperChat.setRetryMethod { callOperations() }
         toolbarChat.setNavigationOnClickListener { findNavController().popBackStack() }
         messageInputChat.setOnSendClickListener { text ->
             viewModel.sendMessage(args.channelId, text)
@@ -88,6 +89,11 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 Timber.e(error.message)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        viewModel.disconnectChannel(args.channelId)
+        super.onDestroyView()
     }
 
     private fun setupAdapter(userId: String) {

@@ -27,6 +27,11 @@ class WebSocketService @Inject constructor(
         getOrCreateSocket(channelId)?.sendText(gson.toJson(messageParams))
     }
 
+    fun disconnectChatSocket(channelId: Int) {
+        getOrCreateSocket(channelId)?.disconnect()
+        currentWebSocket = null
+    }
+
     private fun getOrCreateSocket(channelId: Int): WebSocket? {
         if (currentWebSocket == null) {
             currentWebSocket = chatWebSocketFactory.create(channelId)

@@ -35,6 +35,10 @@ class ChannelsRepository @Inject constructor(
     }
 
     fun sendChannelMessage(channelId: Int, text: String) {
-        return webSocketService.sendChatMessage(channelId, MessageSendParams(text))
+        webSocketService.sendChatMessage(channelId, MessageSendParams(text))
+    }
+
+    fun disconnectChannel(channelId: Int) {
+        webSocketService.disconnectChatSocket(channelId)
     }
 }

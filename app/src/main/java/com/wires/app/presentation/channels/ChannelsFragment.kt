@@ -27,6 +27,7 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitTopInsetsWithPadding()
+        stateViewFlipperChannels.setRetryMethod { callOperations() }
         channelsAdapter = DialogsListAdapter<ChannelPreview> { imageView, url, _ ->
             imageView.load(url, isCircle = true)
         }.apply {
