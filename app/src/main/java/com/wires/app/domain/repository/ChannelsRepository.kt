@@ -1,24 +1,21 @@
 package com.wires.app.domain.repository
 
-import com.google.gson.Gson
 import com.wires.app.data.mapper.ChannelsMapper
 import com.wires.app.data.model.Channel
 import com.wires.app.data.model.ChannelPreview
 import com.wires.app.data.model.Message
 import com.wires.app.data.remote.WiresApiService
-import com.wires.app.data.remote.websocket.ChatWebSocketFactory
+import com.wires.app.data.remote.params.MessageSendParams
 import com.wires.app.data.remote.websocket.SocketEvent
-import com.wires.app.extensions.toSocketEventFlow
-import kotlinx.coroutines.Dispatchers
+import com.wires.app.data.remote.websocket.WebSocketService
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ChannelsRepository @Inject constructor(
     private val apiService: WiresApiService,
     private val channelsMapper: ChannelsMapper,
-    private val chatWebSocketFactory: ChatWebSocketFactory,
-    private val gson: Gson
+    private val webSocketService: WebSocketService
 ) {
 
     suspend fun getChannels(): List<ChannelPreview> {
@@ -33,15 +30,11 @@ class ChannelsRepository @Inject constructor(
         return apiService.getChannelMessages(channelId, limit, offset).data.map(channelsMapper::fromResponseToModel)
     }
 
-    suspend fun listenChannelMessages(channelId: Int): Flow<SocketEvent<Message>> {
-        return chatWebSocketFactory.create(channelId).apply {
-            withContext(Dispatchers.IO) { connect() }
-        }.toSocketEventFlow(gson, channelsMapper::fromResponseToModel)
+    fun listenChannelMessages(channelId: Int): Flow<SocketEvent<Message>> {
+        return webSocketService.listenChatSocket(channelId).map { it.transform(channelsMapper::fromResponseToModel) }
     }
-//
-//    fun sendChannelMessage(channelId: Int, text: String): Boolean {
-//        return chatServiceFactory
-//            .create("channel/$channelId")
-//            .sendMessage(text)
-//    }
+
+    fun sendChannelMessage(channelId: Int, text: String) {
+        return webSocketService.sendChatMessage(channelId, MessageSendParams(text))
+    }
 }

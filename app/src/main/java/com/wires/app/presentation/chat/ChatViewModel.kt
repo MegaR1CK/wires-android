@@ -2,7 +2,6 @@ package com.wires.app.presentation.chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Channel
 import com.wires.app.data.model.Message
@@ -11,10 +10,10 @@ import com.wires.app.data.remote.websocket.SocketEvent
 import com.wires.app.domain.usecase.channels.GetChannelMessagesUseCase
 import com.wires.app.domain.usecase.channels.GetChannelUseCase
 import com.wires.app.domain.usecase.channels.ListenChannelUseCase
+import com.wires.app.domain.usecase.channels.SendMessageUseCase
 import com.wires.app.domain.usecase.user.GetStoredUserUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChatViewModel @Inject constructor(
@@ -22,6 +21,7 @@ class ChatViewModel @Inject constructor(
     private val getChannelMessagesUseCase: GetChannelMessagesUseCase,
     private val getStoredUserUseCase: GetStoredUserUseCase,
     private val listenChannelUseCase: ListenChannelUseCase,
+    private val sendMessageUseCase: SendMessageUseCase
 ) : BaseViewModel() {
 
     private val _channelLiveData = MutableLiveData<LoadableResult<Channel>>()
@@ -53,21 +53,11 @@ class ChatViewModel @Inject constructor(
         )
     }
 
-    fun listenChannel(channelId: Int) = viewModelScope.launch {
+    fun listenChannel(channelId: Int) {
         _receiveMessageLiveEvent.launchSocketData(listenChannelUseCase.execute(ListenChannelUseCase.Params(channelId)))
     }
 
     fun sendMessage(channelId: Int, text: String) {
-//        _userLiveData.value?.getOrNull()?.let { user ->
-//            val message = Message(
-//                id = -1,
-//                author = user,
-//                sendTime = LocalDateTime.now(),
-//                messageText = text,
-//                isUnread = false
-//            )
-//            _sendMessageLiveEvent.launchLoadData { messagesRepository.sendMessage(channelId, message) }
-//            _displayMessageLiveEvent.postValue(message)
-//        }
+        _sendMessageLiveEvent.launchLoadData(sendMessageUseCase.executeLoadable(SendMessageUseCase.Params(channelId, text)))
     }
 }

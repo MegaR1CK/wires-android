@@ -70,4 +70,7 @@
     <string name="menu_label_feed">Feed</string>
     <string name="menu_label_messages">Messages</string>
     <string name="menu_label_profile">Profile</string>
+
+    <!-- LOG MESSAGES -->
+    <string name="open_socket_message">Socket channel %d opened</string>
 </resources>

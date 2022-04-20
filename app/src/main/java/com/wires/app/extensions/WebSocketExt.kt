@@ -10,13 +10,13 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.callbackFlow
 
-inline fun <reified T, R> WebSocket.toSocketEventFlow(gson: Gson, crossinline map: (R) -> T) = callbackFlow<SocketEvent<T>> {
+inline fun <reified T> WebSocket.toSocketEventFlow(gson: Gson) = callbackFlow<SocketEvent<T>> {
     addListener(object : WiresWebSocketListener {
         override fun onConnected(websocket: WebSocket?, headers: MutableMap<String, MutableList<String>>?) {
             trySendBlocking(SocketEvent.OpenEvent())
         }
         override fun onTextMessage(websocket: WebSocket?, text: String?) {
-            trySendBlocking(SocketEvent.Message(map(gson.fromJson<ObjectResponse<R>>(text.orEmpty()).data)))
+            trySendBlocking(SocketEvent.Message(gson.fromJson<ObjectResponse<T>>(text.orEmpty()).data))
         }
         override fun onError(websocket: WebSocket?, cause: WebSocketException?) {
             cause?.cause?.let { trySendBlocking(SocketEvent.Error(it)) }

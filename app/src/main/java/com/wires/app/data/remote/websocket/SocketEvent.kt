@@ -9,4 +9,19 @@ sealed class SocketEvent<T> {
     inline fun doOnMessage(block: (T) -> Unit) {
         if (this is Message) block(content)
     }
+
+    inline fun doOnOpen(block: () -> Unit) {
+        if (this is OpenEvent) block()
+    }
+
+    inline fun doOnError(block: (Throwable) -> Unit) {
+        if (this is Error) block(error)
+    }
+
+    fun <R> transform(operation: (T) -> R) = when (this) {
+        is OpenEvent -> OpenEvent()
+        is CloseEvent -> CloseEvent(code, reason)
+        is Error -> Error(error)
+        is Message -> Message(operation(content))
+    }
 }

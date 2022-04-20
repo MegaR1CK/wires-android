@@ -6,6 +6,8 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.stfalcon.chatkit.messages.MessagesListAdapter
 import com.wires.app.R
+import com.wires.app.data.LoadableResult
+import com.wires.app.data.model.Channel
 import com.wires.app.data.model.Message
 import com.wires.app.databinding.FragmentChatBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
@@ -32,6 +34,9 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             if (insets.getKeyboardInset() > 0) messagesListChat.smoothScrollToPosition(0)
         }
         toolbarChat.setNavigationOnClickListener { findNavController().popBackStack() }
+        messageInputChat.setOnSendClickListener { text ->
+            viewModel.sendMessage(args.channelId, text)
+        }
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -69,6 +74,11 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         receiveMessageLiveEvent.observe { result ->
+            result.doOnOpen { Timber.i(getString(R.string.open_socket_message, args.channelId)) }
+            result.doOnError { error ->
+                Timber.e(error)
+                binding.stateViewFlipperChat.setStateFromResult(LoadableResult.failure<Channel>(error))
+            }
             result.doOnMessage { message -> messagesAdapter.addToStart(message, true) }
         }
 
