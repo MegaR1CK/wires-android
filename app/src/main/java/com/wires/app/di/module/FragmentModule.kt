@@ -8,6 +8,7 @@ import com.wires.app.presentation.feed.feedchild.FeedChildFragment
 import com.wires.app.presentation.login.LoginFragment
 import com.wires.app.presentation.onboarding.OnboardingFragment
 import com.wires.app.presentation.post.PostFragment
+import com.wires.app.presentation.profile.ProfileFragment
 import com.wires.app.presentation.register.RegisterFragment
 import com.wires.app.presentation.splash.SplashFragment
 import dagger.Module
@@ -45,4 +46,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun chatFragment(): ChatFragment
+
+    @ContributesAndroidInjector
+    abstract fun profileFragment(): ProfileFragment
 }

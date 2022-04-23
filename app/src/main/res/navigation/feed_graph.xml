@@ -12,8 +12,8 @@
         tools:layout="@layout/fragment_feed">
 
         <action
-            android:id="@+id/action_feedFragment_to_postFragment"
-            app:destination="@id/postFragment">
+            android:id="@+id/action_feedFragment_to_post_graph"
+            app:destination="@id/post_graph">
 
             <argument
                 android:name="postId"
@@ -23,17 +23,15 @@
         <action
             android:id="@+id/action_feedFragment_to_createPostFragment"
             app:destination="@id/createPostFragment" />
-    </fragment>
 
-    <fragment
-        android:id="@+id/postFragment"
-        android:name="com.wires.app.presentation.post.PostFragment"
-        android:label="PostFragment"
-        tools:layout="@layout/fragment_post">
+        <action
+            android:id="@+id/action_feedFragment_to_profile_graph"
+            app:destination="@id/profile_graph">
 
-        <argument
-            android:name="postId"
-            app:argType="integer" />
+            <argument
+                android:name="userId"
+                app:argType="integer" />
+        </action>
     </fragment>
 
     <fragment

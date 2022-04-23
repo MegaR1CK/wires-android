@@ -14,6 +14,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
 
         <item name="textColorPrimary">@color/primary_black</item>
+        <item name="textColorSecondary">@color/darkest_gray</item>
         <item name="textColorTitle">@color/blue</item>
         <item name="textColorSubtitle">@color/dark_blue</item>
         <item name="errorColor">@color/red</item>
@@ -27,7 +28,7 @@
         <item name="dividerColor">@color/semi_gray</item>
         <item name="colorToolbarIcons">@color/primary_black</item>
 
-        <item name="colorImagePlaceholder">@color/gray</item>
+        <item name="colorImagePlaceholder">@color/semi_gray</item>
 
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

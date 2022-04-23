@@ -9,7 +9,7 @@ data class User(
     val lastName: String?,
     val email: String,
     val avatar: Image?,
-    val interests: List<UserInterest>?
+    val interests: List<UserInterest>
 ) : IUser {
     override fun getId() = id.toString()
     override fun getName() = if (firstName != null && lastName != null) "$firstName $lastName" else username

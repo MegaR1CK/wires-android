@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wires.app.presentation.views.StateViewFlipper
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stateViewFlipperProfile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayoutProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayoutProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbarLayoutProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?colorSurface"
+                android:paddingBottom="8dp"
+                app:contentScrim="?colorSurface"
+                app:titleEnabled="false"
+                app:scrimVisibleHeightTrigger="145dp"
+                app:scrimAnimationDuration="0"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/profile_background_height"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_profile" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imageViewPostAuthorAvatar"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="55dp"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <TextView
+                        android:id="@+id/textViewPostName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:textAppearance="@style/FontStyle.Body.Bold"
+                        tools:text="John Smith" />
+
+                    <TextView
+                        android:id="@+id/textViewPostUsername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textAppearance="@style/FontStyle.Small"
+                        android:textColor="?textColorSecondary"
+                        tools:text="\@username" />
+
+                    <TextView
+                        android:id="@+id/textViewPostInterests"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textAppearance="@style/FontStyle.Small"
+                        tools:text="Interests: Android development" />
+
+                </LinearLayout>
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbarProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:contentInsetEnd="@dimen/padding_16"
+                    app:titleTextColor="?textColorOnContrast"
+                    app:navigationIcon="@drawable/ic_arrow_back"
+                    app:navigationIconTint="?iconColorOnContrast"
+                    app:layout_collapseMode="pin">
+
+                    <ImageButton
+                        android:id="@+id/buttonProfileSettings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/bg_circle_ripple"
+                        android:src="@drawable/ic_settings"
+                        android:padding="8dp"
+                        app:tint="?iconColorOnContrast" />
+
+                    <ImageButton
+                        android:id="@+id/buttonProfileEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:background="@drawable/bg_circle_ripple"
+                        android:src="@drawable/ic_edit"
+                        android:padding="8dp"
+                        app:tint="?iconColorOnContrast" />
+
+                </com.google.android.material.appbar.MaterialToolbar>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="?dividerColor" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewProfilePosts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_post" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.wires.app.presentation.views.StateViewFlipper>

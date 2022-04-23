@@ -4,6 +4,8 @@
 
     <string name="share">Share</string>
     <string name="refresh">Refresh</string>
+    <string name="user_full_name">%s %s</string>
+
 
     <!-- DATES -->
     <string name="date_relative_less_minute">less than a minute ago</string>
@@ -33,7 +35,6 @@
     <!-- FEED -->
     <string name="feed_title">Hello, %s</string>
     <string name="feed_first_tab_text">For you</string>
-    <string name="feed_post_author_name">%s %s</string>
 
     <!-- POST -->
     <string name="post_title">Post comments</string>
@@ -52,6 +53,10 @@
 
     <!-- CHAT -->
     <string name="chat_message_input_hint">Enter a message</string>
+
+    <!-- PROFILE -->
+    <string name="profile_interests_text">Interests: %s&#160;</string>
+    <string name="profile_username_text">\@%s</string>
 
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>

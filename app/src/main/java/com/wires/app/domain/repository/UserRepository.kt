@@ -26,4 +26,8 @@ class UserRepository @Inject constructor(
     suspend fun getCurrentUser(): User {
         return userMapper.fromResponseToModel(apiService.getCurrentUser().data)
     }
+
+    suspend fun getUser(userId: Int): User {
+        return userMapper.fromResponseToModel(apiService.getUser(userId).data)
+    }
 }

@@ -106,12 +106,15 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
                 Timber.e(error.message)
             }
         }
+        openProfileLiveEvent.observe { userId ->
+            findNavController().navigate(PostFragmentDirections.actionPostFragmentToProfileGraph(userId))
+        }
     }
 
     private fun bindPost(post: Post) = with(binding.viewPost) {
         if (!post.author.firstName.isNullOrEmpty() && !post.author.lastName.isNullOrEmpty()) {
             textViewPostAuthor.text = requireContext().getString(
-                R.string.feed_post_author_name,
+                R.string.user_full_name,
                 post.author.firstName,
                 post.author.lastName
             )
@@ -131,5 +134,6 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         }
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
+        constraintLayoutPostAuthor.setOnClickListener { viewModel.openProfile(post.author.id) }
     }
 }

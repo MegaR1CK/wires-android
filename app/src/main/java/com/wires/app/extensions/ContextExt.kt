@@ -18,12 +18,9 @@ fun Context.getDrawableCompat(@DrawableRes drawableRes: Int): Drawable? {
 }
 
 fun Context.resolveAttribute(@AttrRes attrRes: Int): Int {
-    val tv = TypedValue()
-    return if (theme.resolveAttribute(attrRes, tv, true)) {
-        TypedValue.complexToDimensionPixelSize(tv.data, resources.displayMetrics)
-    } else {
-        0
-    }
+    val outValue = TypedValue()
+    theme.resolveAttribute(attrRes, outValue, true)
+    return outValue.resourceId
 }
 
 fun Context.getColorAttribute(attrRes: Int): Int {

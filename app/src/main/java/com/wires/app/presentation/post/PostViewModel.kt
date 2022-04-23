@@ -32,6 +32,9 @@ class PostViewModel @Inject constructor(
     private val _addCommentLiveEvent = SingleLiveEvent<LoadableResult<Unit>>()
     val addCommentLiveEvent: LiveData<LoadableResult<Unit>> = _addCommentLiveEvent
 
+    private val _openProfileLiveEvent = SingleLiveEvent<Int>()
+    val openProfileLiveEvent: LiveData<Int> = _openProfileLiveEvent
+
     fun getPost(postId: Int) {
         _postLiveData.launchLoadData(getPostUseCase.executeLoadable(GetPostUseCase.Params(postId)))
     }
@@ -46,5 +49,9 @@ class PostViewModel @Inject constructor(
 
     fun bindPagingState(state: CombinedLoadStates) {
         _commentsStateLiveData.bindPagingState(state)
+    }
+
+    fun openProfile(userId: Int) {
+        _openProfileLiveEvent.postValue(userId)
     }
 }

@@ -75,7 +75,11 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
         }
 
         openPostLiveEvent.observe { postId ->
-            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostFragment(postId))
+            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostGraph(postId))
+        }
+
+        openProfileLiveEvent.observe { userId ->
+            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToProfileGraph(userId))
         }
     }
 
@@ -89,6 +93,7 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
     private fun setupPostsList() = with(binding.recyclerViewFeedChildPosts) {
         adapter = postsAdapter.apply {
             onPostClick = viewModel::openPost
+            onAuthorClick = viewModel::openProfile
             addLoadStateListener(viewModel::bindLoadingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { postsAdapter.retry() })
         addVerticalDividerItemDecoration()

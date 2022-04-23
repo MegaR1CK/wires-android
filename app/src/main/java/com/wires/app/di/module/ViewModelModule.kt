@@ -12,6 +12,7 @@ import com.wires.app.presentation.feed.feedchild.FeedChildViewModel
 import com.wires.app.presentation.login.LoginViewModel
 import com.wires.app.presentation.onboarding.OnboardingViewModel
 import com.wires.app.presentation.post.PostViewModel
+import com.wires.app.presentation.profile.ProfileViewModel
 import com.wires.app.presentation.register.RegisterViewModel
 import com.wires.app.presentation.splash.SplashViewModel
 import dagger.Binds
@@ -73,4 +74,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ChatViewModel::class)
     abstract fun chatViewModel(viewModel: ChatViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    abstract fun profileViewModel(viewModel: ProfileViewModel): ViewModel
 }

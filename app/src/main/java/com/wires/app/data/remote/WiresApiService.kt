@@ -33,6 +33,9 @@ interface WiresApiService {
     @GET("user")
     suspend fun getCurrentUser(): ObjectResponse<UserResponse>
 
+    @GET("user/{id}")
+    suspend fun getUser(@Path("id") userId: Int): ObjectResponse<UserResponse>
+
     @GET("posts")
     suspend fun getPostsCompilation(
         @Query("topic") topic: String?,
@@ -72,4 +75,11 @@ interface WiresApiService {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
     ): ListResponse<MessageResponse>
+
+    @GET("user/{id}/posts")
+    suspend fun getUserPosts(
+        @Path("id") userId: Int,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): ListResponse<PostResponse>
 }

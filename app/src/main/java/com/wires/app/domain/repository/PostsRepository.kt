@@ -13,6 +13,7 @@ import com.wires.app.domain.paging.createPager
 import com.wires.app.extensions.toMultipartPart
 import com.wires.app.presentation.feed.feedchild.FeedPagingSource
 import com.wires.app.presentation.post.CommentsPagingSource
+import com.wires.app.presentation.profile.UserPostsPagingSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -59,5 +60,13 @@ class PostsRepository @Inject constructor(
 
     suspend fun commentPost(postId: Int, text: String) {
         apiService.commentPost(postId, CommentAddParams(text))
+    }
+
+    suspend fun getUserPosts(userId: Int, limit: Int, offset: Int): List<Post> {
+        return apiService.getUserPosts(userId, limit, offset).data.map(postsMapper::fromResponseToModel)
+    }
+
+    fun getUserPostsFlow(userId: Int): Flow<PagingData<Post>> {
+        return createPager(UserPostsPagingSource(this, userId)).flow
     }
 }

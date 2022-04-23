@@ -16,4 +16,6 @@
 
     <dimen name="feed_tab_spacing">22dp</dimen>
     <dimen name="feed_post_spacing">4dp</dimen>
+
+    <dimen name="profile_background_height">220dp</dimen>
 </resources>

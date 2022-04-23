@@ -15,10 +15,14 @@ class PostsAdapter @Inject constructor(
 ) : PagingDataAdapter<Post, PostViewHolder>(diffUtilItemCallbackFactory.create()) {
 
     var onPostClick: (Int) -> Unit = {}
+    var onAuthorClick: (Int) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return PostViewHolder(
-            ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false), onPostClick, dateFormatter
+            ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            onPostClick,
+            onAuthorClick,
+            dateFormatter
         )
     }
 

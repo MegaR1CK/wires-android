@@ -25,6 +25,9 @@ class FeedChildViewModel @Inject constructor(
     private val _openPostLiveEvent = SingleLiveEvent<Int>()
     val openPostLiveEvent: LiveData<Int> = _openPostLiveEvent
 
+    private val _openProfileLiveEvent = SingleLiveEvent<Int>()
+    val openProfileLiveEvent: LiveData<Int> = _openProfileLiveEvent
+
     fun getPosts(interest: UserInterest? = null) {
         _postsLiveData.launchPagingData(getFeedUseCase.execute(GetFeedUseCase.Params(interest)))
     }
@@ -35,5 +38,9 @@ class FeedChildViewModel @Inject constructor(
 
     fun openPost(postId: Int) {
         _openPostLiveEvent.postValue(postId)
+    }
+
+    fun openProfile(userId: Int) {
+        _openProfileLiveEvent.postValue(userId)
     }
 }

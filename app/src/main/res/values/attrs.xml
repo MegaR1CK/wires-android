@@ -11,6 +11,7 @@
     </declare-styleable>
 
     <attr name="textColorPrimary" format="reference|color" />
+    <attr name="textColorSecondary" format="reference|color" />
     <attr name="textColorTitle" format="reference|color" />
     <attr name="textColorSubtitle" format="reference|color" />
 

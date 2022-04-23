@@ -20,7 +20,7 @@ class CommentViewHolder(
         )
         if (!comment.author.firstName.isNullOrEmpty() && !comment.author.lastName.isNullOrEmpty()) {
             textViewCommentAuthorName.text = itemView.context.getString(
-                R.string.feed_post_author_name,
+                R.string.user_full_name,
                 comment.author.firstName,
                 comment.author.lastName
             )

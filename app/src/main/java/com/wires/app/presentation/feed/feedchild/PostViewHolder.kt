@@ -1,5 +1,6 @@
 package com.wires.app.presentation.feed.feedchild
 
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.wires.app.R
 import com.wires.app.data.model.Post
@@ -11,6 +12,7 @@ import com.wires.app.managers.DateFormatter
 class PostViewHolder(
     private val itemBinding: ItemPostBinding,
     private val onItemClick: (Int) -> Unit,
+    private val onAuthorClick: (Int) -> Unit,
     private val dateFormatter: DateFormatter
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
@@ -18,7 +20,7 @@ class PostViewHolder(
         val context = itemView.context
         if (!post.author.firstName.isNullOrEmpty() && !post.author.lastName.isNullOrEmpty()) {
             textViewPostAuthor.text = context.getString(
-                R.string.feed_post_author_name,
+                R.string.user_full_name,
                 post.author.firstName,
                 post.author.lastName
             )
@@ -33,12 +35,16 @@ class PostViewHolder(
             isCircle = true
         )
         textViewPostBody.text = post.text
+        imageViewPostImage.isVisible = post.image != null
         post.image?.let { image ->
             imageViewPostImage.countViewHeight(image.size.width, image.size.height)
             imageViewPostImage.load(image.url)
+        } ?: run {
+            imageViewPostImage.setImageDrawable(null)
         }
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
         root.setOnClickListener { onItemClick.invoke(post.id) }
+        constraintLayoutPostAuthor.setOnClickListener { onAuthorClick.invoke(post.author.id) }
     }
 }
