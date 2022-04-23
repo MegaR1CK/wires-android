@@ -21,4 +21,6 @@ fun TextInputEditText.setErrorResetHandler(inputLayout: TextInputLayout) {
 
 fun TextInputEditText.getInputText() = text.toString()
 
+fun TextInputEditText.getInputTextOrNull() = getInputText().takeIf { it.isNotBlank() }
+
 fun EditText.getInputText() = text.toString()

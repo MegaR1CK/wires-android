@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayoutEditProfile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarEditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorSurface"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="?colorToolbarIcons"
+            app:title="@string/edit_profile_title">
+
+            <ImageButton
+                android:id="@+id/buttonEditProfileDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/margin_8"
+                android:background="@drawable/bg_circle_ripple"
+                android:src="@drawable/ic_done"
+                android:padding="8dp"
+                android:visibility="gone"
+                app:tint="?colorToolbarIcons"
+                tools:visibility="visible" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressIndicatorEditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="-7dp"
+            android:indeterminate="true"
+            android:progressTint="?colorPrimary"
+            android:visibility="gone" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.wires.app.presentation.views.StateViewFlipper
+        android:id="@+id/stateViewFlipperEditProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollViewEditProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/padding_24">
+
+                <ImageView
+                    android:id="@+id/imageViewEditProfileAvatar"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_gravity="center"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutEditProfileFirstName"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextEditProfileFirstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/edit_profile_first_name_hint"
+                        android:inputType="textEmailAddress"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutEditProfileLastName"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextEditProfileLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/edit_profile_last_name_hint"
+                        android:inputType="textEmailAddress"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutEditProfileUsername"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextEditProfileUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/username_hint"
+                        android:inputType="textEmailAddress"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayoutEditProfileEmail"
+                    style="@style/TextInputStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextEditProfileEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_hint"
+                        android:inputType="textEmailAddress"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/edit_profile_interests_title"
+                    android:textAppearance="@style/FontStyle.Small.Bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewEditProfileInterests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    tools:listitem="@layout/view_topic_chip"
+                    tools:itemCount="5"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.wires.app.presentation.views.StateViewFlipper>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

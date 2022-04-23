@@ -4,6 +4,7 @@ import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import com.wires.app.R
+import com.wires.app.presentation.views.FlexboxSpaceItemDecoration
 import com.wires.app.presentation.views.GridSpaceItemDecoration
 import com.wires.app.presentation.views.LinearSpaceItemDecoration
 import com.wires.app.presentation.views.VerticalDividerItemDecoration
@@ -62,4 +63,9 @@ fun RecyclerView.addVerticalDividerItemDecoration(
             )
         )
     }
+}
+
+fun RecyclerView.addFlexboxSpaceItemDecoration(@DimenRes spacing: Int) {
+    val itemSpacing = resources.getDimensionPixelSize(spacing)
+    addItemDecoration(FlexboxSpaceItemDecoration(itemSpacing, itemSpacing))
 }

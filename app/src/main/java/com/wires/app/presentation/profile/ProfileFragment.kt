@@ -2,6 +2,7 @@ package com.wires.app.presentation.profile
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -15,6 +16,7 @@ import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.load
 import com.wires.app.presentation.base.BaseFragment
+import com.wires.app.presentation.edituser.EditUserFragment
 import com.wires.app.presentation.feed.feedchild.PostsAdapter
 import timber.log.Timber
 import java.util.Locale
@@ -38,8 +40,12 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         appBarLayoutProfile.fitTopInsetsWithPadding()
         toolbarProfile.setNavigationOnClickListener { findNavController().popBackStack() }
         stateViewFlipperProfile.setRetryMethod { callOperations() }
+        buttonProfileEdit.setOnClickListener { viewModel.openEditUser() }
         setupAppbar()
         setupPostsList()
+        setFragmentResultListener(EditUserFragment.USER_UPDATED_RESULT_KEY) { _, _ ->
+            callOperations()
+        }
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -67,10 +73,13 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         openProfileLiveEvent.observe { userId ->
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToProfileGraph(userId))
         }
+        openEditUserLiveEvent.observe {
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToEditUserFragment())
+        }
     }
 
     private fun setupUser(user: User) = with(binding) {
-        imageViewPostAuthorAvatar.load(
+        imageViewProfileAvatar.load(
             imageUrl = user.avatar?.url,
             placeHolderRes = R.drawable.ic_avatar_placeholder_inv,
             isCircle = true
@@ -82,7 +91,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         }
         textViewPostUsername.text = getString(R.string.profile_username_text, user.username).lowercase(Locale.getDefault())
         if (user.interests.isNotEmpty()) {
-            textViewPostInterests.text = getString(R.string.profile_interests_text, user.interests.joinToString())
+            textViewPostInterests.isVisible = true
+            textViewPostInterests.text =
+                getString(R.string.profile_interests_text, user.interests.sorted().joinToString { it.value })
         } else {
             textViewPostInterests.isVisible = false
         }
@@ -108,6 +119,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 val lightMode = verticalOffset < -resources.getDimensionPixelSize(R.dimen.profile_background_height) / 2
                 val requiredColor = requireContext()
                     .getColorAttribute(if (lightMode) R.attr.colorOnSurface else R.attr.iconColorOnContrast)
+                collapsingToolbarLayoutProfile.setScrimsShown(lightMode)
                 buttonProfileEdit.setColorFilter(requiredColor)
                 buttonProfileSettings.setColorFilter(requiredColor)
                 with(toolbarProfile) {

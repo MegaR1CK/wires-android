@@ -32,7 +32,7 @@ class PostsRepository @Inject constructor(
 
     suspend fun getPostsCompilation(interest: UserInterest?, limit: Int, offset: Int): List<Post> {
         delay(2000)
-        return apiService.getPostsCompilation(interest?.value, limit, offset).data.map { postsMapper.fromResponseToModel(it) }
+        return apiService.getPostsCompilation(interest?.name, limit, offset).data.map { postsMapper.fromResponseToModel(it) }
     }
 
     fun getPostsFlow(interest: UserInterest?): Flow<PagingData<Post>> {
@@ -41,7 +41,7 @@ class PostsRepository @Inject constructor(
 
     suspend fun createPost(text: String, topic: UserInterest, imagePath: String?) {
         apiService.createPost(
-            gson.toJson(PostCreateParams(text, topic.value)).toRequestBody(),
+            gson.toJson(PostCreateParams(text, topic.name)).toRequestBody(),
             imagePath?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
         )
     }

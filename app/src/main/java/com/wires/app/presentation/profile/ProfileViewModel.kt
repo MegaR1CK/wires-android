@@ -35,6 +35,9 @@ class ProfileViewModel @Inject constructor(
     private val _openProfileLiveEvent = SingleLiveEvent<Int>()
     val openProfileLiveEvent: LiveData<Int> = _openProfileLiveEvent
 
+    private val _openEditUserLiveEvent = SingleLiveEvent<Unit>()
+    val openEditUserLiveEvent: LiveData<Unit> = _openEditUserLiveEvent
+
     private val _currentUserLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
 
     val isCurrentUserProfile: Boolean
@@ -66,5 +69,9 @@ class ProfileViewModel @Inject constructor(
 
     fun openProfile(userId: Int) {
         _openProfileLiveEvent.postValue(userId)
+    }
+
+    fun openEditUser() {
+        _openEditUserLiveEvent.postValue(Unit)
     }
 }

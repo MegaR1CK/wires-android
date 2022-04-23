@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.wires.app.R
 import com.wires.app.data.model.UserInterest
-import com.wires.app.databinding.ViewFeedTabBinding
+import com.wires.app.databinding.ViewTopicChipBinding
 
 class FeedPagerAdapter(
     private val fragment: Fragment,
@@ -21,7 +21,7 @@ class FeedPagerAdapter(
     override fun createFragment(position: Int): Fragment = createFragment.invoke(position)
 
     fun getTabView(position: Int): View {
-        val tabBinding = ViewFeedTabBinding.inflate(fragment.layoutInflater)
+        val tabBinding = ViewTopicChipBinding.inflate(fragment.layoutInflater)
         tabBinding.textViewTab.text = when {
             userInterests.isEmpty() -> interests[position].value
             else -> if (position == 0) fragment.getString(R.string.feed_first_tab_text) else interests[position - 1].value

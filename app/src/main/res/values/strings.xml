@@ -58,13 +58,22 @@
     <string name="profile_interests_text">Interests: %s&#160;</string>
     <string name="profile_username_text">\@%s</string>
 
+    <!-- EDIT PROFILE -->
+    <string name="edit_profile_title">Edit personal data</string>
+    <string name="edit_profile_first_name_hint">First name</string>
+    <string name="edit_profile_last_name_hint">Last name</string>
+    <string name="edit_profile_interests_title">Interests</string>
+
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>
     <string name="error_incorrect_email">Incorrect e-mail!</string>
-    <string name="error_short_password">Password must contain at least 8 symbols!</string>
+    <string name="error_length_password">Password must contain from 8 to 24 symbols!</string>
     <string name="error_weak_password">Password must contain uppercase and lowercase letters and numbers!</string>
     <string name="error_different_passwords">Passwords don\'t match!</string>
-    <string name="error_incorrect_username">Username may contain only letters, numbers and whitespaces!</string>
+    <string name="error_incorrect_username">Username may contain only letters, numbers and underscores!</string>
+    <string name="error_length_username">Username must contain from 3 to 24 symbols!</string>
+    <string name="error_length_name">Name must contain from 2 to 16 symbols!</string>
+    <string name="error_incorrect_name">Name may contain only letters!</string>
     <string name="error_no_network_title">Connection error!</string>
     <string name="error_no_network_description">Please, check your connection and refresh the page</string>
     <string name="error_something_wrong_title">Something went wrong!</string>

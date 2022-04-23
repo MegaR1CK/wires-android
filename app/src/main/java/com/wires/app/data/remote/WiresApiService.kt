@@ -18,6 +18,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -35,6 +36,13 @@ interface WiresApiService {
 
     @GET("user/{id}")
     suspend fun getUser(@Path("id") userId: Int): ObjectResponse<UserResponse>
+
+    @Multipart
+    @PUT("user/update")
+    suspend fun updateUser(
+        @Part("update_params") updateParams: RequestBody,
+        @Part avatar: MultipartBody.Part?
+    ): ObjectResponse<Unit>
 
     @GET("posts")
     suspend fun getPostsCompilation(
@@ -60,7 +68,7 @@ interface WiresApiService {
     @POST("posts/create")
     suspend fun createPost(
         @Part("create_params") createParams: RequestBody,
-        @Part avatar: MultipartBody.Part?
+        @Part image: MultipartBody.Part?
     ): ObjectResponse<Unit>
 
     @GET("channels")

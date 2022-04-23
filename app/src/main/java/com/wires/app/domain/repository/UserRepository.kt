@@ -1,18 +1,30 @@
 package com.wires.app.domain.repository
 
+import com.google.gson.Gson
 import com.wires.app.data.database.LocalStorage
 import com.wires.app.data.mapper.UserMapper
 import com.wires.app.data.model.User
+import com.wires.app.data.model.UserInterest
 import com.wires.app.data.preferences.PreferenceStorage
 import com.wires.app.data.remote.WiresApiService
+import com.wires.app.data.remote.params.UserUpdateParams
+import com.wires.app.extensions.toMultipartPart
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
     preferenceStorage: PreferenceStorage,
     private val apiService: WiresApiService,
     private val localStorage: LocalStorage,
-    private val userMapper: UserMapper
+    private val userMapper: UserMapper,
+    private val gson: Gson
 ) {
+
+    companion object {
+        private const val AVATAR_PART_NAME = "avatar"
+    }
+
     val isSignedIn = !preferenceStorage.accessToken.isNullOrEmpty()
 
     fun getStoredUser(): User? {
@@ -29,5 +41,19 @@ class UserRepository @Inject constructor(
 
     suspend fun getUser(userId: Int): User {
         return userMapper.fromResponseToModel(apiService.getUser(userId).data)
+    }
+
+    suspend fun updateUser(
+        firstName: String?,
+        lastName: String?,
+        email: String?,
+        username: String?,
+        interests: List<UserInterest>,
+        avatarPath: String?
+    ) {
+        apiService.updateUser(
+            gson.toJson(UserUpdateParams(username, email, firstName, lastName, interests)).toRequestBody(),
+            avatarPath?.let { File(it).toMultipartPart(AVATAR_PART_NAME) }
+        )
     }
 }

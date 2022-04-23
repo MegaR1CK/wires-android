@@ -25,7 +25,6 @@
                 android:paddingBottom="8dp"
                 app:contentScrim="?colorSurface"
                 app:titleEnabled="false"
-                app:scrimVisibleHeightTrigger="145dp"
                 app:scrimAnimationDuration="0"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -42,7 +41,7 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/imageViewPostAuthorAvatar"
+                        android:id="@+id/imageViewProfileAvatar"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginTop="55dp"

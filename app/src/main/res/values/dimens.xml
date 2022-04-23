@@ -18,4 +18,6 @@
     <dimen name="feed_post_spacing">4dp</dimen>
 
     <dimen name="profile_background_height">220dp</dimen>
+
+    <dimen name="interests_list_spacing">8dp</dimen>
 </resources>

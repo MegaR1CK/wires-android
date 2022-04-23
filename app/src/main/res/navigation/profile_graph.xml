@@ -33,5 +33,15 @@
                 android:name="userId"
                 app:argType="integer" />
         </action>
+
+        <action
+            android:id="@+id/action_profileFragment_to_editUserFragment"
+            app:destination="@id/editUserFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/editUserFragment"
+        android:name="com.wires.app.presentation.edituser.EditUserFragment"
+        android:label="EditUserFragment"
+        tools:layout="@layout/fragment_edit_user" />
 </navigation>
