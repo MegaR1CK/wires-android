@@ -10,6 +10,26 @@
         <attr name="inputHint" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="ValidationTextInput">
+        <attr name="fieldHint" format="string" />
+        <attr name="lengthErrorText" format="string" />
+        <attr name="patternErrorText" format="string" />
+        <attr name="additionalValidationErrorText" format="string" />
+        <attr name="validationPattern" format="string" />
+        <attr name="minTextLength" format="integer" />
+        <attr name="maxTextLength" format="integer" />
+        <attr name="canBeEmpty" format="boolean" />
+        <attr name="fieldImeOptions" format="enum">
+            <enum name="actionNext" value="0" />
+            <enum name="actionDone" value="1" />
+        </attr>
+        <attr name="fieldInputType" format="enum">
+            <enum name="text" value="0" />
+            <enum name="email" value="1" />
+            <enum name="textPassword" value="2"/>
+        </attr>
+    </declare-styleable>
+
     <attr name="textColorPrimary" format="reference|color" />
     <attr name="textColorSecondary" format="reference|color" />
     <attr name="textColorTitle" format="reference|color" />

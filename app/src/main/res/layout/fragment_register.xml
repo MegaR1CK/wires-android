@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -32,73 +33,54 @@
                 android:text="@string/register_title"
                 android:textAppearance="@style/FontStyle.Headline5.Bold" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutRegisterUsername"
-                style="@style/TextInputStyle"
+           <com.wires.app.presentation.views.ValidationTextInput
+               android:id="@+id/inputRegisterUsername"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="20dp"
+               app:fieldHint="@string/username_hint"
+               app:fieldInputType="text"
+               app:fieldImeOptions="actionNext"
+               app:lengthErrorText="@string/error_length_username"
+               app:minTextLength="3"
+               app:maxTextLength="24"
+               app:validationPattern="^[a-zA-Z0-9_]*$"
+               app:patternErrorText="@string/error_incorrect_username" />
+
+            <com.wires.app.presentation.views.ValidationTextInput
+                android:id="@+id/inputRegisterEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="10dp"
+                app:fieldHint="@string/email_hint"
+                app:fieldInputType="email"
+                app:fieldImeOptions="actionNext"
+                app:patternErrorText="@string/error_incorrect_email" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextRegisterUsername"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/username_hint"
-                    android:inputType="text"
-                    android:imeOptions="actionNext" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutRegisterEmail"
-                style="@style/TextInputStyle"
+            <com.wires.app.presentation.views.ValidationTextInput
+                android:id="@+id/inputRegisterPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                app:fieldHint="@string/password_hint"
+                app:fieldInputType="textPassword"
+                app:fieldImeOptions="actionNext"
+                app:minTextLength="8"
+                app:maxTextLength="24"
+                app:lengthErrorText="@string/error_length_password"
+                app:validationPattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$"
+                app:patternErrorText="@string/error_weak_password"
+                app:additionalValidationErrorText="@string/error_different_passwords" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextRegisterEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/email_hint"
-                    android:inputType="textEmailAddress"
-                    android:imeOptions="actionNext" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutRegisterPassword"
-                style="@style/TextInputStyle"
+            <com.wires.app.presentation.views.ValidationTextInput
+                android:id="@+id/inputRegisterConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextRegisterPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/password_hint"
-                    android:inputType="textPassword"
-                    android:imeOptions="actionNext" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutRegisterPasswordRepeat"
-                style="@style/TextInputStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextRegisterPasswordRepeat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/confirm_password_hint"
-                    android:inputType="textPassword"
-                    android:imeOptions="actionDone" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="10dp"
+                app:fieldHint="@string/confirm_password_hint"
+                app:fieldInputType="textPassword"
+                app:fieldImeOptions="actionDone"
+                app:additionalValidationErrorText="@string/error_different_passwords" />
 
             <com.wires.app.presentation.views.StatefulMaterialButton
                 android:id="@+id/buttonRegister"

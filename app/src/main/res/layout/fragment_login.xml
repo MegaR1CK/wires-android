@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayoutLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -34,39 +35,22 @@
                 android:text="@string/login_title"
                 android:textAppearance="@style/FontStyle.Headline5.Bold" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutLoginEmail"
-                style="@style/TextInputStyle"
+            <com.wires.app.presentation.views.ValidationTextInput
+                android:id="@+id/inputLoginEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                app:fieldHint="@string/email_hint"
+                app:fieldImeOptions="actionNext"
+                app:fieldInputType="email" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextLoginEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/email_hint"
-                    android:inputType="textEmailAddress"
-                    android:imeOptions="actionNext" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutLoginPassword"
-                style="@style/TextInputStyle"
+            <com.wires.app.presentation.views.ValidationTextInput
+                android:id="@+id/inputLoginPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextLoginPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/password_hint"
-                    android:inputType="textPassword"
-                    android:imeOptions="actionDone"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:fieldHint="@string/password_hint"
+                app:fieldImeOptions="actionDone"
+                app:fieldInputType="textPassword" />
 
             <com.wires.app.presentation.views.StatefulMaterialButton
                 android:id="@+id/buttonLogin"

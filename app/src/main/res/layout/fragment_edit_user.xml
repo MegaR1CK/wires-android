@@ -71,73 +71,56 @@
                     android:layout_gravity="center"
                     tools:srcCompat="@tools:sample/avatars" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputLayoutEditProfileFirstName"
-                    style="@style/TextInputStyle"
+                <com.wires.app.presentation.views.ValidationTextInput
+                    android:id="@+id/inputEditProfileFirstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="20dp"
+                    app:fieldHint="@string/edit_profile_first_name_hint"
+                    app:fieldInputType="text"
+                    app:fieldImeOptions="actionNext"
+                    app:lengthErrorText="@string/error_length_name"
+                    app:minTextLength="2"
+                    app:maxTextLength="16"
+                    app:validationPattern="^[a-zA-Zа-яА-Я]*$"
+                    app:patternErrorText="@string/error_incorrect_name"
+                    app:canBeEmpty="true" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextEditProfileFirstName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/edit_profile_first_name_hint"
-                        android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputLayoutEditProfileLastName"
-                    style="@style/TextInputStyle"
+                <com.wires.app.presentation.views.ValidationTextInput
+                    android:id="@+id/inputEditProfileLastName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
+                    app:fieldHint="@string/edit_profile_last_name_hint"
+                    app:fieldInputType="text"
+                    app:fieldImeOptions="actionNext"
+                    app:lengthErrorText="@string/error_length_name"
+                    app:minTextLength="2"
+                    app:maxTextLength="16"
+                    app:validationPattern="^[a-zA-Zа-яА-Я]*$"
+                    app:patternErrorText="@string/error_incorrect_name"
+                    app:canBeEmpty="true" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextEditProfileLastName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/edit_profile_last_name_hint"
-                        android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputLayoutEditProfileUsername"
-                    style="@style/TextInputStyle"
+                <com.wires.app.presentation.views.ValidationTextInput
+                    android:id="@+id/inputEditProfileUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
+                    app:fieldHint="@string/username_hint"
+                    app:fieldInputType="text"
+                    app:fieldImeOptions="actionNext"
+                    app:lengthErrorText="@string/error_length_username"
+                    app:minTextLength="3"
+                    app:maxTextLength="24"
+                    app:validationPattern="^[a-zA-Z0-9_]*$"
+                    app:patternErrorText="@string/error_incorrect_username" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextEditProfileUsername"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/username_hint"
-                        android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputLayoutEditProfileEmail"
-                    style="@style/TextInputStyle"
+                <com.wires.app.presentation.views.ValidationTextInput
+                    android:id="@+id/inputEditProfileEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTextEditProfileEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/email_hint"
-                        android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:fieldHint="@string/email_hint"
+                    app:fieldInputType="email"
+                    app:fieldImeOptions="actionNext"
+                    app:patternErrorText="@string/error_incorrect_email" />
 
                 <TextView
                     android:layout_width="wrap_content"
