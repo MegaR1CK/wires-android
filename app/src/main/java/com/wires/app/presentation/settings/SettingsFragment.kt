@@ -1,6 +1,8 @@
 package com.wires.app.presentation.settings
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.databinding.FragmentSettingsBinding
@@ -16,10 +18,23 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitTopInsetsWithPadding()
-        frameLayoutSettingsChangePassword.setOnClickListener {}
-        frameLayoutSettingsLogout.setOnClickListener {}
+        frameLayoutSettingsChangePassword.setOnClickListener { }
+        frameLayoutSettingsLogout.setOnClickListener { showLogoutDialog() }
     }
 
     override fun onBindViewModel() = with(viewModel) {
+        logoutLiveEvent.observe {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthGraph())
+        }
     }
+
+    private fun showLogoutDialog() = AlertDialog.Builder(requireContext())
+        .setTitle(getString(R.string.settings_logout))
+        .setMessage(getString(R.string.settings_logout_message))
+        .setPositiveButton(getString(R.string.settings_logout_positive_text)) { _, _ ->
+            viewModel.logout()
+        }
+        .setNegativeButton(getString(R.string.settings_logout_negative_text)) { _, _ -> }
+        .create()
+        .show()
 }

@@ -8,7 +8,7 @@ class TokenRepository @Inject constructor(
 ) {
     fun getAccessToken() = preferenceStorage.accessToken
 
-    fun setAccessToken(token: String) {
+    fun setAccessToken(token: String?) {
         preferenceStorage.accessToken = token
     }
 }

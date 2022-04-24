@@ -35,6 +35,10 @@ class UserRepository @Inject constructor(
         localStorage.currentUser = user
     }
 
+    fun clearUser() {
+        localStorage.clearStorage()
+    }
+
     suspend fun getCurrentUser(): User {
         return userMapper.fromResponseToModel(apiService.getCurrentUser().data)
     }

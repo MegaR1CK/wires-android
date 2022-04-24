@@ -68,6 +68,9 @@
     <string name="settings_title">Settings</string>
     <string name="settings_change_password">Change password</string>
     <string name="settings_logout">Logout</string>
+    <string name="settings_logout_message">Do you really want to log out from your account?</string>
+    <string name="settings_logout_positive_text">Logout</string>
+    <string name="settings_logout_negative_text">Cancel</string>
 
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>

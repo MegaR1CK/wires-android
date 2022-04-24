@@ -53,5 +53,12 @@
         android:id="@+id/settingsFragment"
         android:name="com.wires.app.presentation.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_settingsFragment_to_auth_graph"
+            app:destination="@id/auth_graph"
+            app:popUpTo="@id/feed_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
