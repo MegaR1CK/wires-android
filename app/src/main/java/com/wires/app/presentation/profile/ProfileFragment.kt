@@ -41,6 +41,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         toolbarProfile.setNavigationOnClickListener { findNavController().popBackStack() }
         stateViewFlipperProfile.setRetryMethod { callOperations() }
         buttonProfileEdit.setOnClickListener { viewModel.openEditUser() }
+        buttonProfileSettings.setOnClickListener { viewModel.openSettings() }
         setupAppbar()
         setupPostsList()
         setFragmentResultListener(EditUserFragment.USER_UPDATED_RESULT_KEY) { _, _ ->
@@ -75,6 +76,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         }
         openEditUserLiveEvent.observe {
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToEditUserFragment())
+        }
+        openSettingsLiveEvent.observe {
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSettingsFragment())
         }
     }
 

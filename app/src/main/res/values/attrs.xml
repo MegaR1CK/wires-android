@@ -34,6 +34,7 @@
     <attr name="textColorSecondary" format="reference|color" />
     <attr name="textColorTitle" format="reference|color" />
     <attr name="textColorSubtitle" format="reference|color" />
+    <attr name="textColorAccent" format="reference|color" />
 
     <attr name="textColorOnContrast" format="reference|color" />
     <attr name="iconColorOnContrast" format="reference|color" />

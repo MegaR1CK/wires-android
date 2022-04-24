@@ -15,6 +15,7 @@ import com.wires.app.presentation.onboarding.OnboardingViewModel
 import com.wires.app.presentation.post.PostViewModel
 import com.wires.app.presentation.profile.ProfileViewModel
 import com.wires.app.presentation.register.RegisterViewModel
+import com.wires.app.presentation.settings.SettingsViewModel
 import com.wires.app.presentation.splash.SplashViewModel
 import dagger.Binds
 import dagger.Module
@@ -85,4 +86,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(EditUserViewModel::class)
     abstract fun editUserViewModel(viewModel: EditUserViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SettingsViewModel::class)
+    abstract fun settingsViewModel(viewModel: SettingsViewModel): ViewModel
 }

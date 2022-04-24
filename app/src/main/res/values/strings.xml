@@ -64,6 +64,11 @@
     <string name="edit_profile_last_name_hint">Last name</string>
     <string name="edit_profile_interests_title">Interests</string>
 
+    <!-- SETTINGS -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_change_password">Change password</string>
+    <string name="settings_logout">Logout</string>
+
     <!-- ERRORS -->
     <string name="error_empty_field">Field cannot be empty!</string>
     <string name="error_incorrect_email">Incorrect e-mail!</string>

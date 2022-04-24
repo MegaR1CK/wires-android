@@ -18,6 +18,7 @@
         <item name="textColorTitle">@color/blue</item>
         <item name="textColorSubtitle">@color/dark_blue</item>
         <item name="errorColor">@color/red</item>
+        <item name="textColorAccent">@color/red</item>
 
         <item name="textColorOnContrast">@color/white</item>
         <item name="iconColorOnContrast">@color/white</item>

@@ -37,6 +37,10 @@
         <action
             android:id="@+id/action_profileFragment_to_editUserFragment"
             app:destination="@id/editUserFragment" />
+
+        <action
+            android:id="@+id/action_profileFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
 
     <fragment
@@ -44,4 +48,10 @@
         android:name="com.wires.app.presentation.edituser.EditUserFragment"
         android:label="EditUserFragment"
         tools:layout="@layout/fragment_edit_user" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.wires.app.presentation.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
