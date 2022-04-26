@@ -14,13 +14,13 @@ class ChangeUserPasswordUseCase @Inject constructor(
 ) : UseCaseLoadable<ChangeUserPasswordUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {
-        val oldPasswordHash = getPasswordHashUseCase.execute(GetPasswordHashUseCase.Params(params.email, params.oldPassword))
-        val newPasswordHash = getPasswordHashUseCase.execute(GetPasswordHashUseCase.Params(params.email, params.newPassword))
-        userRepository.changeUserPassword(oldPasswordHash, newPasswordHash)
+        userRepository.changeUserPassword(
+            oldPasswordHash = getPasswordHashUseCase.execute(GetPasswordHashUseCase.Params(params.oldPassword)),
+            newPasswordHash = getPasswordHashUseCase.execute(GetPasswordHashUseCase.Params(params.newPassword))
+        )
     }
 
     data class Params(
-        val email: String,
         val oldPassword: String,
         val newPassword: String
     )

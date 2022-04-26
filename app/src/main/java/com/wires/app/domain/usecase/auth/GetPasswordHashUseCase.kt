@@ -12,11 +12,10 @@ class GetPasswordHashUseCase @Inject constructor(
 ) : UseCase<GetPasswordHashUseCase.Params, String> {
 
     override fun execute(params: Params): String {
-        return cryptor.getSha256Hash(params.password, params.email)
+        return cryptor.getSha256Hash(params.password)
     }
 
     data class Params(
-        val email: String,
         val password: String
     )
 }

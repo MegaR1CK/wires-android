@@ -14,7 +14,7 @@ class RegisterUseCase @Inject constructor(
 ) : UseCaseLoadable<RegisterUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {
-        val passwordHash = getPasswordHashUseCase.execute(GetPasswordHashUseCase.Params(params.email, params.password))
+        val passwordHash = getPasswordHashUseCase.execute(GetPasswordHashUseCase.Params(params.password))
         authRepository.registerUser(params.username, params.email, passwordHash)
         loginUseCase.execute(LoginUseCase.Params(params.email, params.password))
     }

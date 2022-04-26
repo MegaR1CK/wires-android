@@ -18,9 +18,7 @@ class ChangePasswordFragment : BaseFragment(R.layout.fragment_change_password) {
     private val binding by viewBinding(FragmentChangePasswordBinding::bind)
     private val viewModel: ChangePasswordViewModel by appViewModels()
 
-    override fun callOperations() {
-        viewModel.getUser()
-    }
+    override fun callOperations() = Unit
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitTopInsetsWithPadding()
@@ -50,12 +48,6 @@ class ChangePasswordFragment : BaseFragment(R.layout.fragment_change_password) {
     }
 
     override fun onBindViewModel() = with(viewModel) {
-        userLiveData.observe { result ->
-            binding.stateViewFlipperChangePassword.setStateFromResult(result)
-            result.doOnFailure { error ->
-                Timber.e(error.message)
-            }
-        }
         changePasswordLiveEvent.observe { result ->
             binding.progressIndicatorChangePassword.isVisible = result.isLoading
             result.doOnSuccess {
