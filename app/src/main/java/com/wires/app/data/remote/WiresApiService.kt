@@ -2,6 +2,7 @@ package com.wires.app.data.remote
 
 import com.wires.app.data.remote.params.CommentAddParams
 import com.wires.app.data.remote.params.UserLoginParams
+import com.wires.app.data.remote.params.UserPasswordChangeParams
 import com.wires.app.data.remote.params.UserRegisterParams
 import com.wires.app.data.remote.response.ChannelPreviewResponse
 import com.wires.app.data.remote.response.ChannelResponse
@@ -43,6 +44,9 @@ interface WiresApiService {
         @Part("update_params") updateParams: RequestBody,
         @Part avatar: MultipartBody.Part?
     ): ObjectResponse<Unit>
+
+    @PUT("user/change_password")
+    suspend fun changeUserPassword(@Body params: UserPasswordChangeParams): ObjectResponse<Unit>
 
     @GET("posts")
     suspend fun getPostsCompilation(

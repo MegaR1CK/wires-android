@@ -18,11 +18,15 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitTopInsetsWithPadding()
-        frameLayoutSettingsChangePassword.setOnClickListener { }
+        frameLayoutSettingsChangePassword.setOnClickListener { viewModel.openChangePassword() }
         frameLayoutSettingsLogout.setOnClickListener { showLogoutDialog() }
+        toolbarSettings.setNavigationOnClickListener { findNavController().popBackStack() }
     }
 
     override fun onBindViewModel() = with(viewModel) {
+        openChangePasswordLiveEvent.observe {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToChangePasswordFragment())
+        }
         logoutLiveEvent.observe {
             findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthGraph())
         }

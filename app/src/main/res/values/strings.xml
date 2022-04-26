@@ -64,6 +64,12 @@
     <string name="edit_profile_last_name_hint">Last name</string>
     <string name="edit_profile_interests_title">Interests</string>
 
+    <!-- CHANGE PASSWORD -->
+    <string name="change_password_old_hint">Old password</string>
+    <string name="change_password_new_hint">New password</string>
+    <string name="change_password_confirm_new_hint">Confirm new password</string>
+    <string name="change_password_success">Password successfully changed!</string>
+
     <!-- SETTINGS -->
     <string name="settings_title">Settings</string>
     <string name="settings_change_password">Change password</string>

@@ -1,5 +1,6 @@
 package com.wires.app.di.module
 
+import com.wires.app.presentation.changepassword.ChangePasswordFragment
 import com.wires.app.presentation.channels.ChannelsFragment
 import com.wires.app.presentation.chat.ChatFragment
 import com.wires.app.presentation.createpost.CreatePostFragment
@@ -57,4 +58,7 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun settingsFragment(): SettingsFragment
+
+    @ContributesAndroidInjector
+    abstract fun changePasswordFragment(): ChangePasswordFragment
 }

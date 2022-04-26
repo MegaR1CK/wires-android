@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.wires.app.di.util.ViewModelFactory
 import com.wires.app.di.util.ViewModelKey
+import com.wires.app.presentation.changepassword.ChangePasswordViewModel
 import com.wires.app.presentation.channels.ChannelsViewModel
 import com.wires.app.presentation.chat.ChatViewModel
 import com.wires.app.presentation.createpost.CreatePostViewModel
@@ -91,4 +92,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SettingsViewModel::class)
     abstract fun settingsViewModel(viewModel: SettingsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChangePasswordViewModel::class)
+    abstract fun changePasswordViewModel(viewModel: ChangePasswordViewModel): ViewModel
 }

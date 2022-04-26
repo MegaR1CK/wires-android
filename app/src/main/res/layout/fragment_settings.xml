@@ -11,6 +11,7 @@
         app:elevation="0.5dp">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?colorSurface"

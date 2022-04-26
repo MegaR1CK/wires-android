@@ -27,17 +27,17 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
             performRegister()
             true
         }
-        inputRegisterConfirmPassword.additionalValidation = { text ->
-            text == inputRegisterPassword.text
-        }
         inputRegisterPassword.additionalValidation = { text ->
-            text == inputRegisterConfirmPassword.text
+            if (!inputRegisterConfirmPassword.isEmpty()) text == inputRegisterConfirmPassword.text else true
         }
-        inputRegisterConfirmPassword.onFocusRemoved = {
-            inputRegisterPassword.validate()
+        inputRegisterConfirmPassword.additionalValidation = { text ->
+            if (!inputRegisterPassword.isEmpty()) text == inputRegisterPassword.text else true
         }
         inputRegisterPassword.onFocusRemoved = {
-            inputRegisterConfirmPassword.validate()
+            if (!inputRegisterConfirmPassword.isEmpty()) inputRegisterConfirmPassword.validate()
+        }
+        inputRegisterConfirmPassword.onFocusRemoved = {
+            if (!inputRegisterPassword.isEmpty()) inputRegisterPassword.validate()
         }
         buttonRegister.setOnClickListener { performRegister() }
     }

@@ -10,8 +10,15 @@ class SettingsViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase
 ) : BaseViewModel() {
 
+    private val _openChangePasswordLiveEvent = SingleLiveEvent<Unit>()
+    val openChangePasswordLiveEvent: LiveData<Unit> = _openChangePasswordLiveEvent
+
     private val _logoutLiveEvent = SingleLiveEvent<Unit>()
     val logoutLiveEvent: LiveData<Unit> = _logoutLiveEvent
+
+    fun openChangePassword() {
+        _openChangePasswordLiveEvent.postValue(Unit)
+    }
 
     fun logout() {
         _logoutLiveEvent.postValue(logoutUseCase.execute(Unit))

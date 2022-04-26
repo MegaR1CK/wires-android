@@ -60,5 +60,15 @@
             app:destination="@id/auth_graph"
             app:popUpTo="@id/feed_graph"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_settingsFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.wires.app.presentation.changepassword.ChangePasswordFragment"
+        android:label="ChangePasswordFragment"
+        tools:layout="@layout/fragment_change_password" />
 </navigation>

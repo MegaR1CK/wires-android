@@ -28,6 +28,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private val viewModel: ProfileViewModel by appViewModels()
     private val args: ProfileFragmentArgs by navArgs()
 
+    private var isUserSet = false
+
     override val showBottomNavigationView = true
 
     @Inject lateinit var postsAdapter: PostsAdapter
@@ -51,14 +53,15 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     override fun onBindViewModel() = with(viewModel) {
         userLiveData.observe { result ->
-            if (!result.isSuccess) binding.stateViewFlipperProfile.setStateFromResult(result)
+            if (!result.isSuccess || isUserSet) binding.stateViewFlipperProfile.setStateFromResult(result)
             result.doOnSuccess { wrapper ->
                 wrapper.user?.let { user ->
+                    if (postsAdapter.itemCount == 0 && !isUserSet) getUserPosts(user.id)
                     setupUser(user)
-                    if (postsAdapter.itemCount == 0) getUserPosts(user.id)
                 }
             }
             result.doOnFailure { error ->
+                isUserSet = false
                 Timber.e(error.message)
             }
         }
@@ -105,6 +108,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             buttonProfileEdit.isVisible = false
             buttonProfileSettings.isVisible = false
         }
+        isUserSet = true
     }
 
     private fun setupPostsList() = with(binding.recyclerViewProfilePosts) {

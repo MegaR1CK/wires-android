@@ -7,6 +7,7 @@ import com.wires.app.data.model.User
 import com.wires.app.data.model.UserInterest
 import com.wires.app.data.preferences.PreferenceStorage
 import com.wires.app.data.remote.WiresApiService
+import com.wires.app.data.remote.params.UserPasswordChangeParams
 import com.wires.app.data.remote.params.UserUpdateParams
 import com.wires.app.extensions.toMultipartPart
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -59,5 +60,9 @@ class UserRepository @Inject constructor(
             gson.toJson(UserUpdateParams(username, email, firstName, lastName, interests)).toRequestBody(),
             avatarPath?.let { File(it).toMultipartPart(AVATAR_PART_NAME) }
         )
+    }
+
+    suspend fun changeUserPassword(oldPasswordHash: String, newPasswordHash: String) {
+        apiService.changeUserPassword(UserPasswordChangeParams(oldPasswordHash, newPasswordHash))
     }
 }
