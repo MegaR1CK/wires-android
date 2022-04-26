@@ -1,13 +1,17 @@
 package com.wires.app.presentation.edituser
 
+import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import android.util.Patterns
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
@@ -33,6 +37,24 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
     private val binding by viewBinding(FragmentEditUserBinding::bind)
     private val viewModel: EditUserViewModel by appViewModels()
 
+    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.data?.let { uri ->
+                selectedAvatarUri = uri
+                viewModel.selectedAvatarPath = uri.path
+                binding.imageViewEditProfileAvatar.load(
+                    imageUrl = uri.toString(),
+                    placeHolderRes = R.drawable.ic_avatar_placeholder,
+                    isCircle = true
+                )
+                setDoneButtonVisibility()
+            }
+        } else {
+            binding.imageViewEditProfileAvatar.setImageURI(selectedAvatarUri)
+        }
+    }
+
+    private var selectedAvatarUri: Uri? = null
     private var emailChanged = false
     private var usernameChanged = false
     private var firstNameChanged = false
@@ -59,7 +81,6 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
                     email = inputEditProfileEmail.text,
                     firstName = inputEditProfileFirstName.text,
                     lastName = inputEditProfileLastName.text,
-                    avatarPath = null
                 )
             }
         }
@@ -89,6 +110,14 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
     }
 
     private fun setupUser(user: User) = with(binding) {
+        imageViewEditProfileAvatar.setOnClickListener {
+            ImagePicker
+                .with(requireActivity())
+                .cropSquare()
+                .createIntent { intent ->
+                    resultLauncher.launch(intent)
+                }
+        }
         imageViewEditProfileAvatar.load(
             imageUrl = user.avatar?.url,
             placeHolderRes = R.drawable.ic_avatar_placeholder,
@@ -138,8 +167,8 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
         }
     }
 
-    private fun setDoneButtonVisibility(userInterests: List<UserInterest>) {
-        binding.buttonEditProfileDone.isVisible = emailChanged || usernameChanged ||
-            firstNameChanged || lastNameChanged || viewModel.selectedInterests.toSet() != userInterests.toSet()
+    private fun setDoneButtonVisibility(userInterests: List<UserInterest>? = null) {
+        binding.buttonEditProfileDone.isVisible = emailChanged || usernameChanged || firstNameChanged ||
+            lastNameChanged || viewModel.selectedInterests.toSet() != userInterests?.toSet() || selectedAvatarUri != null
     }
 }

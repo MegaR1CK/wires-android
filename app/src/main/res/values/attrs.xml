@@ -48,4 +48,8 @@
     <attr name="colorToolbarIcons" format="reference|color" />
 
     <attr name="colorImagePlaceholder" format="reference|color" />
+
+    <attr name="colorRippleDark" format="reference|color" />
+
+    <attr name="colorAvatarDarken" format="reference|color" />
 </resources>

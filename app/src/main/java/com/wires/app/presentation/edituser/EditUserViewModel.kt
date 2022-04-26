@@ -17,6 +17,7 @@ class EditUserViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     var selectedInterests = mutableListOf<UserInterest>()
+    var selectedAvatarPath: String? = null
 
     private val _userLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
     val userLiveData: LiveData<LoadableResult<UserWrapper>> = _userLiveData
@@ -33,11 +34,12 @@ class EditUserViewModel @Inject constructor(
         email: String?,
         firstName: String?,
         lastName: String?,
-        avatarPath: String?
     ) {
         _updateUserLiveEvent.launchLoadData(
             updateUserUseCase
-                .executeLoadable(UpdateUserUseCase.Params(username, email, firstName, lastName, selectedInterests, avatarPath))
+                .executeLoadable(
+                    UpdateUserUseCase.Params(username, email, firstName, lastName, selectedInterests, selectedAvatarPath)
+                )
         )
     }
 }

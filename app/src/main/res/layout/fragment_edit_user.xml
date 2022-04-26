@@ -61,15 +61,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="24dp"
                 android:paddingHorizontal="@dimen/padding_24">
 
-                <ImageView
-                    android:id="@+id/imageViewEditProfileAvatar"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_gravity="center"
-                    tools:srcCompat="@tools:sample/avatars" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/imageViewEditProfileAvatar"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@null"
+                        android:foreground="@drawable/bg_circle_ripple_dark"
+                        android:scaleType="centerCrop"
+                        android:tintMode="src_atop"
+                        app:tint="?colorAvatarDarken"
+                        tools:srcCompat="@tools:sample/avatars" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_add_photo"
+                        app:tint="?iconColorOnContrast" />
+                </FrameLayout>
 
                 <com.wires.app.presentation.views.ValidationTextInput
                     android:id="@+id/inputEditProfileFirstName"

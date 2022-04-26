@@ -31,6 +31,10 @@
 
         <item name="colorImagePlaceholder">@color/semi_gray</item>
 
+        <item name="colorRippleDark">@color/gray</item>
+
+        <item name="colorAvatarDarken">@color/black_60</item>
+
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
