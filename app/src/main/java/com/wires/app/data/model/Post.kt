@@ -10,7 +10,7 @@ data class Post(
     val image: Image?,
     val publishTime: LocalDateTime,
     var likesCount: Int,
-    val commentsCount: Int,
+    var commentsCount: Int,
     var isLiked: Boolean,
 ) : Similarable<Post> {
 

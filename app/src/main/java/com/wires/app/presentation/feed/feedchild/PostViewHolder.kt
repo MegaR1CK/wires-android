@@ -54,5 +54,9 @@ class PostViewHolder(
             likeAnimator.setTarget(imageViewPostLike)
             likeAnimator.start()
         }
+        linearLayoutPostComment.setOnClickListener {
+            onItemClick(post.id)
+        }
+        linearLayoutPostShare.setOnClickListener { }
     }
 }

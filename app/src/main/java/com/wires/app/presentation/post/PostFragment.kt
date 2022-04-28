@@ -29,6 +29,8 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
     companion object {
         const val LIKE_CHANGED_RESULT_KEY = "result_like_changed"
         const val POST_ID_RESULT_KEY = "result_post_id"
+        const val COMMENTS_CHANGED_RESULT_KEY = "result_comments_changed"
+        const val COMMENTS_COUNT_RESULT_KEY = "result_comments_count"
     }
 
     private val viewModel: PostViewModel by appViewModels()
@@ -117,6 +119,11 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             if (!result.isSuccess) binding.messageInputViewComment.handleResult(result)
             result.doOnSuccess {
                 viewModel.getComments(args.postId)
+                with(binding.viewPost.textViewPostCommentCounter) {
+                    val newCommentsCount = text.toString().toInt().inc()
+                    text = newCommentsCount.toString()
+                    setCommentsResult(newCommentsCount)
+                }
             }
             result.doOnFailure { error ->
                 showSnackbar(error.message)
@@ -173,7 +180,10 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             imageViewPostImage.load(image.url)
         }
         textViewPostLikeCounter.text = post.likesCount.toString()
-        textViewPostCommentCounter.text = post.commentsCount.toString()
+        post.commentsCount.let { count ->
+            textViewPostCommentCounter.text = count.toString()
+            setCommentsResult(count)
+        }
         constraintLayoutPostAuthor.setOnClickListener { viewModel.openProfile(post.author.id) }
         imageViewPostLike.isSelected = post.isLiked
         linearLayoutPostLike.setOnClickListener {
@@ -194,4 +204,13 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             likesCount.dec().toString()
         }
     }
+
+    private fun setCommentsResult(commentsCount: Int) =
+        setFragmentResult(
+            COMMENTS_CHANGED_RESULT_KEY,
+            bundleOf(
+                POST_ID_RESULT_KEY to args.postId,
+                COMMENTS_COUNT_RESULT_KEY to commentsCount
+            )
+        )
 }

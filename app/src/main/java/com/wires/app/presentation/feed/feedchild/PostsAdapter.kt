@@ -39,4 +39,11 @@ class PostsAdapter @Inject constructor(
             notifyItemChanged(snapshot().indexOf(post))
         }
     }
+
+    fun updatePostComments(postId: Int, commentsCount: Int) {
+        snapshot().find { it?.id == postId }?.let { post ->
+            post.commentsCount = commentsCount
+            notifyItemChanged(snapshot().indexOf(post))
+        }
+    }
 }

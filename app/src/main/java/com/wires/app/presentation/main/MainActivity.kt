@@ -16,7 +16,7 @@ import dagger.android.AndroidInjection
 
 // TODO: post edit delete
 // TODO: create channels
-// TODO: update comment count and channels on return
+// TODO: update channels on return
 class MainActivity : AppCompatActivity(), BottomNavigationViewManager {
 
     private lateinit var binding: ActivityMainBinding
