@@ -1,6 +1,8 @@
 package com.wires.app.presentation.chat
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -17,6 +19,12 @@ import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 
 class ChatFragment : BaseFragment(R.layout.fragment_chat) {
+
+    companion object {
+        const val LAST_MESSAGE_CHANGED_RESULT_KEY = "result_last_message_changed"
+        const val LAST_MESSAGE_RESULT_KEY = "result_last_message"
+        const val CHANNEL_ID_RESULT_KEY = "result_channel_id"
+    }
 
     private val binding by viewBinding(FragmentChatBinding::bind)
     private val viewModel: ChatViewModel by appViewModels()
@@ -80,7 +88,13 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 Timber.e(error)
                 binding.stateViewFlipperChat.setStateFromResult(LoadableResult.failure<Channel>(error))
             }
-            result.doOnMessage { message -> messagesAdapter.addToStart(message, true) }
+            result.doOnMessage { message ->
+                messagesAdapter.addToStart(message, true)
+                setFragmentResult(
+                    requestKey = LAST_MESSAGE_CHANGED_RESULT_KEY,
+                    result = bundleOf(CHANNEL_ID_RESULT_KEY to args.channelId, LAST_MESSAGE_RESULT_KEY to message)
+                )
+            }
         }
 
         sendMessageLiveEvent.observe { result ->
