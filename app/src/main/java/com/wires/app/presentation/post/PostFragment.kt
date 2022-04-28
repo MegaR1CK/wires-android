@@ -64,8 +64,9 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         messageInputViewComment.setOnSendClickListener { text ->
             viewModel.addComment(args.postId, text)
         }
+        stateViewFlipperPost.setRetryMethod(::callOperations)
         swipeRefreshLayoutPost.setOnRefreshListener {
-            viewModel.getComments(args.postId)
+            viewModel.getPost(args.postId)
             isRefreshingBySwipe = true
         }
         swipeRefreshLayoutPost.setColorSchemeColors(requireContext().getColorAttribute(R.attr.colorPrimary))
@@ -73,7 +74,13 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
 
     override fun onBindViewModel() = with(viewModel) {
         postLiveData.observe { result ->
-            if (!result.isSuccess) binding.stateViewFlipperPost.setStateFromResult(result)
+            if (isFirstLoading && !result.isSuccess) binding.stateViewFlipperPost.setStateFromResult(result)
+            if (isRefreshingBySwipe) {
+                if (!result.isSuccess) binding.swipeRefreshLayoutPost.isRefreshing = result.isLoading
+                result.doOnFailure { error ->
+                    showToast(error.message)
+                }
+            }
             result.doOnSuccess { post ->
                 bindPost(post)
                 viewModel.getComments(post.id)
@@ -96,12 +103,14 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
                     result.doOnComplete { isRefreshingBySwipe = false }
                     result.doOnFailure { error ->
                         showToast(error.title)
-                        Timber.e(error.title)
                     }
                 }
                 binding.messageInputViewComment.isLoadingState -> {
                     binding.messageInputViewComment.handleResult(LoadableResult.success(result))
                 }
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.title)
             }
         }
         addCommentLiveEvent.observe { result ->
