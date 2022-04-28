@@ -5,6 +5,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.wires.app.R
@@ -15,9 +16,11 @@ import com.wires.app.extensions.addVerticalDividerItemDecoration
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.load
+import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.edituser.EditUserFragment
 import com.wires.app.presentation.feed.feedchild.PostsAdapter
+import com.wires.app.presentation.post.PostFragment
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Inject
@@ -46,8 +49,13 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         buttonProfileSettings.setOnClickListener { viewModel.openSettings() }
         setupAppbar()
         setupPostsList()
+        (recyclerViewProfilePosts.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         setFragmentResultListener(EditUserFragment.USER_UPDATED_RESULT_KEY) { _, _ ->
             callOperations()
+        }
+        setFragmentResultListener(PostFragment.LIKE_CHANGED_RESULT_KEY) { _, bundle ->
+            val postId = bundle.getInt(PostFragment.POST_ID_RESULT_KEY)
+            if (postId != 0) postsAdapter.updatePostLike(postId)
         }
     }
 
@@ -70,6 +78,19 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         }
         userPostsStateLiveData.observe { result ->
             binding.stateViewFlipperProfile.setStateFromResult(result)
+        }
+        postLikeLiveEvent.observe { result ->
+            result.doOnSuccess { likeResult ->
+                likeResult.error?.let { error ->
+                    postsAdapter.updatePostLike(likeResult.postId)
+                    Timber.e(error.message)
+                    showSnackbar(error.message)
+                }
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+                showSnackbar(error.message)
+            }
         }
         openPostLiveEvent.observe { postId ->
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToPostGraph(postId))
@@ -115,6 +136,10 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         adapter = postsAdapter.apply {
             onPostClick = viewModel::openPost
             onAuthorClick = viewModel::openProfile
+            onLikeClick = { postId, isLiked ->
+                viewModel.setPostLike(postId, isLiked)
+                postsAdapter.updatePostLike(postId)
+            }
             addLoadStateListener(viewModel::bindLoadingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { postsAdapter.retry() })
         addVerticalDividerItemDecoration()

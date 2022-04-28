@@ -69,4 +69,8 @@ class PostsRepository @Inject constructor(
     fun getUserPostsFlow(userId: Int): Flow<PagingData<Post>> {
         return createPager(UserPostsPagingSource(this, userId)).flow
     }
+
+    suspend fun likePost(postId: Int, isLiked: Boolean) {
+        apiService.likePost(postId, isLiked)
+    }
 }

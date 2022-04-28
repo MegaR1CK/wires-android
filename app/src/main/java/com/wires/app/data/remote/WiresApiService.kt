@@ -75,6 +75,12 @@ interface WiresApiService {
         @Part image: MultipartBody.Part?
     ): ObjectResponse<Unit>
 
+    @POST("posts/{id}/like")
+    suspend fun likePost(
+        @Path("id") postId: Int,
+        @Query("is_liked") isLiked: Boolean
+    ): ObjectResponse<Unit>
+
     @GET("channels")
     suspend fun getChannels(): ListResponse<ChannelPreviewResponse>
 

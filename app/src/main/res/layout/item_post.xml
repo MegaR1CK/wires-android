@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/padding_24"
-        android:paddingVertical="12dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="4dp"
         android:background="?selectableItemBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,16 +102,18 @@
             android:id="@+id/linearLayoutPostLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_rounded_ripple"
             android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardViewPostImage">
+            app:layout_constraintTop_toBottomOf="@id/cardViewPostImage">
 
-            <ImageButton
-                android:id="@+id/buttonPostLike"
+            <ImageView
+                android:id="@+id/imageViewPostLike"
                 android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
                 android:background="@null"
                 android:src="@drawable/ic_like" />
 
@@ -118,7 +121,7 @@
                 android:id="@+id/textViewPostLikeCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
+                android:layout_marginStart="4dp"
                 android:textAppearance="@style/FontStyle.XSmall.Bold"
                 tools:text="100" />
 
@@ -129,8 +132,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:background="@drawable/bg_rounded_ripple"
             android:gravity="center"
             android:orientation="horizontal"
+            android:padding="8dp"
             app:layout_constraintStart_toEndOf="@+id/linearLayoutPostLike"
             app:layout_constraintTop_toTopOf="@+id/linearLayoutPostLike">
 
@@ -145,7 +150,7 @@
                 android:id="@+id/textViewPostCommentCounter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
+                android:layout_marginStart="4dp"
                 android:textAppearance="@style/FontStyle.XSmall.Bold"
                 tools:text="100" />
 
@@ -156,8 +161,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:background="@drawable/bg_rounded_ripple"
             android:gravity="center"
             android:orientation="horizontal"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/linearLayoutPostLike">
 

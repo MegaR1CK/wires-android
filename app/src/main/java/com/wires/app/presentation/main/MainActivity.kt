@@ -14,6 +14,9 @@ import com.wires.app.extensions.setMargin
 import com.wires.app.managers.BottomNavigationViewManager
 import dagger.android.AndroidInjection
 
+// TODO: post edit delete
+// TODO: create channels
+// TODO: update comment count and channels on return
 class MainActivity : AppCompatActivity(), BottomNavigationViewManager {
 
     private lateinit var binding: ActivityMainBinding

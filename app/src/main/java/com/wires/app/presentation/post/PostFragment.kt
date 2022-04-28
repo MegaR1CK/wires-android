@@ -1,6 +1,9 @@
 package com.wires.app.presentation.post
 
+import android.animation.AnimatorInflater
 import android.os.Bundle
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -22,6 +25,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class PostFragment : BaseFragment(R.layout.fragment_post) {
+
+    companion object {
+        const val LIKE_CHANGED_RESULT_KEY = "result_like_changed"
+        const val POST_ID_RESULT_KEY = "result_post_id"
+    }
 
     private val viewModel: PostViewModel by appViewModels()
     private val args: PostFragmentArgs by navArgs()
@@ -106,6 +114,29 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
                 Timber.e(error.message)
             }
         }
+        postLikeLiveEvent.observe { result ->
+            result.doOnSuccess { likeResult ->
+                likeResult.error?.let { error ->
+                    switchLikeState()
+                    Timber.e(error.message)
+                    showSnackbar(error.message)
+                } ?: run {
+                    val initialLikeValue = postLiveData.value?.getOrNull()?.isLiked
+                    val currentLikeValue = binding.viewPost.imageViewPostLike.isSelected
+                    // Ставим non-null result только если состояние лайка отличается от изначального
+                    setFragmentResult(
+                        requestKey = LIKE_CHANGED_RESULT_KEY,
+                        result = bundleOf(
+                            POST_ID_RESULT_KEY to if (initialLikeValue != currentLikeValue) likeResult.postId else 0
+                        )
+                    )
+                }
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+                showSnackbar(error.message)
+            }
+        }
         openProfileLiveEvent.observe { userId ->
             findNavController().navigate(PostFragmentDirections.actionPostFragmentToProfileGraph(userId))
         }
@@ -135,5 +166,23 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
         constraintLayoutPostAuthor.setOnClickListener { viewModel.openProfile(post.author.id) }
+        imageViewPostLike.isSelected = post.isLiked
+        linearLayoutPostLike.setOnClickListener {
+            switchLikeState()
+            viewModel.setPostLike(post.id, imageViewPostLike.isSelected)
+            val likeAnimator = AnimatorInflater.loadAnimator(context, R.animator.anim_like_button)
+            likeAnimator.setTarget(imageViewPostLike)
+            likeAnimator.start()
+        }
+    }
+
+    private fun switchLikeState() = with(binding.viewPost) {
+        imageViewPostLike.isSelected = !imageViewPostLike.isSelected
+        val likesCount = textViewPostLikeCounter.text.toString().toInt()
+        textViewPostLikeCounter.text = if (imageViewPostLike.isSelected) {
+            likesCount.inc().toString()
+        } else {
+            likesCount.dec().toString()
+        }
     }
 }

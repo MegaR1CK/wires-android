@@ -6,8 +6,10 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
+import com.wires.app.data.model.SetLikeResult
 import com.wires.app.data.model.UserWrapper
 import com.wires.app.domain.usecase.posts.GetUserPostsUseCase
+import com.wires.app.domain.usecase.posts.LikePostUseCase
 import com.wires.app.domain.usecase.user.GetStoredUserUseCase
 import com.wires.app.domain.usecase.user.GetUserByIdUseCase
 import com.wires.app.presentation.base.BaseViewModel
@@ -17,7 +19,8 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getStoredUserUseCase: GetStoredUserUseCase,
     private val getUserPostsUseCase: GetUserPostsUseCase,
-    private val getUserByIdUseCase: GetUserByIdUseCase
+    private val getUserByIdUseCase: GetUserByIdUseCase,
+    private val likePostUseCase: LikePostUseCase
 ) : BaseViewModel() {
 
     private val _userLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
@@ -28,6 +31,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _userPostsStateLiveData = MutableLiveData<LoadableResult<Unit>>()
     val userPostsStateLiveData: LiveData<LoadableResult<Unit>> = _userPostsStateLiveData
+
+    private val _postLikeLiveEvent = SingleLiveEvent<LoadableResult<SetLikeResult>>()
+    val postLikeLiveEvent: LiveData<LoadableResult<SetLikeResult>> = _postLikeLiveEvent
 
     private val _openPostLiveEvent = SingleLiveEvent<Int>()
     val openPostLiveEvent: LiveData<Int> = _openPostLiveEvent
@@ -60,6 +66,10 @@ class ProfileViewModel @Inject constructor(
 
     fun getUserPosts(userId: Int) {
         _userPostsLiveData.launchPagingData(getUserPostsUseCase.execute(GetUserPostsUseCase.Params(userId)))
+    }
+
+    fun setPostLike(postId: Int, isLiked: Boolean) {
+        _postLikeLiveEvent.launchLoadData(likePostUseCase.executeLoadable(LikePostUseCase.Params(postId, isLiked)))
     }
 
     fun bindLoadingState(states: CombinedLoadStates) {

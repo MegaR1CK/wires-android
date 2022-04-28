@@ -1,5 +1,6 @@
 package com.wires.app.presentation.feed.feedchild
 
+import android.animation.AnimatorInflater
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.wires.app.R
@@ -13,6 +14,7 @@ class PostViewHolder(
     private val itemBinding: ItemPostBinding,
     private val onItemClick: (Int) -> Unit,
     private val onAuthorClick: (Int) -> Unit,
+    private val onLikeClick: (Int, Boolean) -> Unit,
     private val dateFormatter: DateFormatter
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
@@ -27,7 +29,6 @@ class PostViewHolder(
         } else {
             textViewPostAuthor.text = post.author.username
         }
-
         textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
         imageViewPostAuthorAvatar.load(
             imageUrl = post.author.avatar?.url,
@@ -44,7 +45,14 @@ class PostViewHolder(
         }
         textViewPostLikeCounter.text = post.likesCount.toString()
         textViewPostCommentCounter.text = post.commentsCount.toString()
+        imageViewPostLike.isSelected = post.isLiked
         root.setOnClickListener { onItemClick.invoke(post.id) }
         constraintLayoutPostAuthor.setOnClickListener { onAuthorClick.invoke(post.author.id) }
+        linearLayoutPostLike.setOnClickListener {
+            onLikeClick(post.id, !post.isLiked)
+            val likeAnimator = AnimatorInflater.loadAnimator(context, R.animator.anim_like_button)
+            likeAnimator.setTarget(imageViewPostLike)
+            likeAnimator.start()
+        }
     }
 }

@@ -6,14 +6,17 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
+import com.wires.app.data.model.SetLikeResult
 import com.wires.app.data.model.UserInterest
 import com.wires.app.domain.usecase.posts.GetFeedUseCase
+import com.wires.app.domain.usecase.posts.LikePostUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
 import javax.inject.Inject
 
 class FeedChildViewModel @Inject constructor(
-    private val getFeedUseCase: GetFeedUseCase
+    private val getFeedUseCase: GetFeedUseCase,
+    private val likePostUseCase: LikePostUseCase
 ) : BaseViewModel() {
 
     private val _postsLiveData = MutableLiveData<PagingData<Post>>()
@@ -21,6 +24,9 @@ class FeedChildViewModel @Inject constructor(
 
     private val _postsLoadingStateLiveData = MutableLiveData<LoadableResult<Unit>>()
     val postsLoadingStateLiveData: LiveData<LoadableResult<Unit>> = _postsLoadingStateLiveData
+
+    private val _postLikeLiveEvent = SingleLiveEvent<LoadableResult<SetLikeResult>>()
+    val postLikeLiveEvent: LiveData<LoadableResult<SetLikeResult>> = _postLikeLiveEvent
 
     private val _openPostLiveEvent = SingleLiveEvent<Int>()
     val openPostLiveEvent: LiveData<Int> = _openPostLiveEvent
@@ -30,6 +36,10 @@ class FeedChildViewModel @Inject constructor(
 
     fun getPosts(interest: UserInterest? = null) {
         _postsLiveData.launchPagingData(getFeedUseCase.execute(GetFeedUseCase.Params(interest)))
+    }
+
+    fun setPostLike(postId: Int, isLiked: Boolean) {
+        _postLikeLiveEvent.launchLoadData(likePostUseCase.executeLoadable(LikePostUseCase.Params(postId, isLiked)))
     }
 
     fun bindLoadingState(state: CombinedLoadStates) {

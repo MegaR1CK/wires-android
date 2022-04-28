@@ -16,17 +16,27 @@ class PostsAdapter @Inject constructor(
 
     var onPostClick: (Int) -> Unit = {}
     var onAuthorClick: (Int) -> Unit = {}
+    var onLikeClick: (Int, Boolean) -> Unit = { _, _ -> }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return PostViewHolder(
             ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             onPostClick,
             onAuthorClick,
+            onLikeClick,
             dateFormatter
         )
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
+    }
+
+    fun updatePostLike(postId: Int) {
+        snapshot().find { it?.id == postId }?.let { post ->
+            post.isLiked = !post.isLiked
+            post.likesCount = if (post.isLiked) post.likesCount.inc() else post.likesCount.dec()
+            notifyItemChanged(snapshot().indexOf(post))
+        }
     }
 }
