@@ -4,7 +4,6 @@
 
     <string name="share">Share</string>
     <string name="refresh">Refresh</string>
-    <string name="user_full_name">%s %s</string>
 
 
     <!-- DATES -->
@@ -51,6 +50,12 @@
     <!-- CHANNELS -->
     <string name="channels_title">Channels</string>
 
+    <!-- PICK USERS -->
+    <string name="pick_users_title">Add users</string>
+    <string name="pick_users_users_added">Added users</string>
+    <string name="pick_users_users_found">Found users</string>
+    <string name="pick_users_search_hint">Search users</string>
+
     <!-- CHAT -->
     <string name="chat_message_input_hint">Enter a message</string>
 
@@ -92,7 +97,8 @@
     <string name="error_no_network_description">Please, check your connection and refresh the page</string>
     <string name="error_something_wrong_title">Something went wrong!</string>
     <string name="error_something_wrong_description">Try to refresh the page</string>
-    <string name="error_empty_message">Message cannot be empty!</string>
+    <string name="error_empty_message">Message cannot be empty!</string>\
+    <string name="error_short_search_query">Search query must contain at least 3 letters!</string>
 
     <!-- BOTTOM NAVIGATION -->
     <string name="menu_label_feed">Feed</string>

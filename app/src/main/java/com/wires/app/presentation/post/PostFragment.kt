@@ -15,6 +15,7 @@ import com.wires.app.domain.paging.PagingLoadStateAdapter
 import com.wires.app.extensions.countViewHeight
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
+import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.getKeyboardInset
 import com.wires.app.extensions.load
 import com.wires.app.extensions.showSnackbar
@@ -159,15 +160,7 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
     }
 
     private fun bindPost(post: Post) = with(binding.viewPost) {
-        if (!post.author.firstName.isNullOrEmpty() && !post.author.lastName.isNullOrEmpty()) {
-            textViewPostAuthor.text = requireContext().getString(
-                R.string.user_full_name,
-                post.author.firstName,
-                post.author.lastName
-            )
-        } else {
-            textViewPostAuthor.text = post.author.username
-        }
+        textViewPostAuthor.text = post.author.getDisplayName()
         textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
         imageViewPostAuthorAvatar.load(
             imageUrl = post.author.avatar?.url,

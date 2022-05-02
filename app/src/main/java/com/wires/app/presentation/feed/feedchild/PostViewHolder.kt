@@ -7,6 +7,7 @@ import com.wires.app.R
 import com.wires.app.data.model.Post
 import com.wires.app.databinding.ItemPostBinding
 import com.wires.app.extensions.countViewHeight
+import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.load
 import com.wires.app.managers.DateFormatter
 
@@ -20,15 +21,7 @@ class PostViewHolder(
 
     fun bind(post: Post) = with(itemBinding) {
         val context = itemView.context
-        if (!post.author.firstName.isNullOrEmpty() && !post.author.lastName.isNullOrEmpty()) {
-            textViewPostAuthor.text = context.getString(
-                R.string.user_full_name,
-                post.author.firstName,
-                post.author.lastName
-            )
-        } else {
-            textViewPostAuthor.text = post.author.username
-        }
+        textViewPostAuthor.text = post.author.getDisplayName()
         textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
         imageViewPostAuthorAvatar.load(
             imageUrl = post.author.avatar?.url,

@@ -19,11 +19,18 @@ class ChannelsViewModel @Inject constructor(
     private val _openChatLiveEvent = SingleLiveEvent<Int>()
     val openChatLiveEvent: LiveData<Int> = _openChatLiveEvent
 
+    private val _openCreateChannelLiveEvent = SingleLiveEvent<Unit>()
+    val openCreateChannelLiveEvent: LiveData<Unit> = _openCreateChannelLiveEvent
+
     fun getChannels() {
         _channelsLiveData.launchLoadData(getUserChannelsUseCase.executeLoadable(Unit))
     }
 
     fun openChat(channelId: Int) {
         _openChatLiveEvent.postValue(channelId)
+    }
+
+    fun openCreateChannel() {
+        _openCreateChannelLiveEvent.postValue(Unit)
     }
 }

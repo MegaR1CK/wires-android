@@ -21,6 +21,7 @@ import com.wires.app.data.model.User
 import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentEditUserBinding
 import com.wires.app.extensions.addFlexboxSpaceItemDecoration
+import com.wires.app.extensions.addOrRemove
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.load
 import com.wires.app.extensions.showSnackbar
@@ -156,12 +157,7 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
         adapter = interestsAdapter.apply {
             submitList(UserInterest.values().toList().map { ListInterest(it, userInterests.contains(it)) })
             onItemClick = { interest ->
-                val interestsList = viewModel.selectedInterests
-                if (interestsList.contains(interest)) {
-                    interestsList.remove(interest)
-                } else {
-                    interestsList.add(interest)
-                }
+                viewModel.selectedInterests.addOrRemove(interest)
                 setDoneButtonVisibility(userInterests)
             }
         }

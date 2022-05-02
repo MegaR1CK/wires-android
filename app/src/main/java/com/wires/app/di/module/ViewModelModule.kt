@@ -13,6 +13,7 @@ import com.wires.app.presentation.feed.FeedViewModel
 import com.wires.app.presentation.feed.feedchild.FeedChildViewModel
 import com.wires.app.presentation.login.LoginViewModel
 import com.wires.app.presentation.onboarding.OnboardingViewModel
+import com.wires.app.presentation.pickusers.PickUsersViewModel
 import com.wires.app.presentation.post.PostViewModel
 import com.wires.app.presentation.profile.ProfileViewModel
 import com.wires.app.presentation.register.RegisterViewModel
@@ -97,4 +98,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ChangePasswordViewModel::class)
     abstract fun changePasswordViewModel(viewModel: ChangePasswordViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PickUsersViewModel::class)
+    abstract fun pickUsersViewModel(viewModel: PickUsersViewModel): ViewModel
 }

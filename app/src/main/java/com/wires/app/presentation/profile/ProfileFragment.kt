@@ -15,6 +15,7 @@ import com.wires.app.domain.paging.PagingLoadStateAdapter
 import com.wires.app.extensions.addVerticalDividerItemDecoration
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
+import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.load
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
@@ -118,18 +119,14 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             placeHolderRes = R.drawable.ic_avatar_placeholder_inv,
             isCircle = true
         )
-        textViewPostName.text = if (user.firstName != null && user.lastName != null) {
-            getString(R.string.user_full_name, user.firstName, user.lastName)
-        } else {
-            user.username
-        }
-        textViewPostUsername.text = getString(R.string.profile_username_text, user.username).lowercase(Locale.getDefault())
+        textViewProfileName.text = user.getDisplayName()
+        textViewProfileUsername.text = getString(R.string.profile_username_text, user.username).lowercase(Locale.getDefault())
         if (user.interests.isNotEmpty()) {
-            textViewPostInterests.isVisible = true
-            textViewPostInterests.text =
+            textViewProfileInterests.isVisible = true
+            textViewProfileInterests.text =
                 getString(R.string.profile_interests_text, user.interests.sorted().joinToString { it.value })
         } else {
-            textViewPostInterests.isVisible = false
+            textViewProfileInterests.isVisible = false
         }
         if (!viewModel.isCurrentUserProfile) {
             buttonProfileEdit.isVisible = false
@@ -162,7 +159,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 buttonProfileEdit.setColorFilter(requiredColor)
                 buttonProfileSettings.setColorFilter(requiredColor)
                 with(toolbarProfile) {
-                    title = if (lightMode) textViewPostName.text else null
+                    title = if (lightMode) textViewProfileName.text else null
                     setTitleTextColor(requiredColor)
                     setNavigationIconTint(requiredColor)
                 }

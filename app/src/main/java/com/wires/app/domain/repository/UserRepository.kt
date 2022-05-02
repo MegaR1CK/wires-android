@@ -5,6 +5,7 @@ import com.wires.app.data.database.LocalStorage
 import com.wires.app.data.mapper.UserMapper
 import com.wires.app.data.model.User
 import com.wires.app.data.model.UserInterest
+import com.wires.app.data.model.UserPreview
 import com.wires.app.data.preferences.PreferenceStorage
 import com.wires.app.data.remote.WiresApiService
 import com.wires.app.data.remote.params.UserPasswordChangeParams
@@ -64,5 +65,9 @@ class UserRepository @Inject constructor(
 
     suspend fun changeUserPassword(oldPasswordHash: String, newPasswordHash: String) {
         apiService.changeUserPassword(UserPasswordChangeParams(oldPasswordHash, newPasswordHash))
+    }
+
+    suspend fun searchUsers(query: String): List<UserPreview> {
+        return apiService.searchUsers(query).data.map(userMapper::fromResponseToModel)
     }
 }

@@ -12,6 +12,7 @@ import com.wires.app.data.remote.response.MessageResponse
 import com.wires.app.data.remote.response.ObjectResponse
 import com.wires.app.data.remote.response.PostResponse
 import com.wires.app.data.remote.response.TokenResponse
+import com.wires.app.data.remote.response.UserPreviewResponse
 import com.wires.app.data.remote.response.UserResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -47,6 +48,9 @@ interface WiresApiService {
 
     @PUT("user/change_password")
     suspend fun changeUserPassword(@Body params: UserPasswordChangeParams): ObjectResponse<Unit>
+
+    @GET("user/search")
+    suspend fun searchUsers(@Query("query") query: String): ListResponse<UserPreviewResponse>
 
     @GET("posts")
     suspend fun getPostsCompilation(

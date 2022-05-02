@@ -20,6 +20,10 @@
                 app:argType="integer" />
 
         </action>
+
+        <action
+            android:id="@+id/action_channelsFragment_to_createChannelFragment"
+            app:destination="@id/pickUsersFragment" />
     </fragment>
 
     <fragment
@@ -33,4 +37,10 @@
             app:argType="integer" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/pickUsersFragment"
+        android:name="com.wires.app.presentation.pickusers.PickUsersFragment"
+        android:label="PickUsersFragment"
+        tools:layout="@layout/fragment_pick_users" />
 </navigation>
