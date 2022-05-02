@@ -2,6 +2,7 @@ package com.wires.app.presentation.pickusers
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -64,6 +65,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
             result.doOnSuccess { users ->
                 foundUsersAdapter.submitList(users)
                 foundUsersAdapter.updateSelectedItems(viewModel.pickedUsers)
+                binding.textViewFoundUsers.isVisible = true
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -72,7 +74,16 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
         addedUsersLiveData.observe { list ->
             addedUsersAdapter.submitList(list)
             foundUsersAdapter.updateSelectedItems(list)
-            binding.recyclerViewAddedUsers.scrollToPosition(list.lastIndex)
+            with(binding) {
+                recyclerViewAddedUsers.scrollToPosition(list.lastIndex)
+                buttonPickUsersConfirm.isVisible = list.isNotEmpty()
+                buttonPickUsersConfirm.post {
+                    recyclerViewFoundUsers.updatePadding(
+                        bottom = buttonPickUsersConfirm.height +
+                            resources.getDimensionPixelSize(R.dimen.pick_users_list_bottom_padding)
+                    )
+                }
+            }
         }
         searchErrorLiveEvent.observe {
             showSnackbar(getString(R.string.error_short_search_query))

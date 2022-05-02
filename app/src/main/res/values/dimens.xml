@@ -20,4 +20,6 @@
     <dimen name="profile_background_height">220dp</dimen>
 
     <dimen name="interests_list_spacing">8dp</dimen>
+
+    <dimen name="pick_users_list_bottom_padding">8dp</dimen>
 </resources>

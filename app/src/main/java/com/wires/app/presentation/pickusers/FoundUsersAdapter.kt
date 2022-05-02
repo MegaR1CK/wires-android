@@ -7,7 +7,7 @@ import com.wires.app.databinding.ItemUserBinding
 import com.wires.app.presentation.base.BaseAdapter
 import javax.inject.Inject
 
-class FoundUsersAdapter @Inject constructor() : BaseAdapter<UserPreview, FoundUserViewHolder>()  {
+class FoundUsersAdapter @Inject constructor() : BaseAdapter<UserPreview, FoundUserViewHolder>() {
 
     var onItemClick: (UserPreview) -> Unit = { }
 

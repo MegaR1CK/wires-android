@@ -3,13 +3,13 @@ package com.wires.app.di.module
 import com.wires.app.presentation.changepassword.ChangePasswordFragment
 import com.wires.app.presentation.channels.ChannelsFragment
 import com.wires.app.presentation.chat.ChatFragment
-import com.wires.app.presentation.pickusers.PickUsersFragment
 import com.wires.app.presentation.createpost.CreatePostFragment
 import com.wires.app.presentation.edituser.EditUserFragment
 import com.wires.app.presentation.feed.FeedFragment
 import com.wires.app.presentation.feed.feedchild.FeedChildFragment
 import com.wires.app.presentation.login.LoginFragment
 import com.wires.app.presentation.onboarding.OnboardingFragment
+import com.wires.app.presentation.pickusers.PickUsersFragment
 import com.wires.app.presentation.post.PostFragment
 import com.wires.app.presentation.profile.ProfileFragment
 import com.wires.app.presentation.register.RegisterFragment

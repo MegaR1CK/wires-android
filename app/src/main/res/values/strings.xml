@@ -4,7 +4,7 @@
 
     <string name="share">Share</string>
     <string name="refresh">Refresh</string>
-
+    <string name="confirm">Confirm</string>
 
     <!-- DATES -->
     <string name="date_relative_less_minute">less than a minute ago</string>
