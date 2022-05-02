@@ -1,9 +1,12 @@
 package com.wires.app.presentation.pickusers
 
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
@@ -19,10 +22,16 @@ import javax.inject.Inject
 
 class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
 
+    companion object {
+        const val USERS_CHANGED_RESULT_KEY = "result_users_changed"
+        const val USERS_LIST_RESULT_KEY = "result_users_list"
+    }
+
     private val binding by viewBinding(FragmentPickUsersBinding::bind)
     private val viewModel: PickUsersViewModel by appViewModels()
+    private val args: PickUsersFragmentArgs by navArgs()
 
-    @Inject lateinit var foundUsersAdapter: FoundUsersAdapter
+    @Inject lateinit var foundUsersAdapter: UsersAdapter
     @Inject lateinit var addedUsersAdapter: AddedUsersAdapter
 
     override fun callOperations() = Unit
@@ -44,6 +53,14 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
             editTextPickUsersSearch.text = null
             requireActivity().showSoftKeyboard()
         }
+        buttonPickUsersConfirm.setOnClickListener {
+            requireActivity().hideSoftKeyboard()
+            setFragmentResult(
+                requestKey = USERS_CHANGED_RESULT_KEY,
+                result = bundleOf(USERS_LIST_RESULT_KEY to viewModel.pickedUsers.toTypedArray())
+            )
+            findNavController().popBackStack()
+        }
         editTextPickUsersSearch.setOnEditorActionListener { _, _, _ ->
             viewModel.search(editTextPickUsersSearch.text?.toString())
             requireActivity().hideSoftKeyboard()
@@ -52,6 +69,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
         (recyclerViewFoundUsers.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         recyclerViewFoundUsers.adapter = foundUsersAdapter.apply {
             onItemClick = { user -> viewModel.proceedUser(user, removeOnly = false) }
+            checkboxesEnabled = true
         }
         recyclerViewAddedUsers.adapter = addedUsersAdapter.apply {
             onCancelClick = { user -> viewModel.proceedUser(user, removeOnly = true) }
@@ -60,6 +78,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
     }
 
     override fun onBindViewModel() = with(viewModel) {
+        pickedUsers = args.pickedUsers.toMutableList()
         searchResultLiveData.observe { result ->
             binding.stateViewFlipperPickUsers.setStateFromResult(result)
             result.doOnSuccess { users ->
@@ -76,7 +95,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
             foundUsersAdapter.updateSelectedItems(list)
             with(binding) {
                 recyclerViewAddedUsers.scrollToPosition(list.lastIndex)
-                buttonPickUsersConfirm.isVisible = list.isNotEmpty()
+                buttonPickUsersConfirm.isVisible = args.pickedUsers.toSet() != list.toSet()
                 buttonPickUsersConfirm.post {
                     recyclerViewFoundUsers.updatePadding(
                         bottom = buttonPickUsersConfirm.height +

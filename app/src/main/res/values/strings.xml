@@ -50,6 +50,13 @@
     <!-- CHANNELS -->
     <string name="channels_title">Channels</string>
 
+    <!-- CREATE CHANNEL -->
+    <string name="create_channel_group_title">Create new group channel</string>
+    <string name="create_channel_users">Users in channel</string>
+    <string name="create_channel_name_hint">Channel name</string>
+    <string name="create_channel_edit_users">Edit</string>
+    <string name="create_channel_add_users">Add</string>
+
     <!-- PICK USERS -->
     <string name="pick_users_title">Add users</string>
     <string name="pick_users_users_added">Added users</string>
@@ -99,6 +106,7 @@
     <string name="error_something_wrong_description">Try to refresh the page</string>
     <string name="error_empty_message">Message cannot be empty!</string>\
     <string name="error_short_search_query">Search query must contain at least 3 letters!</string>
+    <string name="error_length_channel_name">Channel name must contain from 3 to 28 symbols!</string>
 
     <!-- BOTTOM NAVIGATION -->
     <string name="menu_label_feed">Feed</string>

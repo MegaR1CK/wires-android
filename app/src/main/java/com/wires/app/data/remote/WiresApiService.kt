@@ -98,6 +98,13 @@ interface WiresApiService {
         @Query("offset") offset: Int
     ): ListResponse<MessageResponse>
 
+    @Multipart
+    @POST("channels/create")
+    suspend fun createChannel(
+        @Part("create_params") createParams: RequestBody,
+        @Part image: MultipartBody.Part?
+    ): ObjectResponse<ChannelResponse>
+
     @GET("user/{id}/posts")
     suspend fun getUserPosts(
         @Path("id") userId: Int,

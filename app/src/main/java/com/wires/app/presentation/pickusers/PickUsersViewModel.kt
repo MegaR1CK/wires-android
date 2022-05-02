@@ -27,7 +27,11 @@ class PickUsersViewModel @Inject constructor(
     private val _searchErrorLiveEvent = SingleLiveEvent<Unit>()
     val searchErrorLiveEvent: LiveData<Unit> = _searchErrorLiveEvent
 
-    val pickedUsers = mutableListOf<UserPreview>()
+    var pickedUsers = mutableListOf<UserPreview>()
+        set(value) {
+            field = value
+            _addedUsersLiveData.postValue(value)
+        }
 
     var lastSearchQuery: String? = null
 

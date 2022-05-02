@@ -7,6 +7,7 @@ import com.wires.app.di.util.ViewModelKey
 import com.wires.app.presentation.changepassword.ChangePasswordViewModel
 import com.wires.app.presentation.channels.ChannelsViewModel
 import com.wires.app.presentation.chat.ChatViewModel
+import com.wires.app.presentation.createchannel.CreateChannelViewModel
 import com.wires.app.presentation.createpost.CreatePostViewModel
 import com.wires.app.presentation.edituser.EditUserViewModel
 import com.wires.app.presentation.feed.FeedViewModel
@@ -98,6 +99,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ChangePasswordViewModel::class)
     abstract fun changePasswordViewModel(viewModel: ChangePasswordViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreateChannelViewModel::class)
+    abstract fun createChannelViewModel(viewModel: CreateChannelViewModel): ViewModel
 
     @Binds
     @IntoMap

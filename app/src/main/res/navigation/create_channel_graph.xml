@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/create_channel_graph"
+    app:startDestination="@id/createChannelFragment">
+
+    <fragment
+        android:id="@+id/createChannelFragment"
+        android:name="com.wires.app.presentation.createchannel.CreateChannelFragment"
+        android:label="CreateChannelFragment"
+        tools:layout="@layout/fragment_create_channel">
+
+        <action
+            android:id="@+id/action_createChannelFragment_to_pick_users_graph"
+            app:destination="@id/pick_users_graph">
+
+            <argument
+                android:name="pickedUsers"
+                app:argType="com.wires.app.data.model.UserPreview[]" />
+
+        </action>
+
+        <action
+            android:id="@+id/action_createChannelFragment_to_chat_graph"
+            app:destination="@id/chat_graph"
+            app:popUpTo="@id/create_channel_graph"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="channelId"
+                app:argType="integer" />
+
+        </action>
+    </fragment>
+</navigation>

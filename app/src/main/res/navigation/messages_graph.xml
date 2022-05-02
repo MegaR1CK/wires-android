@@ -12,8 +12,8 @@
         tools:layout="@layout/fragment_channels">
 
         <action
-            android:id="@+id/action_channelFragment_to_chatFragment"
-            app:destination="@id/chatFragment">
+            android:id="@+id/action_channelFragment_to_chat_graph"
+            app:destination="@id/chat_graph">
 
             <argument
                 android:name="channelId"
@@ -22,25 +22,7 @@
         </action>
 
         <action
-            android:id="@+id/action_channelsFragment_to_createChannelFragment"
-            app:destination="@id/pickUsersFragment" />
+            android:id="@+id/action_channelsFragment_to_create_channel_graph"
+            app:destination="@id/create_channel_graph" />
     </fragment>
-
-    <fragment
-        android:id="@+id/chatFragment"
-        android:name="com.wires.app.presentation.chat.ChatFragment"
-        android:label="ChatFragment"
-        tools:layout="@layout/fragment_chat">
-
-        <argument
-            android:name="channelId"
-            app:argType="integer" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/pickUsersFragment"
-        android:name="com.wires.app.presentation.pickusers.PickUsersFragment"
-        android:label="PickUsersFragment"
-        tools:layout="@layout/fragment_pick_users" />
 </navigation>

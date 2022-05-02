@@ -3,6 +3,7 @@ package com.wires.app.di.module
 import com.wires.app.presentation.changepassword.ChangePasswordFragment
 import com.wires.app.presentation.channels.ChannelsFragment
 import com.wires.app.presentation.chat.ChatFragment
+import com.wires.app.presentation.createchannel.CreateChannelFragment
 import com.wires.app.presentation.createpost.CreatePostFragment
 import com.wires.app.presentation.edituser.EditUserFragment
 import com.wires.app.presentation.feed.FeedFragment
@@ -62,6 +63,9 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun changePasswordFragment(): ChangePasswordFragment
+
+    @ContributesAndroidInjector
+    abstract fun createChannelFragment(): CreateChannelFragment
 
     @ContributesAndroidInjector
     abstract fun pickUsersFragment(): PickUsersFragment

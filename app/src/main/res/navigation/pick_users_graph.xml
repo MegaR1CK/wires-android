@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pick_users_graph"
+    app:startDestination="@id/pickUsersFragment">
+
+    <fragment
+        android:id="@+id/pickUsersFragment"
+        android:name="com.wires.app.presentation.pickusers.PickUsersFragment"
+        android:label="PickUsersFragment"
+        tools:layout="@layout/fragment_pick_users">
+
+        <argument
+            android:name="pickedUsers"
+            app:argType="com.wires.app.data.model.UserPreview[]" />
+
+    </fragment>
+</navigation>

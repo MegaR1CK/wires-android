@@ -61,10 +61,10 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
             }
         }
         openChatLiveEvent.observe { channelId ->
-            findNavController().navigate(ChannelsFragmentDirections.actionChannelFragmentToChatFragment(channelId))
+            findNavController().navigate(ChannelsFragmentDirections.actionChannelFragmentToChatGraph(channelId))
         }
         openCreateChannelLiveEvent.observe {
-            findNavController().navigate(ChannelsFragmentDirections.actionChannelsFragmentToCreateChannelFragment())
+            findNavController().navigate(ChannelsFragmentDirections.actionChannelsFragmentToCreateChannelGraph())
         }
     }
 }

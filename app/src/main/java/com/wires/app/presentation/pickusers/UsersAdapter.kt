@@ -7,18 +7,19 @@ import com.wires.app.databinding.ItemUserBinding
 import com.wires.app.presentation.base.BaseAdapter
 import javax.inject.Inject
 
-class FoundUsersAdapter @Inject constructor() : BaseAdapter<UserPreview, FoundUserViewHolder>() {
+class UsersAdapter @Inject constructor() : BaseAdapter<UserPreview, UserViewHolder>() {
 
     var onItemClick: (UserPreview) -> Unit = { }
+    var checkboxesEnabled = false
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoundUserViewHolder {
-        return FoundUserViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
+        return UserViewHolder(
             ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: FoundUserViewHolder, position: Int) {
-        holder.bind(items[position], onItemClick)
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
+        holder.bind(items[position], checkboxesEnabled, onItemClick)
     }
 
     fun updateSelectedItems(selectedItems: List<UserPreview>) = items.forEach { item ->
