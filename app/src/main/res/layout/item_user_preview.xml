@@ -20,18 +20,17 @@
             tools:srcCompat="@drawable/ic_avatar_placeholder" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewPreviewClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
             android:layout_margin="1dp"
-            android:foreground="@drawable/bg_circle_ripple"
             app:cardCornerRadius="10dp">
 
             <ImageButton
+                android:id="@+id/buttonPreviewCancel"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@android:color/transparent"
+                android:background="@drawable/bg_circle_ripple"
                 android:src="@drawable/ic_close_small" />
 
         </androidx.cardview.widget.CardView>

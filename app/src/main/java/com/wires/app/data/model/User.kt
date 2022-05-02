@@ -1,11 +1,18 @@
 package com.wires.app.data.model
 
+import com.stfalcon.chatkit.commons.models.IUser
+import com.wires.app.extensions.getDisplayName
+
 data class User(
-    override val id: Int,
-    override val username: String,
-    override val firstName: String?,
-    override val lastName: String?,
-    override val avatar: Image?,
+    val id: Int,
+    val username: String,
+    val firstName: String?,
+    val lastName: String?,
+    val avatar: Image?,
     val email: String,
     val interests: List<UserInterest>
-) : UserPreview(id, username, firstName, lastName, avatar)
+) : IUser {
+    override fun getId() = id.toString()
+    override fun getName() = getDisplayName()
+    override fun getAvatar() = avatar?.url
+}

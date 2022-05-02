@@ -11,7 +11,7 @@ class FoundUserViewHolder(
     private val itemBinding: ItemUserBinding
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-    fun bind(userPreview: UserPreview, onItemClick: (Int) -> Unit) = with(itemBinding) {
+    fun bind(userPreview: UserPreview, onItemClick: (UserPreview) -> Unit) = with(itemBinding) {
         imageViewUserAvatar.load(
             imageUrl = userPreview.avatar?.url,
             placeHolderRes = R.drawable.ic_avatar_placeholder,
@@ -20,11 +20,11 @@ class FoundUserViewHolder(
         textViewUserName.text = userPreview.getDisplayName()
         checkboxUser.isChecked = userPreview.isSelected
         checkboxUser.setOnClickListener {
-            onItemClick(userPreview.id)
+            onItemClick(userPreview)
         }
         root.setOnClickListener {
             checkboxUser.isChecked = !checkboxUser.isChecked
-            onItemClick(userPreview.id)
+            onItemClick(userPreview)
         }
     }
 }

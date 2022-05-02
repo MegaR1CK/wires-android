@@ -3,12 +3,13 @@ package com.wires.app.presentation.pickusers
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.data.LoadableResult
 import com.wires.app.databinding.FragmentPickUsersBinding
-import com.wires.app.extensions.addOrRemove
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
+import com.wires.app.extensions.hideSoftKeyboard
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.extensions.showSoftKeyboard
 import com.wires.app.presentation.base.BaseFragment
@@ -21,6 +22,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
     private val viewModel: PickUsersViewModel by appViewModels()
 
     @Inject lateinit var foundUsersAdapter: FoundUsersAdapter
+    @Inject lateinit var addedUsersAdapter: AddedUsersAdapter
 
     override fun callOperations() = Unit
 
@@ -30,24 +32,30 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
         stateViewFlipperPickUsers.setRetryMethod { viewModel.search() }
         toolbarPickUsers.setNavigationOnClickListener {
             if (linearLayoutPickUsersSearch.isVisible) {
+                requireActivity().hideSoftKeyboard()
                 linearLayoutPickUsersSearch.isVisible = false
             } else {
                 findNavController().popBackStack()
             }
         }
-        buttonPickUsersSearch.setOnClickListener {
-            linearLayoutPickUsersSearch.isVisible = true
-            editTextPickUsersSearch.requestFocus()
+        buttonPickUsersSearch.setOnClickListener { setSearchFocus() }
+        buttonPickUsersClear.setOnClickListener {
+            editTextPickUsersSearch.text = null
             requireActivity().showSoftKeyboard()
         }
-        buttonPickUsersClear.setOnClickListener { editTextPickUsersSearch.text = null }
         editTextPickUsersSearch.setOnEditorActionListener { _, _, _ ->
             viewModel.search(editTextPickUsersSearch.text?.toString())
-            false
+            requireActivity().hideSoftKeyboard()
+            true
         }
+        (recyclerViewFoundUsers.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         recyclerViewFoundUsers.adapter = foundUsersAdapter.apply {
-            onItemClick = { userId -> viewModel.pickedUsersIds.addOrRemove(userId) }
+            onItemClick = { user -> viewModel.proceedUser(user, removeOnly = false) }
         }
+        recyclerViewAddedUsers.adapter = addedUsersAdapter.apply {
+            onCancelClick = { user -> viewModel.proceedUser(user, removeOnly = true) }
+        }
+        setSearchFocus()
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -55,13 +63,25 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
             binding.stateViewFlipperPickUsers.setStateFromResult(result)
             result.doOnSuccess { users ->
                 foundUsersAdapter.submitList(users)
+                foundUsersAdapter.updateSelectedItems(viewModel.pickedUsers)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
             }
         }
+        addedUsersLiveData.observe { list ->
+            addedUsersAdapter.submitList(list)
+            foundUsersAdapter.updateSelectedItems(list)
+            binding.recyclerViewAddedUsers.scrollToPosition(list.lastIndex)
+        }
         searchErrorLiveEvent.observe {
             showSnackbar(getString(R.string.error_short_search_query))
         }
+    }
+
+    private fun setSearchFocus() = with(binding) {
+        linearLayoutPickUsersSearch.isVisible = true
+        editTextPickUsersSearch.requestFocus()
+        requireActivity().showSoftKeyboard()
     }
 }
