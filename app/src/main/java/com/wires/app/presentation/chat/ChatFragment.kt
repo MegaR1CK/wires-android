@@ -24,6 +24,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         const val LAST_MESSAGE_CHANGED_RESULT_KEY = "result_last_message_changed"
         const val LAST_MESSAGE_RESULT_KEY = "result_last_message"
         const val CHANNEL_ID_RESULT_KEY = "result_channel_id"
+        const val CHATS_CHANGED_RESULT_KEY = "result_chats_changed"
     }
 
     private val binding by viewBinding(FragmentChatBinding::bind)
@@ -44,8 +45,9 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         stateViewFlipperChat.setRetryMethod { callOperations() }
         toolbarChat.setNavigationOnClickListener { findNavController().popBackStack() }
         messageInputChat.setOnSendClickListener { text ->
-            viewModel.sendMessage(args.channelId, text)
+            viewModel.sendMessage(args.channelId, text, isInitial = false)
         }
+        if (args.isNew) setFragmentResult(CHATS_CHANGED_RESULT_KEY, bundleOf())
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -62,11 +64,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
         messagesLiveData.observe { result ->
             if (messagesAdapter.isEmpty) {
-                binding.stateViewFlipperChat.setStateFromResult(result)
-                if (result.isSuccess) listenChannel(args.channelId)
+                if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result) else listenChannel(args.channelId)
             }
             result.doOnSuccess { items ->
-                messagesAdapter.addToEnd(items, false)
+                messagesAdapter.addToEnd(items.filter { !it.isInitial }, false)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -83,13 +84,17 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         receiveMessageLiveEvent.observe { result ->
-            result.doOnOpen { Timber.i(getString(R.string.open_socket_message, args.channelId)) }
+            result.doOnOpen {
+                binding.stateViewFlipperChat.setStateFromResult(LoadableResult.success(null))
+                Timber.i(getString(R.string.open_socket_message, args.channelId))
+                if (messagesAdapter.isEmpty) sendInitialMessage()
+            }
             result.doOnError { error ->
                 Timber.e(error)
                 binding.stateViewFlipperChat.setStateFromResult(LoadableResult.failure<Channel>(error))
             }
             result.doOnMessage { message ->
-                messagesAdapter.addToStart(message, true)
+                if (!message.isInitial) messagesAdapter.addToStart(message, true)
                 setFragmentResult(
                     requestKey = LAST_MESSAGE_CHANGED_RESULT_KEY,
                     result = bundleOf(CHANNEL_ID_RESULT_KEY to args.channelId, LAST_MESSAGE_RESULT_KEY to message)
@@ -121,4 +126,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
         binding.messagesListChat.setAdapter(messagesAdapter)
     }
+
+    private fun sendInitialMessage() =
+        viewModel.sendMessage(args.channelId, getString(R.string.chat_initial_message_text), isInitial = true)
 }

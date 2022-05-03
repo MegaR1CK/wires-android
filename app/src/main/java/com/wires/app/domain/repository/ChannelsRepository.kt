@@ -45,8 +45,8 @@ class ChannelsRepository @Inject constructor(
         return webSocketService.listenChatSocket(channelId).map { it.transform(channelsMapper::fromResponseToModel) }
     }
 
-    fun sendChannelMessage(channelId: Int, text: String) {
-        webSocketService.sendChatMessage(channelId, MessageSendParams(text))
+    fun sendChannelMessage(channelId: Int, text: String, isInitial: Boolean) {
+        webSocketService.sendChatMessage(channelId, MessageSendParams(text, isInitial))
     }
 
     fun disconnectChannel(channelId: Int) {

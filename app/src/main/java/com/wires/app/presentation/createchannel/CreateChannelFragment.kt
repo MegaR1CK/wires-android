@@ -82,7 +82,8 @@ class CreateChannelFragment : BaseFragment(R.layout.fragment_create_channel) {
         createChannelLiveEvent.observe { result ->
             binding.progressIndicatorCreateChannel.isVisible = result.isLoading
             result.doOnSuccess { channel ->
-                findNavController().navigate(CreateChannelFragmentDirections.actionCreateChannelFragmentToChatGraph(channel.id))
+                findNavController()
+                    .navigate(CreateChannelFragmentDirections.actionCreateChannelFragmentToChatGraph(channel.id, true))
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)

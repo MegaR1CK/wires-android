@@ -4,5 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MessageSendParams(
     @SerializedName("text")
-    val text: String
+    val text: String,
+    @SerializedName("is_initial")
+    val isInitial: Boolean
 )

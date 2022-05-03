@@ -44,7 +44,12 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
                 val updatedChannel =
                     channel.copy(lastSentMessage = bundle.getSerializable(ChatFragment.LAST_MESSAGE_RESULT_KEY) as? Message)
                 channelsAdapter.updateItemById(updatedChannel)
+                channelsAdapter.sortByLastMessageDate()
             }
+        }
+        setFragmentResultListener(ChatFragment.CHATS_CHANGED_RESULT_KEY) { _, _ ->
+            channelsAdapter.clear()
+            callOperations()
         }
     }
 
@@ -54,7 +59,18 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
             binding.buttonChannelsCreate.isVisible = result.isSuccess
             result.doOnSuccess { items ->
                 binding.channelsListChannels.setAdapter(channelsAdapter)
-                if (channelsAdapter.isEmpty) channelsAdapter.setItems(items)
+                if (channelsAdapter.isEmpty) {
+                    channelsAdapter.setItems(items)
+                    channelsAdapter.sort { firstChannel, secondChannel ->
+                        when {
+                            firstChannel.lastSentMessage == null -> -1
+                            secondChannel.lastSentMessage == null -> 1
+                            else -> if (
+                                firstChannel.lastSentMessage.sendTime.isAfter(secondChannel.lastSentMessage.sendTime)
+                            ) -1 else 1
+                        }
+                    }
+                }
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)

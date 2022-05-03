@@ -12,11 +12,12 @@ class SendMessageUseCase @Inject constructor(
 ) : UseCaseLoadable<SendMessageUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {
-        channelsRepository.sendChannelMessage(params.channelId, params.text)
+        channelsRepository.sendChannelMessage(params.channelId, params.text, params.isInitial)
     }
 
     data class Params(
         val channelId: Int,
-        val text: String
+        val text: String,
+        val isInitial: Boolean
     )
 }

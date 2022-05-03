@@ -64,8 +64,10 @@ class ChatViewModel @Inject constructor(
         _receiveMessageLiveEvent.launchSocketData(listenChannelUseCase.execute(ListenChannelUseCase.Params(channelId)))
     }
 
-    fun sendMessage(channelId: Int, text: String) {
-        _sendMessageLiveEvent.launchLoadData(sendMessageUseCase.executeLoadable(SendMessageUseCase.Params(channelId, text)))
+    fun sendMessage(channelId: Int, text: String, isInitial: Boolean) {
+        _sendMessageLiveEvent.launchLoadData(
+            sendMessageUseCase.executeLoadable(SendMessageUseCase.Params(channelId, text, isInitial))
+        )
     }
 
     fun disconnectChannel(channelId: Int) {

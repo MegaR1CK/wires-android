@@ -65,6 +65,7 @@
 
     <!-- CHAT -->
     <string name="chat_message_input_hint">Enter a message</string>
+    <string name="chat_initial_message_text">Channel is empty. Start messaging!</string>
 
     <!-- PROFILE -->
     <string name="profile_interests_text">Interests: %s&#160;</string>

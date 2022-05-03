@@ -31,6 +31,10 @@
                 android:name="channelId"
                 app:argType="integer" />
 
+            <argument
+                android:name="isNew"
+                app:argType="boolean" />
+
         </action>
     </fragment>
 </navigation>
