@@ -78,17 +78,33 @@
             android:text="@string/pick_users_users_added"
             android:textAppearance="@style/FontStyle.Body.Bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewAddedUsers"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:paddingEnd="4dp"
-            android:paddingStart="4dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_user_preview" />
+            android:layout_height="wrap_content">
+
+            <com.wires.app.presentation.views.EmptyRecyclerView
+                android:id="@+id/recyclerViewAddedUsers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:paddingEnd="4dp"
+                android:paddingStart="4dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_user_preview" />
+
+            <TextView
+                android:id="@+id/emptyViewAddedUsers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingVertical="44.5dp"
+                android:text="@string/pick_users_empty_added"
+                android:textAppearance="@style/FontStyle.Small"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/textViewFoundUsers"

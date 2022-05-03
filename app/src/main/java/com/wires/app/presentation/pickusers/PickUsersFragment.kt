@@ -74,6 +74,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
         recyclerViewAddedUsers.adapter = addedUsersAdapter.apply {
             onCancelClick = { user -> viewModel.proceedUser(user, removeOnly = true) }
         }
+        recyclerViewAddedUsers.emptyView = emptyViewAddedUsers
         setSearchFocus()
     }
 
@@ -98,7 +99,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
                 buttonPickUsersConfirm.isVisible = args.pickedUsers.toSet() != list.toSet()
                 buttonPickUsersConfirm.post {
                     recyclerViewFoundUsers.updatePadding(
-                        bottom = buttonPickUsersConfirm.height +
+                        bottom = if (buttonPickUsersConfirm.isVisible) buttonPickUsersConfirm.height else 0 +
                             resources.getDimensionPixelSize(R.dimen.pick_users_list_bottom_padding)
                     )
                 }

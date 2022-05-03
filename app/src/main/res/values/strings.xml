@@ -62,6 +62,7 @@
     <string name="pick_users_users_added">Added users</string>
     <string name="pick_users_users_found">Found users</string>
     <string name="pick_users_search_hint">Search users</string>
+    <string name="pick_users_empty_added">There are no users in channel</string>
 
     <!-- CHAT -->
     <string name="chat_message_input_hint">Enter a message</string>
