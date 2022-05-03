@@ -53,6 +53,7 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
         }
         stateViewFlipperFeedChild.setRetryMethod { callOperations() }
         (recyclerViewFeedChildPosts.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        recyclerViewFeedChildPosts.emptyView = emptyViewFeedChildPosts
         parentFragment?.setFragmentResultListener(PostFragment.LIKE_CHANGED_RESULT_KEY) { _, bundle ->
             val postId = bundle.getInt(PostFragment.POST_ID_RESULT_KEY)
             if (postId != 0) postsAdapter.updatePostLike(postId)

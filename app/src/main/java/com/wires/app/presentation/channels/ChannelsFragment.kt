@@ -59,6 +59,7 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
             binding.buttonChannelsCreate.isVisible = result.isSuccess
             result.doOnSuccess { items ->
                 binding.channelsListChannels.setAdapter(channelsAdapter)
+                binding.emptyViewChannelsList.isVisible = items.isEmpty()
                 if (channelsAdapter.isEmpty) {
                     channelsAdapter.setItems(items)
                     channelsAdapter.sort { firstChannel, secondChannel ->

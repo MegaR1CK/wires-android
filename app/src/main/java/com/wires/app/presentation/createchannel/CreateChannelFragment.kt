@@ -52,6 +52,7 @@ class CreateChannelFragment : BaseFragment(R.layout.fragment_create_channel) {
             submitList(viewModel.usersInChannel)
             buttonCreateChannelDone.isVisible = itemCount != 0
         }
+        recyclerViewCreateChannelUsers.emptyView = emptyViewCreateChannelUsers
         setChannelImage(selectedImageUri)
         buttonCreateChannelEdit.setOnClickListener { viewModel.openPickUsers() }
         viewImagePickerCreateChannel.setOnClickListener {

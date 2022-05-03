@@ -120,16 +120,33 @@
             android:id="@+id/stateViewFlipperPickUsers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            tools:visibility="visible" >
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewFoundUsers"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/padding_8"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_user" />
+                android:layout_height="match_parent">
 
+                <com.wires.app.presentation.views.EmptyRecyclerView
+                    android:id="@+id/recyclerViewFoundUsers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="@dimen/padding_8"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_user" />
+
+                <TextView
+                    android:id="@+id/emptyViewFoundUsers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="100dp"
+                    android:text="@string/pick_users_nothing_found"
+                    android:textAppearance="@style/FontStyle.Body"
+                    android:visibility="gone" />
+
+            </FrameLayout>
         </com.wires.app.presentation.views.StateViewFlipper>
     </LinearLayout>
 

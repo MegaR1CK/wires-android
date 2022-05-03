@@ -66,21 +66,14 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
             requireActivity().hideSoftKeyboard()
             true
         }
-        (recyclerViewFoundUsers.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-        recyclerViewFoundUsers.adapter = foundUsersAdapter.apply {
-            onItemClick = { user -> viewModel.proceedUser(user, removeOnly = false) }
-            checkboxesEnabled = true
-        }
-        recyclerViewAddedUsers.adapter = addedUsersAdapter.apply {
-            onCancelClick = { user -> viewModel.proceedUser(user, removeOnly = true) }
-        }
-        recyclerViewAddedUsers.emptyView = emptyViewAddedUsers
+        setupLists()
         setSearchFocus()
     }
 
     override fun onBindViewModel() = with(viewModel) {
         pickedUsers = args.pickedUsers.toMutableList()
         searchResultLiveData.observe { result ->
+            binding.stateViewFlipperPickUsers.isVisible = true
             binding.stateViewFlipperPickUsers.setStateFromResult(result)
             result.doOnSuccess { users ->
                 foundUsersAdapter.submitList(users)
@@ -114,5 +107,18 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
         linearLayoutPickUsersSearch.isVisible = true
         editTextPickUsersSearch.requestFocus()
         requireActivity().showSoftKeyboard()
+    }
+
+    private fun setupLists() = with(binding) {
+        (recyclerViewFoundUsers.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        recyclerViewFoundUsers.adapter = foundUsersAdapter.apply {
+            onItemClick = { user -> viewModel.proceedUser(user, removeOnly = false) }
+            checkboxesEnabled = true
+        }
+        recyclerViewFoundUsers.emptyView = emptyViewFoundUsers
+        recyclerViewAddedUsers.adapter = addedUsersAdapter.apply {
+            onCancelClick = { user -> viewModel.proceedUser(user, removeOnly = true) }
+        }
+        recyclerViewAddedUsers.emptyView = emptyViewAddedUsers
     }
 }

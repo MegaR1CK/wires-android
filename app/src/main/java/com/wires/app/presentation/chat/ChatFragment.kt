@@ -2,6 +2,7 @@ package com.wires.app.presentation.chat
 
 import android.os.Bundle
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -30,6 +31,8 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
     private val binding by viewBinding(FragmentChatBinding::bind)
     private val viewModel: ChatViewModel by appViewModels()
     private val args: ChatFragmentArgs by navArgs()
+
+    private var initialMessageSent = false
 
     private lateinit var messagesAdapter: MessagesListAdapter<Message>
 
@@ -67,7 +70,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result) else listenChannel(args.channelId)
             }
             result.doOnSuccess { items ->
-                messagesAdapter.addToEnd(items.filter { !it.isInitial }, false)
+                initialMessageSent = items.isNotEmpty()
+                val displayingItems = items.filter { !it.isInitial }
+                binding.emptyViewMessageList.isVisible = displayingItems.isEmpty() && messagesAdapter.isEmpty
+                messagesAdapter.addToEnd(displayingItems, false)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -87,7 +93,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             result.doOnOpen {
                 binding.stateViewFlipperChat.setStateFromResult(LoadableResult.success(null))
                 Timber.i(getString(R.string.open_socket_message, args.channelId))
-                if (messagesAdapter.isEmpty) sendInitialMessage()
+                if (!initialMessageSent) {
+                    sendInitialMessage()
+                    initialMessageSent = true
+                }
             }
             result.doOnError { error ->
                 Timber.e(error)
@@ -95,6 +104,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             }
             result.doOnMessage { message ->
                 if (!message.isInitial) messagesAdapter.addToStart(message, true)
+                binding.emptyViewMessageList.isVisible = messagesAdapter.isEmpty
                 setFragmentResult(
                     requestKey = LAST_MESSAGE_CHANGED_RESULT_KEY,
                     result = bundleOf(CHANNEL_ID_RESULT_KEY to args.channelId, LAST_MESSAGE_RESULT_KEY to message)

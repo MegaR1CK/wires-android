@@ -31,11 +31,26 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.stfalcon.chatkit.messages.MessagesList
-                android:id="@+id/messagesListChat"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1">
+
+                <com.stfalcon.chatkit.messages.MessagesList
+                    android:id="@+id/messagesListChat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/emptyViewMessageList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/chat_message_empty_text"
+                    android:textAppearance="@style/FontStyle.Body"
+                    android:visibility="gone" />
+
+            </FrameLayout>
 
             <View
                 android:id="@+id/dividerChat"

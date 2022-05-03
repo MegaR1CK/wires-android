@@ -12,15 +12,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewFeedChildPosts"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_post" />
+            android:layout_height="match_parent">
 
+            <com.wires.app.presentation.views.EmptyRecyclerView
+                android:id="@+id/recyclerViewFeedChildPosts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_post" />
+
+            <TextView
+                android:id="@+id/emptyViewFeedChildPosts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:paddingTop="100dp"
+                android:text="@string/feed_empty_text"
+                android:textAppearance="@style/FontStyle.Body"
+                android:visibility="gone" />
+
+        </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </com.wires.app.presentation.views.StateViewFlipper>

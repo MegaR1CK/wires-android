@@ -34,6 +34,7 @@
     <!-- FEED -->
     <string name="feed_title">Hello, %s</string>
     <string name="feed_first_tab_text">For you</string>
+    <string name="feed_empty_text">There are no posts in this topic</string>
 
     <!-- POST -->
     <string name="post_title">Post comments</string>
@@ -49,6 +50,7 @@
 
     <!-- CHANNELS -->
     <string name="channels_title">Channels</string>
+    <string name="channels_empty_text">Channels list is empty.\nCreate channel and start messaging!</string>
 
     <!-- CREATE CHANNEL -->
     <string name="create_channel_group_title">Create new group channel</string>
@@ -63,14 +65,17 @@
     <string name="pick_users_users_found">Found users</string>
     <string name="pick_users_search_hint">Search users</string>
     <string name="pick_users_empty_added">There are no users in channel</string>
+    <string name="pick_users_nothing_found">No users found</string>
 
     <!-- CHAT -->
     <string name="chat_message_input_hint">Enter a message</string>
-    <string name="chat_initial_message_text">Channel is empty. Start messaging!</string>
+    <string name="chat_initial_message_text">Channel is empty. Send message first!</string>
+    <string name="chat_message_empty_text">Channel is empty.\nSend message first!</string>
 
     <!-- PROFILE -->
     <string name="profile_interests_text">Interests: %s&#160;</string>
     <string name="profile_username_text">\@%s</string>
+    <string name="profile_user_posts_empty_text">This user have no posts</string>
 
     <!-- EDIT PROFILE -->
     <string name="edit_profile_title">Edit personal data</string>

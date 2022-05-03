@@ -114,13 +114,29 @@
                 android:background="?dividerColor" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewProfilePosts"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_post" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.wires.app.presentation.views.EmptyRecyclerView
+                android:id="@+id/recyclerViewProfilePosts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_post" />
+
+            <TextView
+                android:id="@+id/emptyViewProfilePosts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:paddingTop="100dp"
+                android:text="@string/profile_user_posts_empty_text"
+                android:textAppearance="@style/FontStyle.Body"
+                android:visibility="gone" />
+
+        </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </com.wires.app.presentation.views.StateViewFlipper>

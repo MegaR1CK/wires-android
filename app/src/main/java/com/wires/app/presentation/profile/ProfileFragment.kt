@@ -51,6 +51,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         setupAppbar()
         setupPostsList()
         (recyclerViewProfilePosts.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        recyclerViewProfilePosts.emptyView = emptyViewProfilePosts
         setFragmentResultListener(EditUserFragment.USER_UPDATED_RESULT_KEY) { _, _ ->
             callOperations()
         }

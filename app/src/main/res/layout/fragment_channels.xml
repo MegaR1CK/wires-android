@@ -28,11 +28,25 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.stfalcon.chatkit.dialogs.DialogsList
-            android:id="@+id/channelsListChannels"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
+            <com.stfalcon.chatkit.dialogs.DialogsList
+                android:id="@+id/channelsListChannels"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/emptyViewChannelsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="?actionBarSize"
+                android:text="@string/channels_empty_text"
+                android:textAppearance="@style/FontStyle.Body" />
+
+        </FrameLayout>
     </com.wires.app.presentation.views.StateViewFlipper>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
