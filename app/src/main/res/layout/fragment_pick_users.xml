@@ -80,13 +80,13 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="105dp"
+            android:layout_marginTop="8dp">
 
             <com.wires.app.presentation.views.EmptyRecyclerView
                 android:id="@+id/recyclerViewAddedUsers"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
                 android:paddingEnd="4dp"
@@ -99,7 +99,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingVertical="44.5dp"
                 android:text="@string/pick_users_empty_added"
                 android:textAppearance="@style/FontStyle.Small"
                 android:visibility="gone" />
