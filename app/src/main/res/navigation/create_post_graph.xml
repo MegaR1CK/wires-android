@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/create_post_graph"
+    app:startDestination="@id/createPostFragment">
+
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.wires.app.presentation.createpost.CreatePostFragment"
+        android:label="CreatePostFragment"
+        tools:layout="@layout/fragment_create_post">
+
+        <argument
+            android:name="postId"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/action_createPostFragment_to_selectTopicDialog"
+            app:destination="@id/selectTopicDialog" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/selectTopicDialog"
+        android:name="com.wires.app.presentation.createpost.SelectTopicDialog"
+        android:label="SelectTopicDialog"
+        tools:layout="@layout/dialog_topic_select" />
+</navigation>

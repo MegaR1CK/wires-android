@@ -34,5 +34,6 @@
     <include app:graph="@navigation/chat_graph" />
     <include app:graph="@navigation/create_channel_graph" />
     <include app:graph="@navigation/pick_users_graph" />
+    <include app:graph="@navigation/create_post_graph" />
 
 </navigation>

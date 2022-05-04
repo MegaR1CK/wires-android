@@ -19,6 +19,7 @@ import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.load
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
+import com.wires.app.presentation.createpost.CreatePostFragment
 import com.wires.app.presentation.edituser.EditUserFragment
 import com.wires.app.presentation.feed.feedchild.PostsAdapter
 import com.wires.app.presentation.post.PostFragment
@@ -54,6 +55,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         recyclerViewProfilePosts.emptyView = emptyViewProfilePosts
         setFragmentResultListener(EditUserFragment.USER_UPDATED_RESULT_KEY) { _, _ ->
             callOperations()
+        }
+        setFragmentResultListener(CreatePostFragment.POST_CHANGED_RESULT_KEY) { _, _ ->
+            viewModel.userLiveData.value?.getOrNull()?.user?.id?.let { viewModel.getUserPosts(it) }
         }
         setFragmentResultListener(PostFragment.LIKE_CHANGED_RESULT_KEY) { _, bundle ->
             val postId = bundle.getInt(PostFragment.POST_ID_RESULT_KEY)
@@ -112,6 +116,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         openSettingsLiveEvent.observe {
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSettingsFragment())
         }
+        openCreatePostLiveEvent.observe { postId ->
+            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToCreatePostGraph(postId))
+        }
     }
 
     private fun setupUser(user: User) = with(binding) {
@@ -144,6 +151,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 viewModel.setPostLike(postId, isLiked)
                 postsAdapter.updatePostLike(postId)
             }
+            onEditClick = viewModel::openCreatePost
             addLoadStateListener(viewModel::bindLoadingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { postsAdapter.retry() })
         addVerticalDividerItemDecoration()

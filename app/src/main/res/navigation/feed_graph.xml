@@ -21,8 +21,8 @@
         </action>
 
         <action
-            android:id="@+id/action_feedFragment_to_createPostFragment"
-            app:destination="@id/createPostFragment">
+            android:id="@+id/action_feedFragment_to_create_post_graph"
+            app:destination="@id/create_post_graph">
 
             <argument
                 android:name="postId"
@@ -40,26 +40,4 @@
                 app:argType="integer" />
         </action>
     </fragment>
-
-    <fragment
-        android:id="@+id/createPostFragment"
-        android:name="com.wires.app.presentation.createpost.CreatePostFragment"
-        android:label="CreatePostFragment"
-        tools:layout="@layout/fragment_create_post">
-
-        <argument
-            android:name="postId"
-            android:defaultValue="0"
-            app:argType="integer" />
-
-        <action
-            android:id="@+id/action_createPostFragment_to_selectTopicDialog"
-            app:destination="@id/selectTopicDialog" />
-    </fragment>
-
-    <dialog
-        android:id="@+id/selectTopicDialog"
-        android:name="com.wires.app.presentation.createpost.SelectTopicDialog"
-        android:label="SelectTopicDialog"
-        tools:layout="@layout/dialog_topic_select" />
 </navigation>

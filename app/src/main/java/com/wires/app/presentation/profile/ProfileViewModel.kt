@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.SetLikeResult
@@ -14,6 +15,7 @@ import com.wires.app.domain.usecase.user.GetStoredUserUseCase
 import com.wires.app.domain.usecase.user.GetUserByIdUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
@@ -47,6 +49,9 @@ class ProfileViewModel @Inject constructor(
     private val _openSettingsLiveEvent = SingleLiveEvent<Unit>()
     val openSettingsLiveEvent: LiveData<Unit> = _openSettingsLiveEvent
 
+    private val _openCreatePostLiveEvent = SingleLiveEvent<Int>()
+    val openCreatePostLiveEvent: LiveData<Int> = _openCreatePostLiveEvent
+
     private val _currentUserLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
 
     val isCurrentUserProfile: Boolean
@@ -65,7 +70,11 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun getUserPosts(userId: Int) {
-        _userPostsLiveData.launchPagingData(getUserPostsUseCase.execute(GetUserPostsUseCase.Params(userId)))
+        _userPostsLiveData.launchPagingData(
+            getUserPostsUseCase.execute(GetUserPostsUseCase.Params(userId)).map { pagingData ->
+                pagingData.map { post -> post.copy(isEditable = _userLiveData.value?.getOrNull()?.user?.id == post.author.id) }
+            }
+        )
     }
 
     fun setPostLike(postId: Int, isLiked: Boolean) {
@@ -90,5 +99,9 @@ class ProfileViewModel @Inject constructor(
 
     fun openSettings() {
         _openSettingsLiveEvent.postValue(Unit)
+    }
+
+    fun openCreatePost(postId: Int) {
+        _openCreatePostLiveEvent.postValue(postId)
     }
 }

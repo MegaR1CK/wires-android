@@ -32,7 +32,7 @@ class FeedFragment : BaseFragment(R.layout.fragment_feed), OnFeedChildEventListe
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitTopInsetsWithPadding()
         buttonFeedCreatePost.setOnClickListener { viewModel.openCreatePost() }
-        setFragmentResultListener(CreatePostFragment.POST_CREATED_RESULT_KEY) { _, _ ->
+        setFragmentResultListener(CreatePostFragment.POST_CHANGED_RESULT_KEY) { _, _ ->
             viewModel.userData.value?.getOrNull()?.interests?.let(::setupPager)
         }
     }
@@ -53,9 +53,9 @@ class FeedFragment : BaseFragment(R.layout.fragment_feed), OnFeedChildEventListe
         createPostLiveEvent.observe { postId ->
             findNavController().navigate(
                 if (postId != null) {
-                    FeedFragmentDirections.actionFeedFragmentToCreatePostFragment(postId)
+                    FeedFragmentDirections.actionFeedFragmentToCreatePostGraph(postId)
                 } else {
-                    FeedFragmentDirections.actionFeedFragmentToCreatePostFragment()
+                    FeedFragmentDirections.actionFeedFragmentToCreatePostGraph()
                 }
             )
         }
