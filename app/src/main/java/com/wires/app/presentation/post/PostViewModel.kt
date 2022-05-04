@@ -8,10 +8,12 @@ import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Comment
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.SetLikeResult
+import com.wires.app.data.model.UserWrapper
 import com.wires.app.domain.usecase.posts.CommentPostUseCase
 import com.wires.app.domain.usecase.posts.GetPostCommentsUseCase
 import com.wires.app.domain.usecase.posts.GetPostUseCase
 import com.wires.app.domain.usecase.posts.LikePostUseCase
+import com.wires.app.domain.usecase.user.GetStoredUserUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
 import javax.inject.Inject
@@ -20,8 +22,12 @@ class PostViewModel @Inject constructor(
     private val getPostUseCase: GetPostUseCase,
     private val getPostCommentsUseCase: GetPostCommentsUseCase,
     private val commentPostUseCase: CommentPostUseCase,
-    private val likePostUseCase: LikePostUseCase
+    private val likePostUseCase: LikePostUseCase,
+    private val getStoredUserUseCase: GetStoredUserUseCase
 ) : BaseViewModel() {
+
+    private val _userLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
+    val userLiveData: LiveData<LoadableResult<UserWrapper>> = _userLiveData
 
     private val _postLiveData = MutableLiveData<LoadableResult<Post>>()
     val postLiveData: LiveData<LoadableResult<Post>> = _postLiveData
@@ -40,6 +46,13 @@ class PostViewModel @Inject constructor(
 
     private val _openProfileLiveEvent = SingleLiveEvent<Int>()
     val openProfileLiveEvent: LiveData<Int> = _openProfileLiveEvent
+
+    private val _openCreatePostLiveEvent = SingleLiveEvent<Int>()
+    val openCreatePostLiveEvent: LiveData<Int> = _openCreatePostLiveEvent
+
+    fun getUser() {
+        _userLiveData.launchLoadData(getStoredUserUseCase.executeLoadable(Unit))
+    }
 
     fun getPost(postId: Int) {
         _postLiveData.launchLoadData(getPostUseCase.executeLoadable(GetPostUseCase.Params(postId)))
@@ -63,5 +76,9 @@ class PostViewModel @Inject constructor(
 
     fun openProfile(userId: Int) {
         _openProfileLiveEvent.postValue(userId)
+    }
+
+    fun openCreatePost(postId: Int) {
+        _openCreatePostLiveEvent.postValue(postId)
     }
 }

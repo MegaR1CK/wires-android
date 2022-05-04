@@ -71,9 +71,11 @@
             android:background="@drawable/bg_circle_ripple"
             android:src="@drawable/ic_more_vert"
             android:padding="4dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?iconColorSecondary" />
+            app:tint="?iconColorSecondary"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/textViewPostBody"

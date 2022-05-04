@@ -2,8 +2,12 @@ package com.wires.app.presentation.post
 
 import android.animation.AnimatorInflater
 import android.os.Bundle
+import android.view.View
+import android.widget.PopupMenu
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -22,6 +26,7 @@ import com.wires.app.extensions.showSnackbar
 import com.wires.app.extensions.showToast
 import com.wires.app.managers.DateFormatter
 import com.wires.app.presentation.base.BaseFragment
+import com.wires.app.presentation.createpost.CreatePostFragment
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -48,11 +53,17 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
      */
     private var isFirstLoading = true
 
+    /**
+     * Маркер установленного поста
+     */
+    private var postSet = false
+
     @Inject lateinit var commentsAdapter: CommentsAdapter
     @Inject lateinit var dateFormatter: DateFormatter
 
     override fun callOperations() {
         viewModel.getPost(args.postId)
+        viewModel.getUser()
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
@@ -73,11 +84,29 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             isRefreshingBySwipe = true
         }
         swipeRefreshLayoutPost.setColorSchemeColors(requireContext().getColorAttribute(R.attr.colorPrimary))
+        setFragmentResultListener(CreatePostFragment.POST_CHANGED_RESULT_KEY) { _, _ ->
+            isFirstLoading = true
+            callOperations()
+        }
     }
 
     override fun onBindViewModel() = with(viewModel) {
+        userLiveData.observe { result ->
+            result.doOnSuccess { wrapper ->
+                val postResult = postLiveData.value
+                if (postResult?.isSuccess == true) {
+                    binding.viewPost.buttonPostActions.isVisible = wrapper.user?.id == postResult.getOrNull()?.author?.id
+                }
+            }
+            result.doOnFailure { error ->
+                showSnackbar(error.message)
+                Timber.e(error.message)
+            }
+        }
         postLiveData.observe { result ->
-            if (isFirstLoading && !result.isSuccess) binding.stateViewFlipperPost.setStateFromResult(result)
+            if ((isFirstLoading && !result.isSuccess) || (result.isSuccess && postSet)) {
+                binding.stateViewFlipperPost.setStateFromResult(result)
+            }
             if (isRefreshingBySwipe) {
                 if (!result.isSuccess) binding.swipeRefreshLayoutPost.isRefreshing = result.isLoading
                 result.doOnFailure { error ->
@@ -85,8 +114,8 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
                 }
             }
             result.doOnSuccess { post ->
-                bindPost(post)
-                viewModel.getComments(post.id)
+                if (!postSet || isRefreshingBySwipe) viewModel.getComments(post.id)
+                bindPost(post.copy(isEditable = userLiveData.value?.getOrNull()?.user?.id == post.author.id))
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -157,6 +186,9 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         openProfileLiveEvent.observe { userId ->
             findNavController().navigate(PostFragmentDirections.actionPostFragmentToProfileGraph(userId))
         }
+        openCreatePostLiveEvent.observe { postId ->
+            findNavController().navigate(PostFragmentDirections.actionPostFragmentToCreatePostGraph(postId))
+        }
     }
 
     private fun bindPost(post: Post) = with(binding.viewPost) {
@@ -186,6 +218,9 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             likeAnimator.setTarget(imageViewPostLike)
             likeAnimator.start()
         }
+        buttonPostActions.isVisible = post.isEditable
+        buttonPostActions.setOnClickListener { showPopupMenu(it, post.id) }
+        postSet = true
     }
 
     private fun switchLikeState() = with(binding.viewPost) {
@@ -206,4 +241,18 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
                 COMMENTS_COUNT_RESULT_KEY to commentsCount
             )
         )
+
+    private fun showPopupMenu(view: View, postId: Int) {
+        PopupMenu(requireContext(), view).run {
+            inflate(R.menu.menu_post_actions)
+            setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.postActionEdit -> viewModel.openCreatePost(postId)
+                    R.id.postActionDelete -> { }
+                }
+                true
+            }
+            show()
+        }
+    }
 }

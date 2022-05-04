@@ -23,5 +23,15 @@
                 android:name="userId"
                 app:argType="integer" />
         </action>
+
+        <action
+            android:id="@+id/action_postFragment_to_create_post_graph"
+            app:destination="@id/create_post_graph">
+
+            <argument
+                android:name="postId"
+                app:argType="integer" />
+
+        </action>
     </fragment>
 </navigation>
