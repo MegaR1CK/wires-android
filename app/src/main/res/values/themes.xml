@@ -22,6 +22,7 @@
 
         <item name="textColorOnContrast">@color/white</item>
         <item name="iconColorOnContrast">@color/white</item>
+        <item name="iconColorSecondary">@color/gray</item>
 
         <item name="colorTabSelected">@color/orange</item>
         <item name="colorTabUnselected">@color/light_orange</item>

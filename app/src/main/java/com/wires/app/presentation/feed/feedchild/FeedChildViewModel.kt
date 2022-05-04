@@ -4,19 +4,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
+import androidx.paging.map
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.SetLikeResult
 import com.wires.app.data.model.UserInterest
+import com.wires.app.data.model.UserWrapper
 import com.wires.app.domain.usecase.posts.GetFeedUseCase
 import com.wires.app.domain.usecase.posts.LikePostUseCase
+import com.wires.app.domain.usecase.user.GetStoredUserUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class FeedChildViewModel @Inject constructor(
     private val getFeedUseCase: GetFeedUseCase,
-    private val likePostUseCase: LikePostUseCase
+    private val likePostUseCase: LikePostUseCase,
+    private val getStoredUserUseCase: GetStoredUserUseCase
 ) : BaseViewModel() {
 
     private val _postsLiveData = MutableLiveData<PagingData<Post>>()
@@ -28,6 +33,9 @@ class FeedChildViewModel @Inject constructor(
     private val _postLikeLiveEvent = SingleLiveEvent<LoadableResult<SetLikeResult>>()
     val postLikeLiveEvent: LiveData<LoadableResult<SetLikeResult>> = _postLikeLiveEvent
 
+    private val _userLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
+    val userLiveData: LiveData<LoadableResult<UserWrapper>> = _userLiveData
+
     private val _openPostLiveEvent = SingleLiveEvent<Int>()
     val openPostLiveEvent: LiveData<Int> = _openPostLiveEvent
 
@@ -35,7 +43,15 @@ class FeedChildViewModel @Inject constructor(
     val openProfileLiveEvent: LiveData<Int> = _openProfileLiveEvent
 
     fun getPosts(interest: UserInterest? = null) {
-        _postsLiveData.launchPagingData(getFeedUseCase.execute(GetFeedUseCase.Params(interest)))
+        _postsLiveData.launchPagingData(
+            getFeedUseCase.execute(GetFeedUseCase.Params(interest)).map { pagingData ->
+                pagingData.map { post -> post.copy(isEditable = _userLiveData.value?.getOrNull()?.user?.id == post.author.id) }
+            }
+        )
+    }
+
+    fun getUser() {
+        _userLiveData.launchLoadData(getStoredUserUseCase.executeLoadable(Unit))
     }
 
     fun setPostLike(postId: Int, isLiked: Boolean) {

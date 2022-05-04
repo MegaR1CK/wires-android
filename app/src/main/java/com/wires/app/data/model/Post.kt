@@ -6,12 +6,13 @@ data class Post(
     val id: Int,
     val author: UserPreview,
     val text: String,
-    val topic: String,
+    val topic: UserInterest,
     val image: Image?,
     val publishTime: LocalDateTime,
     var likesCount: Int,
     var commentsCount: Int,
     var isLiked: Boolean,
+    var isEditable: Boolean = false
 ) : Similarable<Post> {
 
     override fun areItemsTheSame(other: Post): Boolean {

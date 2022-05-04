@@ -9,6 +9,7 @@ import com.wires.app.data.model.UserInterest
 import com.wires.app.data.remote.WiresApiService
 import com.wires.app.data.remote.params.CommentAddParams
 import com.wires.app.data.remote.params.PostCreateParams
+import com.wires.app.data.remote.params.PostUpdateParams
 import com.wires.app.domain.paging.createPager
 import com.wires.app.extensions.toMultipartPart
 import com.wires.app.presentation.feed.feedchild.FeedPagingSource
@@ -72,5 +73,17 @@ class PostsRepository @Inject constructor(
 
     suspend fun likePost(postId: Int, isLiked: Boolean) {
         apiService.likePost(postId, isLiked)
+    }
+
+    suspend fun updatePost(postId: Int, text: String?, topic: UserInterest?, imagePath: String?) {
+        apiService.updatePost(
+            postId = postId,
+            updateParams = gson.toJson(PostUpdateParams(text, topic?.name)).toRequestBody(),
+            image = imagePath?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
+        )
+    }
+
+    suspend fun deletePost(postId: Int) {
+        apiService.deletePost(postId)
     }
 }

@@ -59,7 +59,7 @@ class MockManager @Inject constructor() {
                 likesCount = 100,
                 commentsCount = 150,
                 isLiked = false,
-                topic = "android_dev"
+                topic = UserInterest.ANDROID_DEVELOPMENT
             )
         }
     }
@@ -78,7 +78,7 @@ class MockManager @Inject constructor() {
             likesCount = 100,
             commentsCount = 150,
             isLiked = false,
-            topic = "android_dev"
+            topic = UserInterest.ANDROID_DEVELOPMENT
         )
     }
 

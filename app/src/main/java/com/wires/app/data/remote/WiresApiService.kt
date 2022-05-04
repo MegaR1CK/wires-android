@@ -17,6 +17,7 @@ import com.wires.app.data.remote.response.UserResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -84,6 +85,17 @@ interface WiresApiService {
         @Path("id") postId: Int,
         @Query("is_liked") isLiked: Boolean
     ): ObjectResponse<Unit>
+
+    @Multipart
+    @PUT("posts/{id}")
+    suspend fun updatePost(
+        @Path("id") postId: Int,
+        @Part("update_params") updateParams: RequestBody,
+        @Part image: MultipartBody.Part?
+    ): ObjectResponse<Unit>
+
+    @DELETE("posts/{id}")
+    suspend fun deletePost(@Path("id") postId: Int): ObjectResponse<Unit>
 
     @GET("channels")
     suspend fun getChannels(): ListResponse<ChannelPreviewResponse>

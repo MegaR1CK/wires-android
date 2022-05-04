@@ -15,10 +15,10 @@ import com.wires.app.extensions.toInt
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.createpost.CreatePostFragment
 import com.wires.app.presentation.feed.feedchild.FeedChildFragment
-import com.wires.app.presentation.feed.feedchild.OnLoadingStateChangedListener
+import com.wires.app.presentation.feed.feedchild.OnFeedChildEventListener
 import timber.log.Timber
 
-class FeedFragment : BaseFragment(R.layout.fragment_feed), OnLoadingStateChangedListener {
+class FeedFragment : BaseFragment(R.layout.fragment_feed), OnFeedChildEventListener {
 
     private val viewModel: FeedViewModel by appViewModels()
     private val binding by viewBinding(FragmentFeedBinding::bind)
@@ -50,13 +50,23 @@ class FeedFragment : BaseFragment(R.layout.fragment_feed), OnLoadingStateChanged
             }
         }
 
-        createPostLiveEvent.observe {
-            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToCreatePostFragment())
+        createPostLiveEvent.observe { postId ->
+            findNavController().navigate(
+                if (postId != null) {
+                    FeedFragmentDirections.actionFeedFragmentToCreatePostFragment(postId)
+                } else {
+                    FeedFragmentDirections.actionFeedFragmentToCreatePostFragment()
+                }
+            )
         }
     }
 
     override fun onLoadingStateChanged(state: LoadableResult<*>) {
         state.doOnSuccess { binding.appBarLayoutFeed.setExpanded(true, false) }
+    }
+
+    override fun onOpenPostUpdate(postId: Int) {
+        viewModel.openCreatePost(postId)
     }
 
     private fun setupPager(interests: List<UserInterest>) = with(binding) {

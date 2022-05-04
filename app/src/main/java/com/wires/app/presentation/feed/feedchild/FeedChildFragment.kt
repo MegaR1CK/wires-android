@@ -33,7 +33,7 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
 
     @Inject lateinit var postsAdapter: PostsAdapter
 
-    private var onLoadingStateChangedListener: OnLoadingStateChangedListener? = null
+    private var onFeedChildEventListener: OnFeedChildEventListener? = null
 
     /**
      * Маркер для того, чтобы отличать, обновляется ли экран с постами по свайпу PTR, или по запросу инициализации
@@ -41,7 +41,7 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
     private var isRefreshingBySwipe = false
 
     override fun callOperations() {
-        viewModel.getPosts(interest)
+        viewModel.getUser()
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
@@ -68,6 +68,15 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
     }
 
     override fun onBindViewModel() = with(viewModel) {
+        userLiveData.observe { result ->
+            if (!result.isSuccess) binding.stateViewFlipperFeedChild.setStateFromResult(result)
+            result.doOnSuccess {
+                if (postsAdapter.itemCount == 0 || isRefreshingBySwipe) getPosts(interest)
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+            }
+        }
         postsLiveData.observe { data ->
             postsAdapter.submitData(lifecycle, data)
         }
@@ -78,7 +87,7 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
                 result.doOnFailure { showToast(it.message) }
                 result.doOnSuccess {
                     binding.recyclerViewFeedChildPosts.scrollToPosition(0)
-                    onLoadingStateChangedListener?.onLoadingStateChanged(result)
+                    onFeedChildEventListener?.onLoadingStateChanged(result)
                 }
             } else {
                 binding.stateViewFlipperFeedChild.setStateFromResult(result)
@@ -110,8 +119,8 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (parentFragment as? OnLoadingStateChangedListener)?.let {
-            onLoadingStateChangedListener = it
+        (parentFragment as? OnFeedChildEventListener)?.let {
+            onFeedChildEventListener = it
         }
     }
 
@@ -122,6 +131,9 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
             onLikeClick = { postId, isLiked ->
                 viewModel.setPostLike(postId, isLiked)
                 postsAdapter.updatePostLike(postId)
+            }
+            onEditClick = { postId ->
+                onFeedChildEventListener?.onOpenPostUpdate(postId)
             }
             addLoadStateListener(viewModel::bindLoadingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { postsAdapter.retry() })

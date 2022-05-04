@@ -16,14 +16,14 @@ class FeedViewModel @Inject constructor(
     private val _userData = MutableLiveData<LoadableResult<User?>>()
     val userData: LiveData<LoadableResult<User?>> = _userData
 
-    private val _createPostLiveEvent = SingleLiveEvent<Unit>()
-    val createPostLiveEvent: LiveData<Unit> = _createPostLiveEvent
+    private val _createPostLiveEvent = SingleLiveEvent<Int?>()
+    val createPostLiveEvent: LiveData<Int?> = _createPostLiveEvent
 
     fun getUser() {
         _userData.launchLoadData { userRepository.getStoredUser() }
     }
 
-    fun openCreatePost() {
-        _createPostLiveEvent.postValue(Unit)
+    fun openCreatePost(postId: Int? = null) {
+        _createPostLiveEvent.postValue(postId)
     }
 }

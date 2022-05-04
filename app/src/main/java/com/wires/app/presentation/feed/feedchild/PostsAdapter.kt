@@ -17,6 +17,8 @@ class PostsAdapter @Inject constructor(
     var onPostClick: (Int) -> Unit = {}
     var onAuthorClick: (Int) -> Unit = {}
     var onLikeClick: (Int, Boolean) -> Unit = { _, _ -> }
+    var onEditClick: (Int) -> Unit = {}
+    var onDeleteClick: (Int) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return PostViewHolder(
@@ -24,6 +26,8 @@ class PostsAdapter @Inject constructor(
             onPostClick,
             onAuthorClick,
             onLikeClick,
+            onEditClick,
+            onDeleteClick,
             dateFormatter
         )
     }

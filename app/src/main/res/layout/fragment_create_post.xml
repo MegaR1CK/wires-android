@@ -46,72 +46,78 @@
             android:visibility="gone" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <com.wires.app.presentation.views.StateViewFlipper
+        android:id="@+id/stateViewFlipperCreatePost"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"
-        android:paddingBottom="@dimen/padding_20"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/textViewTopicSelect"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
-            android:text="@string/create_post_select_topic"
-            android:textAppearance="@style/FontStyle.Body"
-            android:textColor="?android:textColorHint"
-            android:paddingVertical="4dp"
-            android:paddingHorizontal="@dimen/padding_16"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="@dimen/padding_20">
 
-        <EditText
-            android:id="@+id/editTextCreatePost"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="12dp"
-            android:gravity="top"
-            android:background="?colorSurface"
-            android:textAppearance="@style/FontStyle.Body"
-            android:hint="@string/create_post_hint"
-            android:paddingHorizontal="@dimen/padding_16" />
-
-        <ImageView
-            android:id="@+id/imageViewCreatePost"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_gravity="center"
-            android:scaleType="centerCrop"
-            android:visibility="gone"
-            tools:visibility="visible"
-            tools:background="@color/semi_gray" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="4dp"
-            android:layout_marginHorizontal="60dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonCreatePostImageAdd"
+            <TextView
+                android:id="@+id/textViewTopicSelect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/create_post_add_image_text"
-                app:icon="@drawable/ic_image"
-                app:iconGravity="textStart"
-                style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                android:background="?selectableItemBackground"
+                android:text="@string/create_post_select_topic"
+                android:textAppearance="@style/FontStyle.Body"
+                android:textColor="?android:textColorHint"
+                android:paddingVertical="4dp"
+                android:paddingHorizontal="@dimen/padding_16"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonCreatePostImageRemove"
+            <EditText
+                android:id="@+id/editTextCreatePost"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/create_post_remove_image_text"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="12dp"
+                android:gravity="top"
+                android:background="?colorSurface"
+                android:textAppearance="@style/FontStyle.Body"
+                android:hint="@string/create_post_hint"
+                android:paddingHorizontal="@dimen/padding_16" />
+
+            <ImageView
+                android:id="@+id/imageViewCreatePost"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 android:visibility="gone"
-                app:icon="@drawable/ic_close"
-                app:iconGravity="textStart"
-                style="@style/Widget.MaterialComponents.Button.TextButton"/>
-        </FrameLayout>
-    </LinearLayout>
+                tools:visibility="visible"
+                tools:background="@color/semi_gray" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginHorizontal="60dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonCreatePostImageAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_post_add_image_text"
+                    app:icon="@drawable/ic_image"
+                    app:iconGravity="textStart"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonCreatePostImageRemove"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_post_remove_image_text"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_close"
+                    app:iconGravity="textStart"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"/>
+            </FrameLayout>
+        </LinearLayout>
+    </com.wires.app.presentation.views.StateViewFlipper>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
