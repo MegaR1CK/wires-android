@@ -3,12 +3,12 @@ package com.wires.app.presentation.register
 import android.os.Bundle
 import android.util.Patterns
 import androidx.core.view.children
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.databinding.FragmentRegisterBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.hideSoftKeyboard
+import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
@@ -46,7 +46,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         registerLiveEvent.observe { result ->
             binding.buttonRegister.isLoading = result.isLoading
             result.doOnSuccess {
-                findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToFeedGraph())
+                navigateTo(RegisterFragmentDirections.actionRegisterFragmentToFeedGraph())
             }
             result.doOnFailure { error ->
                 showSnackbar(error.message)

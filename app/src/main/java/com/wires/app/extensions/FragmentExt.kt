@@ -1,9 +1,12 @@
 package com.wires.app.extensions
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.StringRes
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
@@ -71,6 +74,22 @@ fun Fragment.navigateTo(uri: Uri?) {
     findNavController().navigateSafe(uri)
 }
 
+fun Fragment.navigateBack() = findNavController().popBackStack()
+
 fun Fragment.createLoadableResultDialog(message: String? = null): LoadableResultDialog {
     return LoadableResultDialog(requireContext(), message)
 }
+
+fun Fragment.showAlertDialog(
+    @StringRes titleRes: Int,
+    @StringRes messageRes: Int,
+    @StringRes positiveButtonTextRes: Int,
+    @StringRes negativeButtonTextRes: Int,
+    positiveButtonListener: DialogInterface.OnClickListener
+) = AlertDialog.Builder(requireContext())
+    .setTitle(getString(titleRes))
+    .setMessage(getString(messageRes))
+    .setPositiveButton(getText(positiveButtonTextRes), positiveButtonListener)
+    .setNegativeButton(getText(negativeButtonTextRes)) { _, _ -> }
+    .create()
+    .show()

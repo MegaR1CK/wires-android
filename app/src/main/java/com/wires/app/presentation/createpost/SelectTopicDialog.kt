@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.DialogTopicSelectBinding
+import com.wires.app.extensions.navigateBack
 
 class SelectTopicDialog : DialogFragment(R.layout.dialog_topic_select) {
 
@@ -35,7 +35,7 @@ class SelectTopicDialog : DialogFragment(R.layout.dialog_topic_select) {
             submitList(UserInterest.values().toList())
             onTopicSelect = { interest ->
                 setFragmentResult(SELECT_INTEREST_RESULT_KEY, bundleOf(SELECTED_INTEREST_KEY to interest))
-                findNavController().popBackStack()
+                navigateBack()
             }
         }
     }

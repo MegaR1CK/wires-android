@@ -9,7 +9,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.flexbox.FlexDirection
@@ -24,6 +23,7 @@ import com.wires.app.extensions.addFlexboxSpaceItemDecoration
 import com.wires.app.extensions.addOrRemove
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.load
+import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
@@ -70,7 +70,7 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitKeyboardInsetsWithPadding()
         inputEditProfileEmail.validationRegex = Patterns.EMAIL_ADDRESS.toRegex()
-        toolbarEditProfile.setNavigationOnClickListener { findNavController().popBackStack() }
+        toolbarEditProfile.setNavigationOnClickListener { navigateBack() }
         buttonEditProfileDone.setOnClickListener {
             val usernameValidated = inputEditProfileUsername.validate()
             val emailValidated = inputEditProfileEmail.validate()
@@ -101,7 +101,7 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
             binding.progressIndicatorEditProfile.isVisible = result.isLoading
             result.doOnSuccess {
                 setFragmentResult(USER_UPDATED_RESULT_KEY, bundleOf())
-                findNavController().popBackStack()
+                navigateBack()
             }
             result.doOnFailure { error ->
                 showSnackbar(error.message)

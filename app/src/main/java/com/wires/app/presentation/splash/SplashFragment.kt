@@ -1,11 +1,11 @@
 package com.wires.app.presentation.splash
 
 import android.os.Bundle
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.databinding.FragmentSplashBinding
 import com.wires.app.extensions.fitTopAndBottomInsetsWithPadding
+import com.wires.app.extensions.navigateTo
 import com.wires.app.presentation.base.BaseFragment
 
 class SplashFragment : BaseFragment(R.layout.fragment_splash) {
@@ -26,10 +26,10 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
             result.doOnSuccess {
                 when (it) {
                     SplashViewModel.SplashResult.MAIN_SCREEN -> {
-                        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToFeedGraph())
+                        navigateTo(SplashFragmentDirections.actionSplashFragmentToFeedGraph())
                     }
                     SplashViewModel.SplashResult.AUTH -> {
-                        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToAuthGraph())
+                        navigateTo(SplashFragmentDirections.actionSplashFragmentToAuthGraph())
                     }
                 }
             }

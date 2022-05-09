@@ -1,11 +1,11 @@
 package com.wires.app.presentation.onboarding
 
 import android.os.Bundle
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.databinding.FragmentOnboardingBinding
 import com.wires.app.extensions.fitTopAndBottomInsetsWithPadding
+import com.wires.app.extensions.navigateTo
 import com.wires.app.presentation.base.BaseFragment
 
 class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
@@ -27,10 +27,10 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding) {
 
     override fun onBindViewModel() = with(viewModel) {
         navigateToLoginLiveEvent.observe {
-            findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
+            navigateTo(OnboardingFragmentDirections.actionOnboardingFragmentToLoginFragment())
         }
         navigateToRegisterLiveEvent.observe {
-            findNavController().navigate(OnboardingFragmentDirections.actionOnboardingFragmentToRegisterFragment())
+            navigateTo(OnboardingFragmentDirections.actionOnboardingFragmentToRegisterFragment())
         }
     }
 }

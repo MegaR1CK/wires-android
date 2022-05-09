@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.stfalcon.chatkit.messages.MessagesListAdapter
@@ -16,6 +15,7 @@ import com.wires.app.databinding.FragmentChatBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getKeyboardInset
 import com.wires.app.extensions.load
+import com.wires.app.extensions.navigateBack
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 
@@ -46,7 +46,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             if (insets.getKeyboardInset() > 0) messagesListChat.smoothScrollToPosition(0)
         }
         stateViewFlipperChat.setRetryMethod { callOperations() }
-        toolbarChat.setNavigationOnClickListener { findNavController().popBackStack() }
+        toolbarChat.setNavigationOnClickListener { navigateBack() }
         messageInputChat.setOnSendClickListener { text ->
             viewModel.sendMessage(args.channelId, text, isInitial = false)
         }

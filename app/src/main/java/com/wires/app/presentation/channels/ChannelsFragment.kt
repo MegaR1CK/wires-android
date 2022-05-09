@@ -3,7 +3,6 @@ package com.wires.app.presentation.channels
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter
 import com.wires.app.R
@@ -12,6 +11,7 @@ import com.wires.app.data.model.Message
 import com.wires.app.databinding.FragmentChannelsBinding
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.load
+import com.wires.app.extensions.navigateTo
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.chat.ChatFragment
 import timber.log.Timber
@@ -78,10 +78,10 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
             }
         }
         openChatLiveEvent.observe { channelId ->
-            findNavController().navigate(ChannelsFragmentDirections.actionChannelFragmentToChatGraph(channelId))
+            navigateTo(ChannelsFragmentDirections.actionChannelFragmentToChatGraph(channelId))
         }
         openCreateChannelLiveEvent.observe {
-            findNavController().navigate(ChannelsFragmentDirections.actionChannelsFragmentToCreateChannelGraph())
+            navigateTo(ChannelsFragmentDirections.actionChannelsFragmentToCreateChannelGraph())
         }
     }
 }

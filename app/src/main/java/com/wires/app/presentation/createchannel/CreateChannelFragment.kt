@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.wires.app.R
@@ -16,6 +15,8 @@ import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getDrawableCompat
 import com.wires.app.extensions.hideSoftKeyboard
+import com.wires.app.extensions.navigateBack
+import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.pickusers.PickUsersFragment
@@ -46,7 +47,7 @@ class CreateChannelFragment : BaseFragment(R.layout.fragment_create_channel) {
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitKeyboardInsetsWithPadding()
-        toolbarCreateChannel.setNavigationOnClickListener { findNavController().popBackStack() }
+        toolbarCreateChannel.setNavigationOnClickListener { navigateBack() }
         recyclerViewCreateChannelUsers.adapter = usersAdapter.apply {
             switchButtonState(itemCount == 0)
             submitList(viewModel.usersInChannel)
@@ -83,8 +84,7 @@ class CreateChannelFragment : BaseFragment(R.layout.fragment_create_channel) {
         createChannelLiveEvent.observe { result ->
             binding.progressIndicatorCreateChannel.isVisible = result.isLoading
             result.doOnSuccess { channel ->
-                findNavController()
-                    .navigate(CreateChannelFragmentDirections.actionCreateChannelFragmentToChatGraph(channel.id, true))
+                navigateTo(CreateChannelFragmentDirections.actionCreateChannelFragmentToChatGraph(channel.id, true))
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -92,7 +92,7 @@ class CreateChannelFragment : BaseFragment(R.layout.fragment_create_channel) {
             }
         }
         openPickUsersLiveEvent.observe {
-            findNavController().navigate(
+            navigateTo(
                 CreateChannelFragmentDirections
                     .actionCreateChannelFragmentToPickUsersGraph(viewModel.usersInChannel.toTypedArray())
             )

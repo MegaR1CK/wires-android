@@ -8,7 +8,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
@@ -22,6 +21,8 @@ import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.getKeyboardInset
 import com.wires.app.extensions.load
+import com.wires.app.extensions.navigateBack
+import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.extensions.showToast
 import com.wires.app.managers.DateFormatter
@@ -71,7 +72,7 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         root.fitKeyboardInsetsWithPadding { _, insets, _ ->
             if (insets.getKeyboardInset() > 0) nestedScrollViewPost.smoothScrollTo(0, 0)
         }
-        toolbarPost.setNavigationOnClickListener { findNavController().popBackStack() }
+        toolbarPost.setNavigationOnClickListener { navigateBack() }
         recyclerViewPostComments.adapter = commentsAdapter.apply {
             addLoadStateListener(viewModel::bindPagingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { commentsAdapter.retry() })
@@ -184,10 +185,10 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             }
         }
         openProfileLiveEvent.observe { userId ->
-            findNavController().navigate(PostFragmentDirections.actionPostFragmentToProfileGraph(userId))
+            navigateTo(PostFragmentDirections.actionPostFragmentToProfileGraph(userId))
         }
         openCreatePostLiveEvent.observe { postId ->
-            findNavController().navigate(PostFragmentDirections.actionPostFragmentToCreatePostGraph(postId))
+            navigateTo(PostFragmentDirections.actionPostFragmentToCreatePostGraph(postId))
         }
     }
 

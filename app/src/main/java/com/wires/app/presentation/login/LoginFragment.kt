@@ -2,12 +2,12 @@ package com.wires.app.presentation.login
 
 import android.os.Bundle
 import androidx.core.view.children
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.databinding.FragmentLoginBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.hideSoftKeyboard
+import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
@@ -32,7 +32,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         loginLiveEvent.observe { result ->
             binding.buttonLogin.isLoading = result.isLoading
             result.doOnSuccess {
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToFeedGraph())
+                navigateTo(LoginFragmentDirections.actionLoginFragmentToFeedGraph())
             }
             result.doOnFailure { error ->
                 showSnackbar(error.message)

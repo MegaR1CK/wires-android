@@ -1,10 +1,8 @@
 package com.wires.app.presentation.profile
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -20,6 +18,9 @@ import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.load
+import com.wires.app.extensions.navigateBack
+import com.wires.app.extensions.navigateTo
+import com.wires.app.extensions.showAlertDialog
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.createpost.CreatePostFragment
@@ -48,7 +49,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         appBarLayoutProfile.fitTopInsetsWithPadding()
-        toolbarProfile.setNavigationOnClickListener { findNavController().popBackStack() }
+        toolbarProfile.setNavigationOnClickListener { navigateBack() }
         stateViewFlipperProfile.setRetryMethod { callOperations() }
         buttonProfileEdit.setOnClickListener { viewModel.openEditUser() }
         buttonProfileSettings.setOnClickListener { viewModel.openSettings() }
@@ -120,19 +121,19 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             }
         }
         openPostLiveEvent.observe { postId ->
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToPostGraph(postId))
+            navigateTo(ProfileFragmentDirections.actionProfileFragmentToPostGraph(postId))
         }
         openProfileLiveEvent.observe { userId ->
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToProfileGraph(userId))
+            navigateTo(ProfileFragmentDirections.actionProfileFragmentToProfileGraph(userId))
         }
         openEditUserLiveEvent.observe {
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToEditUserFragment())
+            navigateTo(ProfileFragmentDirections.actionProfileFragmentToEditUserFragment())
         }
         openSettingsLiveEvent.observe {
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSettingsFragment())
+            navigateTo(ProfileFragmentDirections.actionProfileFragmentToSettingsFragment())
         }
         openCreatePostLiveEvent.observe { postId ->
-            findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToCreatePostGraph(postId))
+            navigateTo(ProfileFragmentDirections.actionProfileFragmentToCreatePostGraph(postId))
         }
     }
 
@@ -167,7 +168,18 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 postsAdapter.updatePostLike(postId)
             }
             onEditClick = viewModel::openCreatePost
-            onDeleteClick = ::showDeleteDialog
+            onDeleteClick = { postId ->
+                showAlertDialog(
+                    titleRes = R.string.dialog_post_delete_title,
+                    messageRes = R.string.dialog_post_delete_message,
+                    positiveButtonTextRes = R.string.dialog_yes,
+                    negativeButtonTextRes = R.string.dialog_no,
+                    positiveButtonListener = { dialog, _ ->
+                        viewModel.deletePost(postId)
+                        dialog.dismiss()
+                    }
+                )
+            }
             addLoadStateListener(viewModel::bindLoadingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { postsAdapter.retry() })
         addVerticalDividerItemDecoration()
@@ -191,16 +203,4 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             }
         )
     }
-
-
-    private fun showDeleteDialog(postId: Int) = AlertDialog.Builder(requireContext())
-        .setTitle(getString(R.string.dialog_post_delete_title))
-        .setMessage(getString(R.string.dialog_post_delete_message))
-        .setPositiveButton(getString(R.string.dialog_yes)) { dialog, _ ->
-            viewModel.deletePost(postId)
-            dialog.dismiss()
-        }
-        .setNegativeButton(R.string.dialog_no) { _, _ -> }
-        .create()
-        .show()
 }

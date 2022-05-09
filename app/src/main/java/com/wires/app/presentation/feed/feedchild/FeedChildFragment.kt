@@ -1,10 +1,8 @@
 package com.wires.app.presentation.feed.feedchild
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -15,6 +13,8 @@ import com.wires.app.domain.paging.PagingLoadStateAdapter
 import com.wires.app.extensions.addVerticalDividerItemDecoration
 import com.wires.app.extensions.createLoadableResultDialog
 import com.wires.app.extensions.getColorAttribute
+import com.wires.app.extensions.navigateTo
+import com.wires.app.extensions.showAlertDialog
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.extensions.showToast
 import com.wires.app.presentation.base.BaseFragment
@@ -127,18 +127,16 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
             }
         }
         openPostLiveEvent.observe { postId ->
-            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostGraph(postId))
+            navigateTo(FeedFragmentDirections.actionFeedFragmentToPostGraph(postId))
         }
         openProfileLiveEvent.observe { userId ->
-            findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToProfileGraph(userId))
+            navigateTo(FeedFragmentDirections.actionFeedFragmentToProfileGraph(userId))
         }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (parentFragment as? OnFeedChildEventListener)?.let {
-            onFeedChildEventListener = it
-        }
+        onFeedChildEventListener = parentFragment as? OnFeedChildEventListener
     }
 
     private fun setupPostsList() = with(binding.recyclerViewFeedChildPosts) {
@@ -152,20 +150,20 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
             onEditClick = { postId ->
                 onFeedChildEventListener?.onOpenPostUpdate(postId)
             }
-            onDeleteClick = ::showDeleteDialog
+            onDeleteClick = { postId ->
+                showAlertDialog(
+                    titleRes = R.string.dialog_post_delete_title,
+                    messageRes = R.string.dialog_post_delete_message,
+                    positiveButtonTextRes = R.string.dialog_yes,
+                    negativeButtonTextRes = R.string.dialog_no,
+                    positiveButtonListener = { dialog, _ ->
+                        viewModel.deletePost(postId)
+                        dialog.dismiss()
+                    }
+                )
+            }
             addLoadStateListener(viewModel::bindLoadingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { postsAdapter.retry() })
         addVerticalDividerItemDecoration()
     }
-
-    private fun showDeleteDialog(postId: Int) = AlertDialog.Builder(requireContext())
-        .setTitle(getString(R.string.dialog_post_delete_title))
-        .setMessage(getString(R.string.dialog_post_delete_message))
-        .setPositiveButton(getString(R.string.dialog_yes)) { dialog, _ ->
-            viewModel.deletePost(postId)
-            dialog.dismiss()
-        }
-        .setNegativeButton(R.string.dialog_no) { _, _ -> }
-        .create()
-        .show()
 }

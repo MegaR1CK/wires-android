@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -23,6 +22,8 @@ import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getInputText
 import com.wires.app.extensions.load
+import com.wires.app.extensions.navigateBack
+import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
@@ -60,7 +61,7 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
         isEditMode = args.postId != 0
         root.fitKeyboardInsetsWithPadding()
         if (!isEditMode) stateViewFlipperCreatePost.setStateFromResult(LoadableResult.success(null))
-        toolbarCreatePost.setNavigationOnClickListener { findNavController().popBackStack() }
+        toolbarCreatePost.setNavigationOnClickListener { navigateBack() }
         editTextCreatePost.doOnTextChanged { text, _, _, _ ->
             if (imageViewCreatePost.drawable == null && viewModel.selectedTopic != null) {
                 buttonCreatePostDone.isVisible = !text.isNullOrBlank()
@@ -87,7 +88,7 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
             binding.progressIndicatorCreatePost.isVisible = result.isLoading
             result.doOnSuccess {
                 setFragmentResult(POST_CHANGED_RESULT_KEY, bundleOf())
-                findNavController().popBackStack()
+                navigateBack()
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -102,7 +103,7 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
             }
         }
         selectTopicLiveEvent.observe {
-            findNavController().navigate(CreatePostFragmentDirections.actionCreatePostFragmentToSelectTopicDialog())
+            navigateTo(CreatePostFragmentDirections.actionCreatePostFragmentToSelectTopicDialog())
         }
     }
 

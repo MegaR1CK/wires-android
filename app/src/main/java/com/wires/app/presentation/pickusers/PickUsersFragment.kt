@@ -5,7 +5,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.setFragmentResult
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -14,6 +13,7 @@ import com.wires.app.data.LoadableResult
 import com.wires.app.databinding.FragmentPickUsersBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.hideSoftKeyboard
+import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.extensions.showSoftKeyboard
 import com.wires.app.presentation.base.BaseFragment
@@ -45,7 +45,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
                 requireActivity().hideSoftKeyboard()
                 linearLayoutPickUsersSearch.isVisible = false
             } else {
-                findNavController().popBackStack()
+                navigateBack()
             }
         }
         buttonPickUsersSearch.setOnClickListener { setSearchFocus() }
@@ -59,7 +59,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
                 requestKey = USERS_CHANGED_RESULT_KEY,
                 result = bundleOf(USERS_LIST_RESULT_KEY to viewModel.pickedUsers.toTypedArray())
             )
-            findNavController().popBackStack()
+            navigateBack()
         }
         editTextPickUsersSearch.setOnEditorActionListener { _, _, _ ->
             viewModel.search(editTextPickUsersSearch.text?.toString())

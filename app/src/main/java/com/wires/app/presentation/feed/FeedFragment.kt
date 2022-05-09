@@ -3,7 +3,6 @@ package com.wires.app.presentation.feed
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.wires.app.R
@@ -11,6 +10,7 @@ import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentFeedBinding
 import com.wires.app.extensions.fitTopInsetsWithPadding
+import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.toInt
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.createpost.CreatePostFragment
@@ -51,7 +51,7 @@ class FeedFragment : BaseFragment(R.layout.fragment_feed), OnFeedChildEventListe
         }
 
         createPostLiveEvent.observe { postId ->
-            findNavController().navigate(
+            navigateTo(
                 if (postId != null) {
                     FeedFragmentDirections.actionFeedFragmentToCreatePostGraph(postId)
                 } else {
