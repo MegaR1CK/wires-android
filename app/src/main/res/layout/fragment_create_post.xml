@@ -15,7 +15,6 @@
             android:id="@+id/toolbarCreatePost"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:title="@string/create_post_title"
             app:titleTextAppearance="@style/FontStyle.Body.Bold"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="?colorToolbarIcons">

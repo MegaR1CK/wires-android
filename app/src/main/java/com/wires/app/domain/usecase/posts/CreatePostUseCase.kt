@@ -10,12 +10,12 @@ class CreatePostUseCase @Inject constructor(
 ) : UseCaseLoadable<CreatePostUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) {
-        postsRepository.createPost(params.text, params.topic, params.imagePath)
+        postsRepository.createPost(params.text, params.topic, params.imageUri)
     }
 
     data class Params(
         val text: String,
         val topic: UserInterest,
-        val imagePath: String?
+        val imageUri: String?
     )
 }

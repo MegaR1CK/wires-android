@@ -2,6 +2,7 @@ package com.wires.app.presentation.createpost
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +19,7 @@ import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentCreatePostBinding
+import com.wires.app.extensions.bytesEqualTo
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getInputText
@@ -41,15 +43,16 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
     private val viewModel: CreatePostViewModel by appViewModels()
     private val args: CreatePostFragmentArgs by navArgs()
 
-    private var isEditMode = false
     private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             result.data?.extras?.getString(FILE_PATH_KEY)?.let { path ->
-                viewModel.selectedImagePath = path
-                setImage(Uri.fromFile(File(path)).toString())
+                setImage(Uri.fromFile(File(path)).toString(), isInitial = false)
             }
         }
     }
+
+    private var isEditMode = false
+    private var initialImage: Drawable? = null
 
     @Inject lateinit var appContext: Context
 
@@ -62,6 +65,7 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
         root.fitKeyboardInsetsWithPadding()
         if (!isEditMode) stateViewFlipperCreatePost.setStateFromResult(LoadableResult.success(null))
         toolbarCreatePost.setNavigationOnClickListener { navigateBack() }
+        toolbarCreatePost.title = getString(if (isEditMode) R.string.create_post_title_edit else R.string.create_post_title)
         editTextCreatePost.doOnTextChanged { text, _, _, _ ->
             if (imageViewCreatePost.drawable == null && viewModel.selectedTopic != null) {
                 buttonCreatePostDone.isVisible = !text.isNullOrBlank()
@@ -115,18 +119,35 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
             binding.imageViewCreatePost.drawable != null || binding.editTextCreatePost.getInputText().isNotBlank()
     }
 
-    private fun setImage(imageUri: String) = with(binding) {
+    private fun setImage(imageUri: String, isInitial: Boolean) = with(binding) {
         buttonCreatePostImageAdd.isVisible = false
         buttonCreatePostImageRemove.isVisible = true
         imageViewCreatePost.run {
-            load(imageUri)
+            load(
+                imageUrl = imageUri,
+                doOnSuccess = { drawable -> setImageUri(imageUri, drawable, isInitial) }
+            )
             isVisible = true
         }
+
         buttonCreatePostDone.isVisible = viewModel.selectedTopic != null
     }
 
+    private fun setImageUri(imageUri: String, drawable: Drawable?, isInitial: Boolean) {
+        viewModel.selectedImageUri = if (isEditMode) {
+            when {
+                isInitial -> {
+                    initialImage = drawable
+                    null
+                }
+                initialImage?.bytesEqualTo(drawable) == true -> null
+                else -> imageUri
+            }
+        } else imageUri
+    }
+
     private fun removeImage() = with(binding) {
-        viewModel.selectedImagePath = null
+        viewModel.selectedImageUri = if (initialImage != null) "" else null
         buttonCreatePostImageAdd.isVisible = true
         buttonCreatePostImageRemove.isVisible = false
         imageViewCreatePost.run {
@@ -147,6 +168,6 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
     private fun bindPostForEdit(post: Post) = with(binding) {
         setPostTopic(post.topic)
         editTextCreatePost.setText(post.text)
-        post.image?.url?.let { setImage(it) }
+        post.image?.url?.let { setImage(it, isInitial = true) }
     }
 }

@@ -1,5 +1,6 @@
 package com.wires.app.domain.repository
 
+import android.net.Uri
 import androidx.paging.PagingData
 import com.google.gson.Gson
 import com.wires.app.data.mapper.PostsMapper
@@ -17,6 +18,7 @@ import com.wires.app.presentation.post.CommentsPagingSource
 import com.wires.app.presentation.profile.UserPostsPagingSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
@@ -29,6 +31,7 @@ class PostsRepository @Inject constructor(
 
     companion object {
         private const val IMAGE_PART_NAME = "image"
+        private const val EMPTY_FILE_NAME = "empty_file"
     }
 
     suspend fun getPostsCompilation(interest: UserInterest?, limit: Int, offset: Int): List<Post> {
@@ -40,10 +43,10 @@ class PostsRepository @Inject constructor(
         return createPager(FeedPagingSource(this, interest)).flow
     }
 
-    suspend fun createPost(text: String, topic: UserInterest, imagePath: String?) {
+    suspend fun createPost(text: String, topic: UserInterest, imageUri: String?) {
         apiService.createPost(
             gson.toJson(PostCreateParams(text, topic.name)).toRequestBody(),
-            imagePath?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
+            Uri.parse(imageUri).path?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
         )
     }
 
@@ -75,15 +78,25 @@ class PostsRepository @Inject constructor(
         apiService.likePost(postId, isLiked)
     }
 
-    suspend fun updatePost(postId: Int, text: String?, topic: UserInterest?, imagePath: String?) {
+    suspend fun updatePost(postId: Int, text: String?, topic: UserInterest?, imageUri: String?) {
+        val imagePart = imageUri?.let { uri ->
+            if (uri.isNotEmpty()) {
+                Uri.parse(uri).path?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
+            } else {
+                createEmptyImagePart()
+            }
+        }
         apiService.updatePost(
             postId = postId,
             updateParams = gson.toJson(PostUpdateParams(text, topic?.name)).toRequestBody(),
-            image = imagePath?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
+            image = imagePart
         )
     }
 
     suspend fun deletePost(postId: Int) {
         apiService.deletePost(postId)
     }
+
+    private fun createEmptyImagePart() =
+        MultipartBody.Part.createFormData(IMAGE_PART_NAME, EMPTY_FILE_NAME, byteArrayOf().toRequestBody())
 }

@@ -44,6 +44,7 @@
 
     <!-- ADD POST -->
     <string name="create_post_title">Create a new post</string>
+    <string name="create_post_title_edit">Edit post</string>
     <string name="create_post_hint">What\'s new?</string>
     <string name="create_post_add_image_text">Add image</string>
     <string name="create_post_remove_image_text">Remove image</string>

@@ -27,13 +27,13 @@ class CreatePostViewModel @Inject constructor(
     private val _selectTopicLiveEvent = SingleLiveEvent<Unit>()
     val selectTopicLiveEvent: LiveData<Unit> = _selectTopicLiveEvent
 
-    var selectedImagePath: String? = null
+    var selectedImageUri: String? = null
     var selectedTopic: UserInterest? = null
 
     fun createPost(text: String) {
         selectedTopic?.let { topic ->
             _proceedPostLiveEvent.launchLoadData(
-                createPostUseCase.executeLoadable(CreatePostUseCase.Params(text, topic, selectedImagePath))
+                createPostUseCase.executeLoadable(CreatePostUseCase.Params(text, topic, selectedImageUri))
             )
         }
     }
@@ -41,7 +41,7 @@ class CreatePostViewModel @Inject constructor(
     fun updatePost(postId: Int, text: String?) {
         selectedTopic?.let { topic ->
             _proceedPostLiveEvent.launchLoadData(
-                updatePostUseCase.executeLoadable(UpdatePostUseCase.Params(postId, text, topic, selectedImagePath))
+                updatePostUseCase.executeLoadable(UpdatePostUseCase.Params(postId, text, topic, selectedImageUri))
             )
         }
     }
