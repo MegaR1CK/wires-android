@@ -40,6 +40,8 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         const val POST_ID_RESULT_KEY = "result_post_id"
         const val COMMENTS_CHANGED_RESULT_KEY = "result_comments_changed"
         const val COMMENTS_COUNT_RESULT_KEY = "result_comments_count"
+        const val POST_UPDATED_RESULT_KEY = "result_post_updated"
+        const val POST_DATA_RESULT_KEY = "result_post_data"
         const val POST_DELETED_RESULT_KEY = "result_post_deleted"
     }
 
@@ -53,14 +55,21 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
     private var isRefreshingBySwipe = false
 
     /**
-     * Маркер первой загрузки списка комментариев
+     * Маркер первоначальной (полноэкранной) загрузки
      */
-    private var isFirstLoading = true
+    private var initialLoading = true
 
     /**
-     * Маркер установленного поста
+     * Маркер требования результата обновленного поста, нужен для выставления fragmentResult
+     * после загрузки обновленного поста. Сбрасывается после выставления fragmentResult.
      */
-    private var postSet = false
+    private var needUpdateResult = false
+
+    /**
+     * Маркер обновленного поста, нужен для изменения поведения обсерверов сразу после возвращения, когда эмитятся
+     * LoadableResult Success. Сбрасывается после прогона Success в последнем обсервере (Comments state)
+     */
+    private var postUpdated = false
 
     @Inject lateinit var commentsAdapter: CommentsAdapter
     @Inject lateinit var dateFormatter: DateFormatter
@@ -89,7 +98,9 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         }
         swipeRefreshLayoutPost.setColorSchemeColors(requireContext().getColorAttribute(R.attr.colorPrimary))
         setFragmentResultListener(CreatePostFragment.POST_CHANGED_RESULT_KEY) { _, _ ->
-            isFirstLoading = true
+            needUpdateResult = true
+            initialLoading = true
+            postUpdated = true
             callOperations()
         }
     }
@@ -108,7 +119,7 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             }
         }
         postLiveData.observe { result ->
-            if ((isFirstLoading && !result.isSuccess) || (result.isSuccess && postSet)) {
+            if (initialLoading && !result.isSuccess || (result.isSuccess && !initialLoading)) {
                 binding.stateViewFlipperPost.setStateFromResult(result)
             }
             if (isRefreshingBySwipe) {
@@ -118,7 +129,11 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
                 }
             }
             result.doOnSuccess { post ->
-                if (!postSet || isRefreshingBySwipe) viewModel.getComments(post.id)
+                if ((initialLoading && !postUpdated) || isRefreshingBySwipe) viewModel.getComments(post.id)
+                if (needUpdateResult && !postUpdated) {
+                    setFragmentResult(POST_UPDATED_RESULT_KEY, bundleOf(POST_DATA_RESULT_KEY to post))
+                    needUpdateResult = false
+                }
                 bindPost(post.copy(isEditable = userLiveData.value?.getOrNull()?.user?.id == post.author.id))
             }
             result.doOnFailure { error ->
@@ -129,21 +144,27 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             commentsAdapter.submitData(lifecycle, data)
         }
         commentStateLiveData.observe { result ->
-            when {
-                isFirstLoading -> {
-                    binding.stateViewFlipperPost.setStateFromResult(result)
-                    result.doOnSuccess { isFirstLoading = false }
-                }
-                isRefreshingBySwipe -> {
-                    binding.swipeRefreshLayoutPost.isRefreshing = result.isLoading
-                    result.doOnComplete { isRefreshingBySwipe = false }
-                    result.doOnFailure { error ->
-                        showToast(error.title)
+            if (!postUpdated) {
+                when {
+                    initialLoading -> {
+                        binding.stateViewFlipperPost.setStateFromResult(result)
+                        result.doOnSuccess {
+                            initialLoading = false
+                        }
+                    }
+                    isRefreshingBySwipe -> {
+                        binding.swipeRefreshLayoutPost.isRefreshing = result.isLoading
+                        result.doOnComplete { isRefreshingBySwipe = false }
+                        result.doOnFailure { error ->
+                            showToast(error.title)
+                        }
+                    }
+                    binding.messageInputViewComment.isLoadingState -> {
+                        binding.messageInputViewComment.handleResult(LoadableResult.success(result))
                     }
                 }
-                binding.messageInputViewComment.isLoadingState -> {
-                    binding.messageInputViewComment.handleResult(LoadableResult.success(result))
-                }
+            } else {
+                postUpdated = false
             }
             result.doOnFailure { error ->
                 Timber.e(error.title)
@@ -236,7 +257,6 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         }
         buttonPostActions.isVisible = post.isEditable
         buttonPostActions.setOnClickListener { showPopupMenu(it, post.id) }
-        postSet = true
     }
 
     private fun switchLikeState() = with(binding.viewPost) {

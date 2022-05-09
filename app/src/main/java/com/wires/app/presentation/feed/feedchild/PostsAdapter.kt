@@ -54,6 +54,15 @@ class PostsAdapter @Inject constructor(
         }
     }
 
+    fun updatePostData(updatedPost: Post) {
+        snapshot().find { it?.id == updatedPost.id }?.let { post ->
+            post.text = updatedPost.text
+            post.topic = updatedPost.topic
+            post.image = updatedPost.image
+            notifyItemChanged(snapshot().indexOf(post))
+        }
+    }
+
     fun removePost(postId: Int) {
         snapshot().find { it?.id == postId }?.let { post ->
             post.isRemoved = true

@@ -33,7 +33,7 @@ import javax.inject.Inject
 class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
 
     companion object {
-        const val POST_CHANGED_RESULT_KEY = "post_created_key"
+        const val POST_CHANGED_RESULT_KEY = "post_changed_key"
         private const val FILE_PATH_KEY = "extra.file_path"
     }
 

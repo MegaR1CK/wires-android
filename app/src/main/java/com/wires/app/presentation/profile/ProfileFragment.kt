@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.wires.app.R
+import com.wires.app.data.model.Post
 import com.wires.app.data.model.User
 import com.wires.app.databinding.FragmentProfileBinding
 import com.wires.app.domain.paging.PagingLoadStateAdapter
@@ -204,6 +205,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 bundle.getInt(PostFragment.POST_ID_RESULT_KEY),
                 bundle.getInt(PostFragment.COMMENTS_COUNT_RESULT_KEY)
             )
+        }
+        setFragmentResultListener(PostFragment.POST_UPDATED_RESULT_KEY) { _, bundle ->
+            bundle.getParcelable<Post>(PostFragment.POST_DATA_RESULT_KEY)?.let { postsAdapter.updatePostData(it) }
         }
         setFragmentResultListener(PostFragment.POST_DELETED_RESULT_KEY) { _, bundle ->
             removePostFromList(bundle.getInt(PostFragment.POST_ID_RESULT_KEY))

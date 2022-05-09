@@ -37,7 +37,8 @@ class PostViewModel @Inject constructor(
     private val _commentsLiveData = MutableLiveData<PagingData<Comment>>()
     val commentsLiveData: LiveData<PagingData<Comment>> = _commentsLiveData
 
-    private val _commentsStateLiveData = MutableLiveData<LoadableResult<Unit>>()
+    // SingleLiveEvent, чтобы стейт комментариев не эмитился несколько раз при возвращении на этот экран
+    private val _commentsStateLiveData = SingleLiveEvent<LoadableResult<Unit>>()
     val commentStateLiveData: LiveData<LoadableResult<Unit>> = _commentsStateLiveData
 
     private val _addCommentLiveEvent = SingleLiveEvent<LoadableResult<Unit>>()
