@@ -48,26 +48,14 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
-        setupPostsList()
         swipeRefreshLayoutFeedChild.setColorSchemeColors(requireContext().getColorAttribute(R.attr.colorPrimary))
         swipeRefreshLayoutFeedChild.setOnRefreshListener {
             callOperations()
             isRefreshingBySwipe = true
         }
         stateViewFlipperFeedChild.setRetryMethod { callOperations() }
-        (recyclerViewFeedChildPosts.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-        recyclerViewFeedChildPosts.emptyView = emptyViewFeedChildPosts
-        parentFragment?.setFragmentResultListener(PostFragment.LIKE_CHANGED_RESULT_KEY) { _, bundle ->
-            val postId = bundle.getInt(PostFragment.POST_ID_RESULT_KEY)
-            if (postId != 0) postsAdapter.updatePostLike(postId)
-        }
-        parentFragment?.setFragmentResultListener(PostFragment.COMMENTS_CHANGED_RESULT_KEY) { _, bundle ->
-            postsAdapter.updatePostComments(
-                bundle.getInt(PostFragment.POST_ID_RESULT_KEY),
-                bundle.getInt(PostFragment.COMMENTS_COUNT_RESULT_KEY)
-            )
-        }
-        Unit
+        setupResultListeners()
+        setupPostsList()
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -116,10 +104,7 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
         postDeleteLiveEvent.observe { result ->
             loadableResultDialog.setState(result)
             result.doOnSuccess { postId ->
-                postsAdapter.removePost(postId)
-                if (postsAdapter.isEmpty) {
-                    postsAdapter.submitData(lifecycle, PagingData.empty())
-                }
+                removePostFromList(postId)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -140,6 +125,8 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
     }
 
     private fun setupPostsList() = with(binding.recyclerViewFeedChildPosts) {
+        (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        emptyView = binding.emptyViewFeedChildPosts
         adapter = postsAdapter.apply {
             onPostClick = viewModel::openPost
             onAuthorClick = viewModel::openProfile
@@ -165,5 +152,26 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
             addLoadStateListener(viewModel::bindLoadingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { postsAdapter.retry() })
         addVerticalDividerItemDecoration()
+    }
+
+    private fun setupResultListeners() = parentFragment?.run {
+        setFragmentResultListener(PostFragment.LIKE_CHANGED_RESULT_KEY) { _, bundle ->
+            val postId = bundle.getInt(PostFragment.POST_ID_RESULT_KEY)
+            if (postId != 0) postsAdapter.updatePostLike(postId)
+        }
+        setFragmentResultListener(PostFragment.COMMENTS_CHANGED_RESULT_KEY) { _, bundle ->
+            postsAdapter.updatePostComments(
+                bundle.getInt(PostFragment.POST_ID_RESULT_KEY),
+                bundle.getInt(PostFragment.COMMENTS_COUNT_RESULT_KEY)
+            )
+        }
+        setFragmentResultListener(PostFragment.POST_DELETED_RESULT_KEY) { _, bundle ->
+            removePostFromList(bundle.getInt(PostFragment.POST_ID_RESULT_KEY))
+        }
+    }
+
+    private fun removePostFromList(postId: Int) = with(postsAdapter) {
+        removePost(postId)
+        if (isEmpty) submitData(lifecycle, PagingData.empty())
     }
 }

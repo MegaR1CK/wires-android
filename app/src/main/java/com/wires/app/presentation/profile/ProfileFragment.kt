@@ -55,24 +55,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         buttonProfileSettings.setOnClickListener { viewModel.openSettings() }
         setupAppbar()
         setupPostsList()
-        (recyclerViewProfilePosts.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-        recyclerViewProfilePosts.emptyView = emptyViewProfilePosts
-        setFragmentResultListener(EditUserFragment.USER_UPDATED_RESULT_KEY) { _, _ ->
-            callOperations()
-        }
-        setFragmentResultListener(CreatePostFragment.POST_CHANGED_RESULT_KEY) { _, _ ->
-            viewModel.userLiveData.value?.getOrNull()?.user?.id?.let { viewModel.getUserPosts(it) }
-        }
-        setFragmentResultListener(PostFragment.LIKE_CHANGED_RESULT_KEY) { _, bundle ->
-            val postId = bundle.getInt(PostFragment.POST_ID_RESULT_KEY)
-            if (postId != 0) postsAdapter.updatePostLike(postId)
-        }
-        setFragmentResultListener(PostFragment.COMMENTS_CHANGED_RESULT_KEY) { _, bundle ->
-            postsAdapter.updatePostComments(
-                bundle.getInt(PostFragment.POST_ID_RESULT_KEY),
-                bundle.getInt(PostFragment.COMMENTS_COUNT_RESULT_KEY)
-            )
-        }
+        setupResultListeners()
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -112,8 +95,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         postDeleteLiveEvent.observe { result ->
             loadableResultDialog.setState(result)
             result.doOnSuccess { postId ->
-                postsAdapter.removePost(postId)
-                if (postsAdapter.isEmpty) postsAdapter.submitData(lifecycle, PagingData.empty())
+                removePostFromList(postId)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -160,6 +142,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     }
 
     private fun setupPostsList() = with(binding.recyclerViewProfilePosts) {
+        (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        emptyView = binding.emptyViewProfilePosts
         adapter = postsAdapter.apply {
             onPostClick = viewModel::openPost
             onAuthorClick = viewModel::openProfile
@@ -202,5 +186,32 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 }
             }
         )
+    }
+
+    private fun setupResultListeners() {
+        setFragmentResultListener(EditUserFragment.USER_UPDATED_RESULT_KEY) { _, _ ->
+            callOperations()
+        }
+        setFragmentResultListener(CreatePostFragment.POST_CHANGED_RESULT_KEY) { _, _ ->
+            viewModel.userLiveData.value?.getOrNull()?.user?.id?.let { viewModel.getUserPosts(it) }
+        }
+        setFragmentResultListener(PostFragment.LIKE_CHANGED_RESULT_KEY) { _, bundle ->
+            val postId = bundle.getInt(PostFragment.POST_ID_RESULT_KEY)
+            if (postId != 0) postsAdapter.updatePostLike(postId)
+        }
+        setFragmentResultListener(PostFragment.COMMENTS_CHANGED_RESULT_KEY) { _, bundle ->
+            postsAdapter.updatePostComments(
+                bundle.getInt(PostFragment.POST_ID_RESULT_KEY),
+                bundle.getInt(PostFragment.COMMENTS_COUNT_RESULT_KEY)
+            )
+        }
+        setFragmentResultListener(PostFragment.POST_DELETED_RESULT_KEY) { _, bundle ->
+            removePostFromList(bundle.getInt(PostFragment.POST_ID_RESULT_KEY))
+        }
+    }
+
+    private fun removePostFromList(postId: Int) = with(postsAdapter) {
+        removePost(postId)
+        if (isEmpty) submitData(lifecycle, PagingData.empty())
     }
 }

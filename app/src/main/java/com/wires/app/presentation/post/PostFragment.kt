@@ -16,6 +16,7 @@ import com.wires.app.data.model.Post
 import com.wires.app.databinding.FragmentPostBinding
 import com.wires.app.domain.paging.PagingLoadStateAdapter
 import com.wires.app.extensions.countViewHeight
+import com.wires.app.extensions.createLoadableResultDialog
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getDisplayName
@@ -23,6 +24,7 @@ import com.wires.app.extensions.getKeyboardInset
 import com.wires.app.extensions.load
 import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.navigateTo
+import com.wires.app.extensions.showAlertDialog
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.extensions.showToast
 import com.wires.app.managers.DateFormatter
@@ -38,6 +40,7 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         const val POST_ID_RESULT_KEY = "result_post_id"
         const val COMMENTS_CHANGED_RESULT_KEY = "result_comments_changed"
         const val COMMENTS_COUNT_RESULT_KEY = "result_comments_count"
+        const val POST_DELETED_RESULT_KEY = "result_post_deleted"
     }
 
     private val viewModel: PostViewModel by appViewModels()
@@ -184,6 +187,18 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
                 showSnackbar(error.message)
             }
         }
+        val loadableResultDialog = createLoadableResultDialog()
+        postDeleteLiveEvent.observe { result ->
+            loadableResultDialog.setState(result)
+            result.doOnSuccess { postId ->
+                setFragmentResult(POST_DELETED_RESULT_KEY, bundleOf(POST_ID_RESULT_KEY to postId))
+                navigateBack()
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+                showSnackbar(error.message)
+            }
+        }
         openProfileLiveEvent.observe { userId ->
             navigateTo(PostFragmentDirections.actionPostFragmentToProfileGraph(userId))
         }
@@ -249,7 +264,18 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.postActionEdit -> viewModel.openCreatePost(postId)
-                    R.id.postActionDelete -> { }
+                    R.id.postActionDelete -> {
+                        showAlertDialog(
+                            titleRes = R.string.dialog_post_delete_title,
+                            messageRes = R.string.dialog_post_delete_message,
+                            positiveButtonTextRes = R.string.dialog_yes,
+                            negativeButtonTextRes = R.string.dialog_no,
+                            positiveButtonListener = { dialog, _ ->
+                                viewModel.deletePost(postId)
+                                dialog.dismiss()
+                            }
+                        )
+                    }
                 }
                 true
             }
