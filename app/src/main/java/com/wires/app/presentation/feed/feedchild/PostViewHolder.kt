@@ -27,20 +27,26 @@ class PostViewHolder(
     private val context = itemView.context
 
     fun bind(post: Post) = with(itemBinding) {
-        textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
-        textViewPostBody.text = post.text
-        imageViewPostImage.isVisible = post.image != null
-        post.image?.let { image ->
-            imageViewPostImage.countViewHeight(image.size.width, image.size.height)
-            imageViewPostImage.load(image.url)
-        } ?: run {
-            imageViewPostImage.setImageDrawable(null)
+        if (!post.isRemoved) {
+            textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
+            textViewPostBody.text = post.text
+            imageViewPostImage.isVisible = post.image != null
+            post.image?.let { image ->
+                imageViewPostImage.countViewHeight(image.size.width, image.size.height)
+                imageViewPostImage.load(image.url)
+            } ?: run {
+                imageViewPostImage.setImageDrawable(null)
+            }
+            root.setOnClickListener { onItemClick.invoke(post.id) }
+            buttonPostActions.isVisible = post.isEditable
+            buttonPostActions.setOnClickListener { showPopupMenu(it, post.id) }
+            bindBottomPanel(post)
+            bindPostAuthor(post.author)
+        } else {
+            // Если пост удален, задаем холдеру нулевую высоту, чтобы скрыть его и не обновлять
+            // весь список, так как удаление элемента из пагинируемого списка затруднительно
+            root.layoutParams.height = 0
         }
-        root.setOnClickListener { onItemClick.invoke(post.id) }
-        buttonPostActions.isVisible = post.isEditable
-        buttonPostActions.setOnClickListener { showPopupMenu(it, post.id) }
-        bindBottomPanel(post)
-        bindPostAuthor(post.author)
     }
 
     private fun bindBottomPanel(post: Post) = with(itemBinding) {

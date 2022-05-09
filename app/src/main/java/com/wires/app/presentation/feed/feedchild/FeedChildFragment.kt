@@ -1,9 +1,11 @@
 package com.wires.app.presentation.feed.feedchild
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
@@ -11,6 +13,7 @@ import com.wires.app.data.model.UserInterest
 import com.wires.app.databinding.FragmentFeedChildBinding
 import com.wires.app.domain.paging.PagingLoadStateAdapter
 import com.wires.app.extensions.addVerticalDividerItemDecoration
+import com.wires.app.extensions.createLoadableResultDialog
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.extensions.showToast
@@ -109,6 +112,20 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
                 showSnackbar(error.message)
             }
         }
+        val loadableResultDialog = createLoadableResultDialog()
+        postDeleteLiveEvent.observe { result ->
+            loadableResultDialog.setState(result)
+            result.doOnSuccess { postId ->
+                postsAdapter.removePost(postId)
+                if (postsAdapter.isEmpty) {
+                    postsAdapter.submitData(lifecycle, PagingData.empty())
+                }
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+                showSnackbar(error.message)
+            }
+        }
         openPostLiveEvent.observe { postId ->
             findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToPostGraph(postId))
         }
@@ -135,8 +152,20 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
             onEditClick = { postId ->
                 onFeedChildEventListener?.onOpenPostUpdate(postId)
             }
+            onDeleteClick = ::showDeleteDialog
             addLoadStateListener(viewModel::bindLoadingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { postsAdapter.retry() })
         addVerticalDividerItemDecoration()
     }
+
+    private fun showDeleteDialog(postId: Int) = AlertDialog.Builder(requireContext())
+        .setTitle(getString(R.string.dialog_post_delete_title))
+        .setMessage(getString(R.string.dialog_post_delete_message))
+        .setPositiveButton(getString(R.string.dialog_yes)) { dialog, _ ->
+            viewModel.deletePost(postId)
+            dialog.dismiss()
+        }
+        .setNegativeButton(R.string.dialog_no) { _, _ -> }
+        .create()
+        .show()
 }

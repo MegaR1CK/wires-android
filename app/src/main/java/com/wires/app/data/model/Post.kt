@@ -12,7 +12,8 @@ data class Post(
     var likesCount: Int,
     var commentsCount: Int,
     var isLiked: Boolean,
-    var isEditable: Boolean = false
+    var isEditable: Boolean = false,
+    var isRemoved: Boolean = false
 ) : Similarable<Post> {
 
     override fun areItemsTheSame(other: Post): Boolean {

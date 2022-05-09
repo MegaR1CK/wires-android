@@ -20,6 +20,9 @@ class PostsAdapter @Inject constructor(
     var onEditClick: (Int) -> Unit = {}
     var onDeleteClick: (Int) -> Unit = {}
 
+    val isEmpty: Boolean
+        get() = snapshot().none { it?.isRemoved == false }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return PostViewHolder(
             ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false),
@@ -47,6 +50,13 @@ class PostsAdapter @Inject constructor(
     fun updatePostComments(postId: Int, commentsCount: Int) {
         snapshot().find { it?.id == postId }?.let { post ->
             post.commentsCount = commentsCount
+            notifyItemChanged(snapshot().indexOf(post))
+        }
+    }
+
+    fun removePost(postId: Int) {
+        snapshot().find { it?.id == postId }?.let { post ->
+            post.isRemoved = true
             notifyItemChanged(snapshot().indexOf(post))
         }
     }

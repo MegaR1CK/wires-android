@@ -1,10 +1,12 @@
 package com.wires.app.presentation.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.SimpleItemAnimator
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.appbar.AppBarLayout
@@ -13,6 +15,7 @@ import com.wires.app.data.model.User
 import com.wires.app.databinding.FragmentProfileBinding
 import com.wires.app.domain.paging.PagingLoadStateAdapter
 import com.wires.app.extensions.addVerticalDividerItemDecoration
+import com.wires.app.extensions.createLoadableResultDialog
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getDisplayName
@@ -104,6 +107,18 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 showSnackbar(error.message)
             }
         }
+        val loadableResultDialog = createLoadableResultDialog()
+        postDeleteLiveEvent.observe { result ->
+            loadableResultDialog.setState(result)
+            result.doOnSuccess { postId ->
+                postsAdapter.removePost(postId)
+                if (postsAdapter.isEmpty) postsAdapter.submitData(lifecycle, PagingData.empty())
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+                showSnackbar(error.message)
+            }
+        }
         openPostLiveEvent.observe { postId ->
             findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToPostGraph(postId))
         }
@@ -152,6 +167,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
                 postsAdapter.updatePostLike(postId)
             }
             onEditClick = viewModel::openCreatePost
+            onDeleteClick = ::showDeleteDialog
             addLoadStateListener(viewModel::bindLoadingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { postsAdapter.retry() })
         addVerticalDividerItemDecoration()
@@ -175,4 +191,16 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             }
         )
     }
+
+
+    private fun showDeleteDialog(postId: Int) = AlertDialog.Builder(requireContext())
+        .setTitle(getString(R.string.dialog_post_delete_title))
+        .setMessage(getString(R.string.dialog_post_delete_message))
+        .setPositiveButton(getString(R.string.dialog_yes)) { dialog, _ ->
+            viewModel.deletePost(postId)
+            dialog.dismiss()
+        }
+        .setNegativeButton(R.string.dialog_no) { _, _ -> }
+        .create()
+        .show()
 }

@@ -10,6 +10,7 @@ import com.wires.app.data.model.Post
 import com.wires.app.data.model.SetLikeResult
 import com.wires.app.data.model.UserInterest
 import com.wires.app.data.model.UserWrapper
+import com.wires.app.domain.usecase.posts.DeletePostUseCase
 import com.wires.app.domain.usecase.posts.GetFeedUseCase
 import com.wires.app.domain.usecase.posts.LikePostUseCase
 import com.wires.app.domain.usecase.user.GetStoredUserUseCase
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class FeedChildViewModel @Inject constructor(
     private val getFeedUseCase: GetFeedUseCase,
     private val likePostUseCase: LikePostUseCase,
-    private val getStoredUserUseCase: GetStoredUserUseCase
+    private val getStoredUserUseCase: GetStoredUserUseCase,
+    private val deletePostUseCase: DeletePostUseCase
 ) : BaseViewModel() {
 
     private val _postsLiveData = MutableLiveData<PagingData<Post>>()
@@ -32,6 +34,9 @@ class FeedChildViewModel @Inject constructor(
 
     private val _postLikeLiveEvent = SingleLiveEvent<LoadableResult<SetLikeResult>>()
     val postLikeLiveEvent: LiveData<LoadableResult<SetLikeResult>> = _postLikeLiveEvent
+
+    private val _postDeleteLiveEvent = SingleLiveEvent<LoadableResult<Int>>()
+    val postDeleteLiveEvent: LiveData<LoadableResult<Int>> = _postDeleteLiveEvent
 
     private val _userLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
     val userLiveData: LiveData<LoadableResult<UserWrapper>> = _userLiveData
@@ -56,6 +61,10 @@ class FeedChildViewModel @Inject constructor(
 
     fun setPostLike(postId: Int, isLiked: Boolean) {
         _postLikeLiveEvent.launchLoadData(likePostUseCase.executeLoadable(LikePostUseCase.Params(postId, isLiked)))
+    }
+
+    fun deletePost(postId: Int) {
+        _postDeleteLiveEvent.launchLoadData(deletePostUseCase.executeLoadable(DeletePostUseCase.Params(postId)))
     }
 
     fun bindLoadingState(state: CombinedLoadStates) {

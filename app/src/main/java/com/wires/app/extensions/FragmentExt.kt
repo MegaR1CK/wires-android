@@ -10,6 +10,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.wires.app.R
+import com.wires.app.presentation.views.LoadableResultDialog
 
 const val TOOLBAR_COLLAPSED_TAG = "collapsed"
 const val TOOLBAR_EXPANDED_TAG = "expanded"
@@ -68,4 +69,8 @@ fun Fragment.navigateTo(direction: NavDirections) {
 
 fun Fragment.navigateTo(uri: Uri?) {
     findNavController().navigateSafe(uri)
+}
+
+fun Fragment.createLoadableResultDialog(message: String? = null): LoadableResultDialog {
+    return LoadableResultDialog(requireContext(), message)
 }

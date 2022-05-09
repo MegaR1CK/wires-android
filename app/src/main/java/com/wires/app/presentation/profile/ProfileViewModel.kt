@@ -9,6 +9,7 @@ import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.SetLikeResult
 import com.wires.app.data.model.UserWrapper
+import com.wires.app.domain.usecase.posts.DeletePostUseCase
 import com.wires.app.domain.usecase.posts.GetUserPostsUseCase
 import com.wires.app.domain.usecase.posts.LikePostUseCase
 import com.wires.app.domain.usecase.user.GetStoredUserUseCase
@@ -22,7 +23,8 @@ class ProfileViewModel @Inject constructor(
     private val getStoredUserUseCase: GetStoredUserUseCase,
     private val getUserPostsUseCase: GetUserPostsUseCase,
     private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val likePostUseCase: LikePostUseCase
+    private val likePostUseCase: LikePostUseCase,
+    private val deletePostUseCase: DeletePostUseCase
 ) : BaseViewModel() {
 
     private val _userLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
@@ -36,6 +38,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _postLikeLiveEvent = SingleLiveEvent<LoadableResult<SetLikeResult>>()
     val postLikeLiveEvent: LiveData<LoadableResult<SetLikeResult>> = _postLikeLiveEvent
+
+    private val _postDeleteLiveEvent = SingleLiveEvent<LoadableResult<Int>>()
+    val postDeleteLiveEvent: LiveData<LoadableResult<Int>> = _postDeleteLiveEvent
 
     private val _openPostLiveEvent = SingleLiveEvent<Int>()
     val openPostLiveEvent: LiveData<Int> = _openPostLiveEvent
@@ -79,6 +84,10 @@ class ProfileViewModel @Inject constructor(
 
     fun setPostLike(postId: Int, isLiked: Boolean) {
         _postLikeLiveEvent.launchLoadData(likePostUseCase.executeLoadable(LikePostUseCase.Params(postId, isLiked)))
+    }
+
+    fun deletePost(postId: Int) {
+        _postDeleteLiveEvent.launchLoadData(deletePostUseCase.executeLoadable(DeletePostUseCase.Params(postId)))
     }
 
     fun bindLoadingState(states: CombinedLoadStates) {
