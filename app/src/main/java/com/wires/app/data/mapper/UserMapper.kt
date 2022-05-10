@@ -15,8 +15,8 @@ class UserMapper @Inject constructor(
             id = userResponse.id,
             email = userResponse.email,
             username = userResponse.username,
-            firstName = null,
-            lastName = null,
+            firstName = userResponse.firstName,
+            lastName = userResponse.lastName,
             avatar = userResponse.avatar?.let { imagesMapper.fromResponseToModel(it) },
             interests = userResponse.interests.map { UserInterest.valueOf(it) }
         )
@@ -27,8 +27,8 @@ class UserMapper @Inject constructor(
             id = userPreviewResponse.id,
             username = userPreviewResponse.username,
             avatar = userPreviewResponse.avatar?.let { imagesMapper.fromResponseToModel(it) },
-            firstName = null,
-            lastName = null
+            firstName = userPreviewResponse.firstName,
+            lastName = userPreviewResponse.lastName
         )
     }
 }

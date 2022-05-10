@@ -78,10 +78,10 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
             val lastNameValidated = inputEditProfileLastName.validate()
             if (usernameValidated && emailValidated && firstNameValidated && lastNameValidated) {
                 viewModel.updateUser(
-                    username = inputEditProfileUsername.text,
-                    email = inputEditProfileEmail.text,
-                    firstName = inputEditProfileFirstName.text,
-                    lastName = inputEditProfileLastName.text,
+                    username = inputEditProfileUsername.text?.trim(),
+                    email = inputEditProfileEmail.text?.trim(),
+                    firstName = inputEditProfileFirstName.text?.trim(),
+                    lastName = inputEditProfileLastName.text?.trim(),
                 )
             }
         }

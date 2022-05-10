@@ -12,9 +12,9 @@ import kotlinx.parcelize.Parcelize
 data class UserPreview(
     val id: Int,
     val username: String,
-    val firstName: String?,
-    val lastName: String?,
-    val avatar: Image?,
+    var firstName: String?,
+    var lastName: String?,
+    var avatar: Image?,
     var isSelected: Boolean = false
 ) : IUser, Parcelable {
     override fun getId() = id.toString()

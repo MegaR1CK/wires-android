@@ -40,32 +40,35 @@ class PostsAdapter @Inject constructor(
     }
 
     fun updatePostLike(postId: Int) {
-        snapshot().find { it?.id == postId }?.let { post ->
+        updatePostById(postId) { post ->
             post.isLiked = !post.isLiked
             post.likesCount = if (post.isLiked) post.likesCount.inc() else post.likesCount.dec()
-            notifyItemChanged(snapshot().indexOf(post))
         }
     }
 
     fun updatePostComments(postId: Int, commentsCount: Int) {
-        snapshot().find { it?.id == postId }?.let { post ->
+        updatePostById(postId) { post ->
             post.commentsCount = commentsCount
-            notifyItemChanged(snapshot().indexOf(post))
         }
     }
 
     fun updatePostData(updatedPost: Post) {
-        snapshot().find { it?.id == updatedPost.id }?.let { post ->
+        updatePostById(updatedPost.id) { post ->
             post.text = updatedPost.text
             post.topic = updatedPost.topic
             post.image = updatedPost.image
-            notifyItemChanged(snapshot().indexOf(post))
         }
     }
 
     fun removePost(postId: Int) {
-        snapshot().find { it?.id == postId }?.let { post ->
+        updatePostById(postId) { post ->
             post.isRemoved = true
+        }
+    }
+
+    private fun updatePostById(postId: Int, action: (Post) -> Unit) {
+        snapshot().find { it?.id == postId }?.let { post ->
+            action(post)
             notifyItemChanged(snapshot().indexOf(post))
         }
     }

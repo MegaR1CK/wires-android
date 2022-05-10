@@ -8,5 +8,9 @@ data class UserPreviewResponse(
     @SerializedName("username")
     val username: String,
     @SerializedName("avatar")
-    val avatar: ImageResponse?
+    val avatar: ImageResponse?,
+    @SerializedName("first_name")
+    val firstName: String?,
+    @SerializedName("last_name")
+    val lastName: String?
 )

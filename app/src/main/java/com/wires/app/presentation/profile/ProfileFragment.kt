@@ -40,6 +40,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private val args: ProfileFragmentArgs by navArgs()
 
     private var isUserSet = false
+    private var isUserUpdated = false
 
     override val showBottomNavigationView = true
 
@@ -65,8 +66,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             if (!result.isSuccess || isUserSet) binding.stateViewFlipperProfile.setStateFromResult(result)
             result.doOnSuccess { wrapper ->
                 wrapper.user?.let { user ->
-                    if (postsAdapter.itemCount == 0 && !isUserSet) getUserPosts(user.id)
                     setupUser(user)
+                    if (postsAdapter.itemCount == 0) getUserPosts(user.id)
                 }
             }
             result.doOnFailure { error ->
@@ -78,7 +79,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             postsAdapter.submitData(lifecycle, data)
         }
         userPostsStateLiveData.observe { result ->
-            binding.stateViewFlipperProfile.setStateFromResult(result)
+            if (isUserSet) binding.stateViewFlipperProfile.setStateFromResult(result)
             result.doOnSuccess {
                 binding.recyclerViewProfilePosts.setupScrollWithAppBar(binding.appBarLayoutProfile)
             }
@@ -146,7 +147,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             buttonProfileEdit.isVisible = false
             buttonProfileSettings.isVisible = false
         }
-        isUserSet = true
+        if (!isUserUpdated) isUserSet = true else isUserUpdated = false
     }
 
     private fun setupPostsList() = with(binding.recyclerViewProfilePosts) {
@@ -198,6 +199,9 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
 
     private fun setupResultListeners() {
         setFragmentResultListener(EditUserFragment.USER_UPDATED_RESULT_KEY) { _, _ ->
+            postsAdapter.submitData(lifecycle, PagingData.empty())
+            isUserSet = false
+            isUserUpdated = true
             callOperations()
         }
         setFragmentResultListener(CreatePostFragment.POST_CHANGED_RESULT_KEY) { _, _ ->
