@@ -34,12 +34,15 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
     @Inject lateinit var foundUsersAdapter: UsersAdapter
     @Inject lateinit var addedUsersAdapter: AddedUsersAdapter
 
-    override fun callOperations() = Unit
+    override fun callOperations() {
+        viewModel.getUser()
+    }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitKeyboardInsetsWithPadding()
-        stateViewFlipperPickUsers.setStateFromResult(LoadableResult.success(null))
-        stateViewFlipperPickUsers.setRetryMethod { viewModel.search() }
+        stateViewFlipperPickUsers.setRetryMethod { callOperations() }
+        stateViewFlipperPickUsersResult.setStateFromResult(LoadableResult.success(null))
+        stateViewFlipperPickUsersResult.setRetryMethod { viewModel.search() }
         toolbarPickUsers.setNavigationOnClickListener {
             if (linearLayoutPickUsersSearch.isVisible) {
                 requireActivity().hideSoftKeyboard()
@@ -72,9 +75,15 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
 
     override fun onBindViewModel() = with(viewModel) {
         pickedUsers = args.pickedUsers.toMutableList()
-        searchResultLiveData.observe { result ->
-            binding.stateViewFlipperPickUsers.isVisible = true
+        userLiveData.observe { result ->
             binding.stateViewFlipperPickUsers.setStateFromResult(result)
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+            }
+        }
+        searchResultLiveData.observe { result ->
+            binding.stateViewFlipperPickUsersResult.isVisible = true
+            binding.stateViewFlipperPickUsersResult.setStateFromResult(result)
             result.doOnSuccess { users ->
                 foundUsersAdapter.submitList(users)
                 foundUsersAdapter.updateSelectedItems(viewModel.pickedUsers)

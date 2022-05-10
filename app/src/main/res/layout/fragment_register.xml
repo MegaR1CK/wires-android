@@ -44,7 +44,7 @@
                app:lengthErrorText="@string/error_length_username"
                app:minTextLength="3"
                app:maxTextLength="24"
-               app:validationPattern="^[a-zA-Z0-9_]*$"
+               app:validationPattern="^[a-z0-9_]*$"
                app:patternErrorText="@string/error_incorrect_username" />
 
             <com.wires.app.presentation.views.ValidationTextInput

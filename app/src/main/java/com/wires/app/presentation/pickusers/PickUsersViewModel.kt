@@ -4,14 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.UserPreview
+import com.wires.app.data.model.UserWrapper
+import com.wires.app.domain.usecase.user.GetStoredUserUseCase
 import com.wires.app.domain.usecase.user.SearchUsersUseCase
 import com.wires.app.extensions.addOrRemove
+import com.wires.app.extensions.mapResultValue
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
 import javax.inject.Inject
 
 class PickUsersViewModel @Inject constructor(
-    private val searchUsersUseCase: SearchUsersUseCase
+    private val searchUsersUseCase: SearchUsersUseCase,
+    private val getStoredUserUseCase: GetStoredUserUseCase
 ) : BaseViewModel() {
 
     companion object {
@@ -27,6 +31,9 @@ class PickUsersViewModel @Inject constructor(
     private val _searchErrorLiveEvent = SingleLiveEvent<Unit>()
     val searchErrorLiveEvent: LiveData<Unit> = _searchErrorLiveEvent
 
+    private val _userLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
+    val userLiveData: LiveData<LoadableResult<UserWrapper>> = _userLiveData
+
     var pickedUsers = mutableListOf<UserPreview>()
         set(value) {
             field = value
@@ -37,7 +44,14 @@ class PickUsersViewModel @Inject constructor(
 
     fun search(query: String? = lastSearchQuery) = validateSearchQuery(query)?.let { validationResult ->
         lastSearchQuery = validationResult
-        _searchResultLiveData.launchLoadData(searchUsersUseCase.executeLoadable(SearchUsersUseCase.Params(validationResult)))
+        _searchResultLiveData.launchLoadData(
+            searchUsersUseCase.executeLoadable(SearchUsersUseCase.Params(validationResult))
+                .mapResultValue { list -> list.filterNot { it.id == _userLiveData.value?.getOrNull()?.user?.id } }
+        )
+    }
+
+    fun getUser() {
+        _userLiveData.launchLoadData(getStoredUserUseCase.executeLoadable(Unit))
     }
 
     fun proceedUser(userPreview: UserPreview, removeOnly: Boolean) {
@@ -46,7 +60,7 @@ class PickUsersViewModel @Inject constructor(
     }
 
     private fun validateSearchQuery(query: String?) = if (!query.isNullOrBlank() && query.length >= MIN_QUERY_LENGTH) {
-        query.trim()
+        query.trim().lowercase()
     } else {
         _searchErrorLiveEvent.postValue(Unit)
         null

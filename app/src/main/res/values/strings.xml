@@ -106,7 +106,7 @@
     <string name="error_length_password">Password must contain from 8 to 24 symbols!</string>
     <string name="error_weak_password">Password must contain uppercase and lowercase letters and numbers!</string>
     <string name="error_different_passwords">Passwords don\'t match!</string>
-    <string name="error_incorrect_username">Username may contain only letters, numbers and underscores!</string>
+    <string name="error_incorrect_username">Username may contain only lower letters, numbers and underscores!</string>
     <string name="error_length_username">Username must contain from 3 to 24 symbols!</string>
     <string name="error_length_name">Name must contain from 2 to 16 symbols!</string>
     <string name="error_incorrect_name">Name may contain only letters!</string>

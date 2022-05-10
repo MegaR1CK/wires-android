@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
 import com.wires.app.data.model.SetLikeResult
@@ -14,9 +13,9 @@ import com.wires.app.domain.usecase.posts.DeletePostUseCase
 import com.wires.app.domain.usecase.posts.GetFeedUseCase
 import com.wires.app.domain.usecase.posts.LikePostUseCase
 import com.wires.app.domain.usecase.user.GetStoredUserUseCase
+import com.wires.app.extensions.mapPagingValue
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class FeedChildViewModel @Inject constructor(
@@ -49,8 +48,8 @@ class FeedChildViewModel @Inject constructor(
 
     fun getPosts(interest: UserInterest? = null) {
         _postsLiveData.launchPagingData(
-            getFeedUseCase.execute(GetFeedUseCase.Params(interest)).map { pagingData ->
-                pagingData.map { post -> post.copy(isEditable = _userLiveData.value?.getOrNull()?.user?.id == post.author.id) }
+            getFeedUseCase.execute(GetFeedUseCase.Params(interest)).mapPagingValue { post ->
+                post.copy(isEditable = _userLiveData.value?.getOrNull()?.user?.id == post.author.id)
             }
         )
     }

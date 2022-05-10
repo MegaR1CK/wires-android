@@ -63,92 +63,98 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <com.wires.app.presentation.views.StateViewFlipper
+        android:id="@+id/stateViewFlipperPickUsers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_12"
-            android:layout_marginTop="12dp"
-            android:text="@string/pick_users_users_added"
-            android:textAppearance="@style/FontStyle.Body.Bold" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="105dp"
-            android:layout_marginTop="8dp">
-
-            <com.wires.app.presentation.views.EmptyRecyclerView
-                android:id="@+id/recyclerViewAddedUsers"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                android:paddingEnd="4dp"
-                android:paddingStart="4dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_user_preview" />
-
-            <TextView
-                android:id="@+id/emptyViewAddedUsers"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/pick_users_empty_added"
-                android:textAppearance="@style/FontStyle.Small"
-                android:visibility="gone" />
-
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/textViewFoundUsers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_12"
-            android:layout_marginTop="12dp"
-            android:text="@string/pick_users_users_found"
-            android:textAppearance="@style/FontStyle.Body.Bold"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
-        <com.wires.app.presentation.views.StateViewFlipper
-            android:id="@+id/stateViewFlipperPickUsers"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
-            android:visibility="gone"
-            tools:visibility="visible" >
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_12"
+                android:layout_marginTop="12dp"
+                android:text="@string/pick_users_users_added"
+                android:textAppearance="@style/FontStyle.Body.Bold" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="105dp"
+                android:layout_marginTop="8dp">
 
                 <com.wires.app.presentation.views.EmptyRecyclerView
-                    android:id="@+id/recyclerViewFoundUsers"
+                    android:id="@+id/recyclerViewAddedUsers"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingHorizontal="@dimen/padding_8"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="4dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_user" />
+                    tools:listitem="@layout/item_user_preview" />
 
                 <TextView
-                    android:id="@+id/emptyViewFoundUsers"
+                    android:id="@+id/emptyViewAddedUsers"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="100dp"
-                    android:text="@string/pick_users_nothing_found"
-                    android:textAppearance="@style/FontStyle.Body"
+                    android:gravity="center"
+                    android:text="@string/pick_users_empty_added"
+                    android:textAppearance="@style/FontStyle.Small"
                     android:visibility="gone" />
 
             </FrameLayout>
-        </com.wires.app.presentation.views.StateViewFlipper>
-    </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewFoundUsers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_12"
+                android:layout_marginTop="12dp"
+                android:text="@string/pick_users_users_found"
+                android:textAppearance="@style/FontStyle.Body.Bold"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <com.wires.app.presentation.views.StateViewFlipper
+                android:id="@+id/stateViewFlipperPickUsersResult"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                tools:visibility="visible" >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.wires.app.presentation.views.EmptyRecyclerView
+                        android:id="@+id/recyclerViewFoundUsers"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="@dimen/padding_8"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_user" />
+
+                    <TextView
+                        android:id="@+id/emptyViewFoundUsers"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="100dp"
+                        android:text="@string/pick_users_nothing_found"
+                        android:textAppearance="@style/FontStyle.Body"
+                        android:visibility="gone" />
+
+                </FrameLayout>
+            </com.wires.app.presentation.views.StateViewFlipper>
+        </LinearLayout>
+    </com.wires.app.presentation.views.StateViewFlipper>
 
     <com.wires.app.presentation.views.StatefulMaterialButton
         android:id="@+id/buttonPickUsersConfirm"
