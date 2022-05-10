@@ -46,7 +46,7 @@ class PostsRepository @Inject constructor(
     suspend fun createPost(text: String, topic: UserInterest, imageUri: String?) {
         apiService.createPost(
             gson.toJson(PostCreateParams(text, topic.name)).toRequestBody(),
-            Uri.parse(imageUri).path?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
+            imageUri?.let { uri -> Uri.parse(uri).path?.let { File(it).toMultipartPart(IMAGE_PART_NAME) } }
         )
     }
 
