@@ -35,7 +35,8 @@
             <com.stfalcon.chatkit.dialogs.DialogsList
                 android:id="@+id/channelsListChannels"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
 
             <TextView
                 android:id="@+id/emptyViewChannelsList"
@@ -58,6 +59,7 @@
         android:src="@drawable/ic_add"
         android:visibility="gone"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        tools:ignore="ContentDescription" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

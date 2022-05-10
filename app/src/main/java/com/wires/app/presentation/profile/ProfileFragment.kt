@@ -21,6 +21,7 @@ import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.load
 import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.navigateTo
+import com.wires.app.extensions.setupScrollWithAppBar
 import com.wires.app.extensions.showAlertDialog
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
@@ -78,6 +79,12 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         }
         userPostsStateLiveData.observe { result ->
             binding.stateViewFlipperProfile.setStateFromResult(result)
+            result.doOnSuccess {
+                binding.recyclerViewProfilePosts.setupScrollWithAppBar(binding.appBarLayoutProfile)
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+            }
         }
         postLikeLiveEvent.observe { result ->
             result.doOnSuccess { likeResult ->

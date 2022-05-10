@@ -12,6 +12,7 @@ import com.wires.app.databinding.FragmentChannelsBinding
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.load
 import com.wires.app.extensions.navigateTo
+import com.wires.app.extensions.setupScrollWithAppBar
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.chat.ChatFragment
 import timber.log.Timber
@@ -58,20 +59,7 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
             binding.stateViewFlipperChannels.setStateFromResult(result)
             binding.buttonChannelsCreate.isVisible = result.isSuccess
             result.doOnSuccess { items ->
-                binding.channelsListChannels.setAdapter(channelsAdapter)
-                binding.emptyViewChannelsList.isVisible = items.isEmpty()
-                if (channelsAdapter.isEmpty) {
-                    channelsAdapter.setItems(items)
-                    channelsAdapter.sort { firstChannel, secondChannel ->
-                        when {
-                            firstChannel.lastSentMessage == null -> -1
-                            secondChannel.lastSentMessage == null -> 1
-                            else -> if (
-                                firstChannel.lastSentMessage.sendTime.isAfter(secondChannel.lastSentMessage.sendTime)
-                            ) -1 else 1
-                        }
-                    }
-                }
+                setupChannelsList(items)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -83,5 +71,25 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
         openCreateChannelLiveEvent.observe {
             navigateTo(ChannelsFragmentDirections.actionChannelsFragmentToCreateChannelGraph())
         }
+    }
+
+    private fun setupChannelsList(items: List<ChannelPreview>) = with(binding) {
+        channelsListChannels.setAdapter(channelsAdapter)
+        emptyViewChannelsList.isVisible = items.isEmpty()
+        with(channelsAdapter) {
+            if (isEmpty) {
+                setItems(items)
+                sort { firstChannel, secondChannel ->
+                    when {
+                        firstChannel.lastSentMessage == null -> -1
+                        secondChannel.lastSentMessage == null -> 1
+                        else -> if (
+                            firstChannel.lastSentMessage.sendTime.isAfter(secondChannel.lastSentMessage.sendTime)
+                        ) -1 else 1
+                    }
+                }
+            }
+        }
+        channelsListChannels.setupScrollWithAppBar(appBarLayoutChannels)
     }
 }

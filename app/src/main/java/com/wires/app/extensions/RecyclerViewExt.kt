@@ -2,7 +2,10 @@ package com.wires.app.extensions
 
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import com.wires.app.R
 import com.wires.app.presentation.views.FlexboxSpaceItemDecoration
 import com.wires.app.presentation.views.GridSpaceItemDecoration
@@ -68,4 +71,18 @@ fun RecyclerView.addVerticalDividerItemDecoration(
 fun RecyclerView.addFlexboxSpaceItemDecoration(@DimenRes spacing: Int) {
     val itemSpacing = resources.getDimensionPixelSize(spacing)
     addItemDecoration(FlexboxSpaceItemDecoration(itemSpacing, itemSpacing))
+}
+
+fun RecyclerView.setupScrollWithAppBar(appBarLayout: AppBarLayout) = post {
+    val appBarBehavior = ((appBarLayout.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? AppBarLayout.Behavior)
+    val isAppBarScrollable = (layoutManager as? LinearLayoutManager)
+        ?.findLastCompletelyVisibleItemPosition() != adapter?.itemCount?.minus(1) && adapter?.itemCount != 0
+    isNestedScrollingEnabled = isAppBarScrollable
+    appBarBehavior?.setDragCallback(
+        object : AppBarLayout.Behavior.DragCallback() {
+            override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                return isAppBarScrollable
+            }
+        }
+    )
 }
