@@ -14,25 +14,23 @@ import com.wires.app.extensions.copyToClipboard
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.navigateTo
-import com.wires.app.extensions.restartApp
 import com.wires.app.extensions.showAlertDialog
 import com.wires.app.extensions.showToast
+import com.wires.app.managers.LocaleManager
 import com.wires.app.presentation.base.BaseFragment
-import com.yariksoffice.lingver.Lingver
 import timber.log.Timber
+import javax.inject.Inject
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
     companion object {
-        private const val LOCALE_ENGLISH = "en"
-        private const val LOCALE_ENGLISH_COUNTRY = "EN"
-        private const val LOCALE_RUSSIAN = "ru"
-        private const val LOCALE_RUSSIAN_COUNTRY = "RU"
         private const val MAIL_URL_PREFIX = "mailto:"
     }
 
     private val binding by viewBinding(FragmentSettingsBinding::bind)
     private val viewModel: SettingsViewModel by appViewModels()
+
+    @Inject lateinit var localeManager: LocaleManager
 
     override fun callOperations() {
         viewModel.getUser()
@@ -86,12 +84,14 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.locale_english -> Lingver.getInstance().setLocale(requireContext(), LOCALE_ENGLISH, LOCALE_ENGLISH_COUNTRY)
-            R.id.locale_russian -> Lingver.getInstance().setLocale(requireContext(), LOCALE_RUSSIAN, LOCALE_RUSSIAN_COUNTRY)
-            else -> return false
-        }
-        requireActivity().restartApp()
+        localeManager.setLocale(
+            requireActivity(),
+            when (item.itemId) {
+                R.id.locale_russian -> LocaleManager.AvailableLocale.RUSSIAN
+                R.id.locale_english -> LocaleManager.AvailableLocale.ENGLISH
+                else -> return false
+            }
+        )
         return true
     }
 
