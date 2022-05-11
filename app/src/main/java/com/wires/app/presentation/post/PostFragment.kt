@@ -17,6 +17,7 @@ import com.wires.app.databinding.FragmentPostBinding
 import com.wires.app.domain.paging.PagingLoadStateAdapter
 import com.wires.app.extensions.countViewHeight
 import com.wires.app.extensions.createLoadableResultDialog
+import com.wires.app.extensions.enableLinks
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getDisplayName
@@ -237,6 +238,7 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             isCircle = true
         )
         textViewPostBody.text = post.text
+        textViewPostBody.enableLinks(root)
         post.image?.let { image ->
             imageViewPostImage.countViewHeight(image.size.width, image.size.height)
             imageViewPostImage.load(image.url)

@@ -139,4 +139,10 @@
     <string name="dialog_progress_text">Пожалуйста, подождите…</string>
     <string name="dialog_post_delete_title">Удалить пост</string>
     <string name="dialog_post_delete_message">Вы уверены, что хотите удалить этот пост?</string>
+
+    <!-- IMAGE PICKER -->
+    <string name="title_choose_image_provider">Выберите источник:</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="title_gallery">Галерея</string>
+    <string name="title_camera">Камера</string>
 </resources>

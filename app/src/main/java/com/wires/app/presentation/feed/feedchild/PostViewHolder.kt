@@ -10,6 +10,7 @@ import com.wires.app.data.model.Post
 import com.wires.app.data.model.UserPreview
 import com.wires.app.databinding.ItemPostBinding
 import com.wires.app.extensions.countViewHeight
+import com.wires.app.extensions.enableLinks
 import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.load
 import com.wires.app.managers.DateFormatter
@@ -30,6 +31,7 @@ class PostViewHolder(
         if (!post.isRemoved) {
             textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
             textViewPostBody.text = post.text
+            textViewPostBody.enableLinks(root)
             imageViewPostImage.isVisible = post.image != null
             post.image?.let { image ->
                 imageViewPostImage.countViewHeight(image.size.width, image.size.height)
