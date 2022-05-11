@@ -14,9 +14,9 @@ class DateFormatter @Inject constructor(
 ) {
 
     companion object {
-        private const val DATE_TEXT_MONTH_TIME_TEMPLATE = "dd MMMM 'at' hh:mm"
-        private const val FULL_DATE_TIME_TEMPLATE = "dd MMMM yyyy 'at' hh:mm"
-        private const val TIME_STANDARD_TEMPLATE = "hh:mm"
+        private const val DATE_TEXT_MONTH_TIME_TEMPLATE = "dd MMMM 'at' HH:mm"
+        private const val FULL_DATE_TIME_TEMPLATE = "dd MMMM yyyy 'at' HH:mm"
+        private const val TIME_STANDARD_TEMPLATE = "HH:mm"
         private const val RELATIVE_TIME_MAX_HOURS = 4
     }
 
