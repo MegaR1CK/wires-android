@@ -27,6 +27,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -80,7 +81,8 @@ dependencies {
 
     // chucker
     def chuckVersion = '3.5.2'
-    implementation "com.github.chuckerteam.chucker:library:$chuckVersion"
+    debugImplementation "com.github.chuckerteam.chucker:library:$chuckVersion"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:$chuckVersion"
 
     // timber log
     implementation 'com.jakewharton.timber:timber:4.7.1'
