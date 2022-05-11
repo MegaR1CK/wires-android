@@ -119,11 +119,14 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <!-- Паддинг снизу нужен для корректной работы findLastCompletelyVisibleItemPosition() -->
             <com.wires.app.presentation.views.EmptyRecyclerView
                 android:id="@+id/recyclerViewProfilePosts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:paddingBottom="?actionBarSize"
+                android:clipToPadding="false"
                 tools:itemCount="3"
                 tools:listitem="@layout/item_post" />
 

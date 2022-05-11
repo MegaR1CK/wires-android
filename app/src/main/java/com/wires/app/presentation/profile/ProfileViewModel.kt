@@ -76,7 +76,7 @@ class ProfileViewModel @Inject constructor(
     fun getUserPosts(userId: Int) {
         _userPostsLiveData.launchPagingData(
             getUserPostsUseCase.execute(GetUserPostsUseCase.Params(userId)).mapPagingValue { post ->
-                post.copy(isEditable = _userLiveData.value?.getOrNull()?.user?.id == post.author.id)
+                post.copy(isEditable = isCurrentUserProfile)
             }
         )
     }
