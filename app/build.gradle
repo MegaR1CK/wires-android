@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 apply from: '../config/quality/quality.gradle'
@@ -110,6 +112,11 @@ dependencies {
     implementation 'com.github.dhaval2404:imagepicker:2.1'
     implementation "com.github.stfalcon-studio:Chatkit:0.4.1"
     implementation 'com.google.android:flexbox:2.0.1'
+
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:30.0.0')
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 
     // core
     implementation 'androidx.core:core-ktx:1.7.0'

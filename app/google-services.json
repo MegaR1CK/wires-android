@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "711823997553",
+    "project_id": "wires-3fb06",
+    "storage_bucket": "wires-3fb06.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711823997553:android:ff409d2dc98d60efd139d0",
+        "android_client_info": {
+          "package_name": "com.wires.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "711823997553-k94p3p69sf81568qvpm7hu8bae6okj3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd-OYfENtYZp3uYmQlWXxxZZ749THkfaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "711823997553-k94p3p69sf81568qvpm7hu8bae6okj3c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
