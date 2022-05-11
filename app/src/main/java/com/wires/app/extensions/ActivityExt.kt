@@ -2,6 +2,7 @@ package com.wires.app.extensions
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.WindowInsetsCompat
@@ -31,4 +32,11 @@ fun Activity.isKeyboardVisible(insets: WindowInsetsCompat): Boolean {
     val systemScreenHeight = this.window.decorView.height
     val heightDiff = insets.getKeyboardInset() + insets.getTopInset()
     return heightDiff > keyboardRatio * systemScreenHeight
+}
+
+fun Activity.restartApp() {
+    val intent = packageManager.getLaunchIntentForPackage(packageName)
+    val mainIntent = Intent.makeRestartActivityTask(intent?.component)
+    finish()
+    startActivity(mainIntent)
 }

@@ -96,6 +96,7 @@
     <!-- SETTINGS -->
     <string name="settings_title">Настройки</string>
     <string name="settings_change_password">Изменение пароля</string>
+    <string name="settings_change_locale">Изменение языка интерфейса</string>
     <string name="settings_logout">Выход</string>
     <string name="settings_logout_message">Вы действительно хотите выйти из аккаунта?</string>
     <string name="settings_logout_positive_text">Выйти</string>

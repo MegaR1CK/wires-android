@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/locale_english"
+        android:title="@string/settings_locale_english" />
+
+    <item
+        android:id="@+id/locale_russian"
+        android:title="@string/settings_locale_russian" />
+</menu>
