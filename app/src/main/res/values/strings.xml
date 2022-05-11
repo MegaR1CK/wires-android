@@ -97,6 +97,14 @@
     <string name="settings_change_locale">Change localization</string>
     <string name="settings_locale_english" translatable="false">English</string>
     <string name="settings_locale_russian" translatable="false">Русский</string>
+    <string name="settings_report_warning">Don\'t remove the information below!\n</string>
+    <string name="settings_report_version">ОS: Android (%d)\n</string>
+    <string name="settings_report_username">Username: %s\n</string>
+    <string name="settings_report_device">Device: %s\n</string>
+    <string name="settings_report_email">kostjag15@gmail.com</string>
+    <string name="settings_report_description">\nBug description:\n</string>
+    <string name="settings_report_title">Bug report</string>
+    <string name="settings_report_copied">Email was copied to clipboard</string>
     <string name="settings_logout">Logout</string>
     <string name="settings_logout_message">Do you really want to log out from your account?</string>
     <string name="settings_logout_positive_text">Logout</string>

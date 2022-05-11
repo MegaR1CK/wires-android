@@ -97,6 +97,14 @@
     <string name="settings_title">Настройки</string>
     <string name="settings_change_password">Изменение пароля</string>
     <string name="settings_change_locale">Изменение языка интерфейса</string>
+    <string name="settings_report_warning">Не удаляйте информацию ниже!\n</string>
+    <string name="settings_report_version">ОS: Android (%d)\n</string>
+    <string name="settings_report_username">Имя пользователя: %s\n</string>
+    <string name="settings_report_device">Устройство: %s\n</string>
+    <string name="settings_report_email">kostjag15@gmail.com</string>
+    <string name="settings_report_description">\nОписание бага:\n</string>
+    <string name="settings_report_title">Доклад о баге</string>
+    <string name="settings_report_copied">Почта скопирована</string>
     <string name="settings_logout">Выход</string>
     <string name="settings_logout_message">Вы действительно хотите выйти из аккаунта?</string>
     <string name="settings_logout_positive_text">Выйти</string>

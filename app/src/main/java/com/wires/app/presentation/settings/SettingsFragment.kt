@@ -1,19 +1,25 @@
 package com.wires.app.presentation.settings
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
+import com.wires.app.data.model.User
 import com.wires.app.databinding.FragmentSettingsBinding
+import com.wires.app.extensions.copyToClipboard
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.restartApp
 import com.wires.app.extensions.showAlertDialog
+import com.wires.app.extensions.showToast
 import com.wires.app.presentation.base.BaseFragment
 import com.yariksoffice.lingver.Lingver
+import timber.log.Timber
 
 class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
 
@@ -22,18 +28,22 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         private const val LOCALE_ENGLISH_COUNTRY = "EN"
         private const val LOCALE_RUSSIAN = "ru"
         private const val LOCALE_RUSSIAN_COUNTRY = "RU"
+        private const val MAIL_URL_PREFIX = "mailto:"
     }
 
     private val binding by viewBinding(FragmentSettingsBinding::bind)
     private val viewModel: SettingsViewModel by appViewModels()
 
-    override fun callOperations() = Unit
+    override fun callOperations() {
+        viewModel.getUser()
+    }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitTopInsetsWithPadding()
         frameLayoutSettingsChangePassword.setOnClickListener { viewModel.openChangePassword() }
         registerForContextMenu(frameLayoutSettingsLocale)
         frameLayoutSettingsLocale.setOnClickListener { it.showContextMenu() }
+        frameLayoutSettingsReport.setOnClickListener { viewModel.openMailClient() }
         frameLayoutSettingsLogout.setOnClickListener {
             showAlertDialog(
                 titleRes = R.string.settings_logout,
@@ -49,6 +59,20 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     }
 
     override fun onBindViewModel() = with(viewModel) {
+        userLiveData.observe { result ->
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+            }
+        }
+        openMailClientLiveEvent.observe { wrapper ->
+            val intent = createMailIntent(wrapper.user)
+            if (intent.resolveActivity(requireActivity().packageManager) != null) {
+                startActivity(intent)
+            } else {
+                requireContext().copyToClipboard(getString(R.string.settings_report_email))
+                showToast(getString(R.string.settings_report_copied))
+            }
+        }
         openChangePasswordLiveEvent.observe {
             navigateTo(SettingsFragmentDirections.actionSettingsFragmentToChangePasswordFragment())
         }
@@ -69,5 +93,21 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         }
         requireActivity().restartApp()
         return true
+    }
+
+    private fun createMailIntent(user: User?): Intent {
+        return Intent(Intent.ACTION_SENDTO).apply {
+            val messageBody = StringBuilder(getString(R.string.settings_report_warning))
+            if (user != null && user.name.isNotEmpty()) {
+                messageBody.append(getString(R.string.settings_report_username, user.name))
+            }
+            messageBody.append(getString(R.string.settings_report_version, Build.VERSION.SDK_INT))
+            messageBody.append(getString(R.string.settings_report_device, Build.MODEL))
+            messageBody.append(getString(R.string.settings_report_description))
+            data = android.net.Uri.parse(MAIL_URL_PREFIX)
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.settings_report_email)))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.settings_report_title))
+            putExtra(Intent.EXTRA_TEXT, messageBody.toString())
+        }
     }
 }

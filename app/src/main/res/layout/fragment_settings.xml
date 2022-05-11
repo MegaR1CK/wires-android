@@ -69,6 +69,26 @@
             android:background="?dividerColor" />
 
         <FrameLayout
+            android:id="@+id/frameLayoutSettingsReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="@dimen/padding_20">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_report_title"
+                android:textAppearance="@style/FontStyle.Small" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?dividerColor" />
+
+        <FrameLayout
             android:id="@+id/frameLayoutSettingsLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
