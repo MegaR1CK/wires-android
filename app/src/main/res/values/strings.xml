@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Wires</string>
-    <string name="app_subtitle">Social community app for developers</string>
+    <string name="app_name" translatable="false">Wires</string>
+    <string name="app_subtitle">Social community app for IT-people</string>
 
     <string name="share">Share</string>
     <string name="refresh">Refresh</string>
@@ -20,13 +20,12 @@
         <item quantity="other">%d hours ago</item>
     </plurals>
 
-
     <!-- AUTH -->
     <string name="login_label">Login</string>
     <string name="register_label">Register</string>
     <string name="login_title">Login to your account</string>
     <string name="register_title">Register account</string>
-    <string name="email_hint">E-mail</string>
+    <string name="email_hint" translatable="false">E-mail</string>
     <string name="password_hint">Password</string>
     <string name="confirm_password_hint">Confirm password</string>
     <string name="username_hint">Username</string>
@@ -77,7 +76,7 @@
 
     <!-- PROFILE -->
     <string name="profile_interests_text">Interests: %s&#160;</string>
-    <string name="profile_username_text">\@%s</string>
+    <string name="profile_username_text" translatable="false">\@%s</string>
     <string name="profile_user_posts_empty_text">This user have no posts</string>
 
     <!-- EDIT PROFILE -->
@@ -124,7 +123,7 @@
     <string name="menu_label_profile">Profile</string>
 
     <!-- LOG MESSAGES -->
-    <string name="open_socket_message">Socket channel %d opened</string>
+    <string name="open_socket_message" translatable="false">Socket channel %d opened</string>
 
     <!-- DIALOG -->
     <string name="dialog_yes">Yes</string>

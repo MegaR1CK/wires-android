@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
                 android:text="@string/register_title"
                 android:textAppearance="@style/FontStyle.Headline5.Bold" />
 

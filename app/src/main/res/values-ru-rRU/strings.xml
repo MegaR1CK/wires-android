@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_subtitle">Социальная сеть для представителей IT-профессий</string>
+
+    <string name="share">Поделиться</string>
+    <string name="refresh">Обновить</string>
+    <string name="confirm">Подтвердить</string>
+
+    <!-- DATES -->
+    <string name="date_relative_less_minute">меньше минуты назад</string>
+    <string name="date_relative_today">сегодня в %s</string>
+    <string name="date_relative_yesterday">вчера в %s</string>
+
+    <plurals name="date_relative_minute_ago">
+        <item quantity="one">%d минута назад</item>
+        <item quantity="few">%d минуты назад</item>
+        <item quantity="many">%d минут назад</item>
+        <item quantity="other">%d минут назад</item>
+    </plurals>
+    <plurals name="date_relative_hour_ago">
+        <item quantity="one">%d час назад</item>
+        <item quantity="few">%d часа назад</item>
+        <item quantity="many">%d часов назад</item>
+        <item quantity="other">%d часов назад</item>
+    </plurals>
+
+    <!-- AUTH -->
+    <string name="login_label">Вход</string>
+    <string name="register_label">Регистрация</string>
+    <string name="login_title">Вход в аккаунт</string>
+    <string name="register_title">Регистрация нового пользователя</string>
+    <string name="password_hint">Пароль</string>
+    <string name="confirm_password_hint">Повторите пароль</string>
+    <string name="username_hint">Имя пользователя</string>
+
+    <!-- FEED -->
+    <string name="feed_title">Здравствуйте, %s</string>
+    <string name="feed_first_tab_text">Для вас</string>
+    <string name="feed_empty_text">Посты по заданной теме отсутствуют</string>
+
+    <!-- POST -->
+    <string name="post_title">Комментарии к посту</string>
+    <string name="post_comment_input_hint">Введите комментарий</string>
+    <string name="post_menu_edit">Редактировать</string>
+    <string name="post_menu_delete">Удалить</string>
+
+    <!-- ADD POST -->
+    <string name="create_post_title">Создание нового поста</string>
+    <string name="create_post_title_edit">Редактирование поста</string>
+    <string name="create_post_hint">Что нового?</string>
+    <string name="create_post_add_image_text">Добавить изображение</string>
+    <string name="create_post_remove_image_text">Удалить изображение</string>
+    <string name="create_post_select_topic">Выберите тему</string>
+    <string name="create_post_topic">Тема: %s</string>
+
+    <!-- CHANNELS -->
+    <string name="channels_title">Каналы</string>
+    <string name="channels_empty_text">Список каналов пуст.\nСоздайте канал и начните общаться!</string>
+
+    <!-- CREATE CHANNEL -->
+    <string name="create_channel_group_title">Создание нового канала</string>
+    <string name="create_channel_users">Пользователи в канале</string>
+    <string name="create_channel_name_hint">Имя канала</string>
+    <string name="create_channel_edit_users">Изменить</string>
+    <string name="create_channel_add_users">Добавить</string>
+
+    <!-- PICK USERS -->
+    <string name="pick_users_title">Добавление пользователей</string>
+    <string name="pick_users_users_added">Добавленные пользователи</string>
+    <string name="pick_users_users_found">Найденные пользователи</string>
+    <string name="pick_users_search_hint">Поиск пользователей</string>
+    <string name="pick_users_empty_added">Пользователи отсутствуют</string>
+    <string name="pick_users_nothing_found">Пользователи не найдены</string>
+
+    <!-- CHAT -->
+    <string name="chat_message_input_hint">Введите сообщение</string>
+    <string name="chat_initial_message_text">Канал пуст. Отправьте сообщение первым!</string>
+    <string name="chat_message_empty_text">Канал пуст.\nОтправьте сообщение первым!</string>
+
+    <!-- PROFILE -->
+    <string name="profile_interests_text">Интересы: %s&#160;</string>
+    <string name="profile_user_posts_empty_text">У пользователя нет постов</string>
+
+    <!-- EDIT PROFILE -->
+    <string name="edit_profile_title">Редактирование личных данных</string>
+    <string name="edit_profile_first_name_hint">Имя</string>
+    <string name="edit_profile_last_name_hint">Фамилия</string>
+    <string name="edit_profile_interests_title">Интересы</string>
+
+    <!-- CHANGE PASSWORD -->
+    <string name="change_password_old_hint">Старый пароль</string>
+    <string name="change_password_new_hint">Новый пароль</string>
+    <string name="change_password_confirm_new_hint">Повторите новый пароль</string>
+    <string name="change_password_success">Пароль успешно изменен!</string>
+
+    <!-- SETTINGS -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_change_password">Изменение пароля</string>
+    <string name="settings_logout">Выход</string>
+    <string name="settings_logout_message">Вы действительно хотите выйти из аккаунта?</string>
+    <string name="settings_logout_positive_text">Выйти</string>
+    <string name="settings_logout_negative_text">Отмена</string>
+
+    <!-- ERRORS -->
+    <string name="error_empty_field">Поле не может быть пустым!</string>
+    <string name="error_incorrect_email">Некорректная почта!</string>
+    <string name="error_length_password">Пароль должен содержать от 8 до 24 символов!</string>
+    <string name="error_weak_password">Пароль должен содержать заглавные и строчные буквы и цифры!</string>
+    <string name="error_different_passwords">Пароли не совпадают!</string>
+    <string name="error_incorrect_username">Имя пользователя может содержать только строчные буквы, цифры и нижние подчеркивания!</string>
+    <string name="error_length_username">Имя пользователя может содержать от 3 до 24 символов!</string>
+    <string name="error_length_name">Поле может содержать от 2 до 16 символов!</string>
+    <string name="error_incorrect_name">Поле может содержать только буквы!</string>
+    <string name="error_no_network_title">Ошибка соединения!</string>
+    <string name="error_no_network_description">Пожалуйста, проверьте соединение и обновите страницу</string>
+    <string name="error_something_wrong_title">Что-то пошло не так!</string>
+    <string name="error_something_wrong_description">Попробуйте обновить страницу</string>
+    <string name="error_empty_message">Сообщение не может быть пустым!</string>
+    <string name="error_short_search_query">Запрос должен содержать минимум 3 символа!</string>
+    <string name="error_length_channel_name">Имя канала должно содержать от 3 до 28 символов!</string>
+
+    <!-- BOTTOM NAVIGATION -->
+    <string name="menu_label_feed">Лента</string>
+    <string name="menu_label_messages">Сообщения</string>
+    <string name="menu_label_profile">Профиль</string>
+
+    <!-- DIALOG -->
+    <string name="dialog_yes">Да</string>
+    <string name="dialog_no">Нет</string>
+    <string name="dialog_progress_text">Пожалуйста, подождите…</string>
+    <string name="dialog_post_delete_title">Удалить пост</string>
+    <string name="dialog_post_delete_message">Вы уверены, что хотите удалить этот пост?</string>
+</resources>
