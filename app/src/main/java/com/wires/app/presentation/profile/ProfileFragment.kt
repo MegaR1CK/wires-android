@@ -66,8 +66,8 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             if (!result.isSuccess || isUserSet) binding.stateViewFlipperProfile.setStateFromResult(result)
             result.doOnSuccess { wrapper ->
                 wrapper.user?.let { user ->
+                    if (postsAdapter.itemCount == 0 && !isUserSet) getUserPosts(user.id)
                     setupUser(user)
-                    if (postsAdapter.itemCount == 0) getUserPosts(user.id)
                 }
             }
             result.doOnFailure { error ->
