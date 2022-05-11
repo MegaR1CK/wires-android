@@ -90,6 +90,6 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
                 }
             }
         }
-        channelsListChannels.setupScrollWithAppBar(appBarLayoutChannels)
+        channelsListChannels.setupScrollWithAppBar(appBarLayoutChannels, root)
     }
 }

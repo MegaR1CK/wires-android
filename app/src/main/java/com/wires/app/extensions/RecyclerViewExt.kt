@@ -1,9 +1,10 @@
 package com.wires.app.extensions
 
+import android.view.View
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.wires.app.R
@@ -73,10 +74,10 @@ fun RecyclerView.addFlexboxSpaceItemDecoration(@DimenRes spacing: Int) {
     addItemDecoration(FlexboxSpaceItemDecoration(itemSpacing, itemSpacing))
 }
 
-fun RecyclerView.setupScrollWithAppBar(appBarLayout: AppBarLayout) = post {
+fun RecyclerView.setupScrollWithAppBar(appBarLayout: AppBarLayout, rootView: View) = post {
     val appBarBehavior = ((appBarLayout.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior as? AppBarLayout.Behavior)
-    val isAppBarScrollable = (layoutManager as? LinearLayoutManager)
-        ?.findLastCompletelyVisibleItemPosition() != adapter?.itemCount?.minus(1) && adapter?.itemCount != 0
+    val childrenHeight = children.sumOf { it.height }
+    val isAppBarScrollable = childrenHeight > (rootView.measuredHeight - appBarLayout.measuredHeight) && adapter?.itemCount != 0
     isNestedScrollingEnabled = isAppBarScrollable
     appBarBehavior?.setDragCallback(
         object : AppBarLayout.Behavior.DragCallback() {

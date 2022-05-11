@@ -81,7 +81,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         userPostsStateLiveData.observe { result ->
             if (isUserSet) binding.stateViewFlipperProfile.setStateFromResult(result)
             result.doOnSuccess {
-                binding.recyclerViewProfilePosts.setupScrollWithAppBar(binding.appBarLayoutProfile)
+                binding.recyclerViewProfilePosts.setupScrollWithAppBar(binding.appBarLayoutProfile, binding.root)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
