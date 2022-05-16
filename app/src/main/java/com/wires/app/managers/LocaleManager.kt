@@ -24,6 +24,9 @@ class LocaleManager @Inject constructor() {
             activity.restartApp()
         }
     }
+
+    fun getLocale() = lingver.getLocale()
+
     enum class AvailableLocale(val language: String, val country: String) {
         RUSSIAN(LOCALE_RUSSIAN, LOCALE_RUSSIAN_COUNTRY),
         ENGLISH(LOCALE_ENGLISH, LOCALE_ENGLISH_COUNTRY)

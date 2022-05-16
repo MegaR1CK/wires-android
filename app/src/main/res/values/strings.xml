@@ -10,6 +10,9 @@
     <string name="date_relative_less_minute">less than a minute ago</string>
     <string name="date_relative_today">today at %s</string>
     <string name="date_relative_yesterday">yesterday at %s</string>
+    <string name="template_date_text_month_time">MMMM dd \'at\' hh:mm a</string>
+    <string name="template_full_date_time">MMMM dd, yyyy \'at\' hh:mm a</string>
+    <string name="template_time_standard">hh:mm</string>
 
     <plurals name="date_relative_minute_ago">
         <item quantity="one">%d minute ago</item>

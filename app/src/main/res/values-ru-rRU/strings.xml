@@ -10,6 +10,9 @@
     <string name="date_relative_less_minute">меньше минуты назад</string>
     <string name="date_relative_today">сегодня в %s</string>
     <string name="date_relative_yesterday">вчера в %s</string>
+    <string name="template_date_text_month_time">dd MMMM в HH:mm</string>
+    <string name="template_full_date_time">dd MMMM yyyy в HH:mm</string>
+    <string name="template_time_standard">HH:mm</string>
 
     <plurals name="date_relative_minute_ago">
         <item quantity="one">%d минута назад</item>

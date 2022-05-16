@@ -5,24 +5,30 @@ import com.wires.app.domain.repository.ResourcesRepository
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.absoluteValue
 
 class DateFormatter @Inject constructor(
+    localeManager: LocaleManager,
     private val resourcesRepository: ResourcesRepository
 ) {
 
     companion object {
-        private const val DATE_TEXT_MONTH_TIME_TEMPLATE = "dd MMMM 'at' HH:mm"
-        private const val FULL_DATE_TIME_TEMPLATE = "dd MMMM yyyy 'at' HH:mm"
-        private const val TIME_STANDARD_TEMPLATE = "HH:mm"
         private const val RELATIVE_TIME_MAX_HOURS = 4
     }
 
-    private val dateTextMonthTimeFormatter = DateTimeFormatter.ofPattern(DATE_TEXT_MONTH_TIME_TEMPLATE, Locale.getDefault())
-    private val fullDateTimeFormatter = DateTimeFormatter.ofPattern(FULL_DATE_TIME_TEMPLATE, Locale.getDefault())
-    private val timeStandardFormatter = DateTimeFormatter.ofPattern(TIME_STANDARD_TEMPLATE, Locale.getDefault())
+    private val dateTextMonthTimeFormatter = DateTimeFormatter.ofPattern(
+        resourcesRepository.getString(R.string.template_date_text_month_time),
+        localeManager.getLocale()
+    )
+    private val fullDateTimeFormatter = DateTimeFormatter.ofPattern(
+        resourcesRepository.getString(R.string.template_full_date_time),
+        localeManager.getLocale()
+    )
+    private val timeStandardFormatter = DateTimeFormatter.ofPattern(
+        resourcesRepository.getString(R.string.template_time_standard),
+        localeManager.getLocale()
+    )
 
     fun dateTimeToStringRelative(dateTime: LocalDateTime): String {
         val timeDifference = Duration.between(LocalDateTime.now(), dateTime)
