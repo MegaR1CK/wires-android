@@ -2,6 +2,7 @@ package com.wires.app.presentation.feed.feedchild
 
 import android.content.Context
 import android.os.Bundle
+import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -24,11 +25,13 @@ import com.wires.app.presentation.post.PostFragment
 import timber.log.Timber
 import javax.inject.Inject
 
-class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.layout.fragment_feed_child) {
+class FeedChildFragment : BaseFragment(R.layout.fragment_feed_child) {
 
     companion object {
-        fun newInstance(interest: UserInterest?): FeedChildFragment {
-            return FeedChildFragment(interest)
+        private const val INTEREST_KEY = "interest_key"
+
+        fun newInstance(interest: UserInterest?) = FeedChildFragment().apply {
+            arguments = bundleOf(INTEREST_KEY to interest)
         }
     }
 
@@ -63,7 +66,9 @@ class FeedChildFragment(private val interest: UserInterest?) : BaseFragment(R.la
         userLiveData.observe { result ->
             if (!result.isSuccess) binding.stateViewFlipperFeedChild.setStateFromResult(result)
             result.doOnSuccess {
-                if (postsAdapter.itemCount == 0 || isRefreshingBySwipe) getPosts(interest)
+                if (postsAdapter.itemCount == 0 || isRefreshingBySwipe) {
+                    getPosts(arguments?.getSerializable(INTEREST_KEY) as? UserInterest?)
+                }
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
