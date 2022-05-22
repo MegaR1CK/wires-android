@@ -29,7 +29,7 @@ class PostViewHolder(
 
     fun bind(post: Post) = with(itemBinding) {
         if (!post.isRemoved) {
-            textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
+            textVewPostTime.text = dateFormatter.getDateTimeRelative(post.publishTime)
             textViewPostBody.text = post.text
             textViewPostBody.enableLinks(root)
             imageViewPostImage.isVisible = post.image != null

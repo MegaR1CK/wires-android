@@ -21,6 +21,6 @@ class CommentViewHolder(
         )
         textViewCommentAuthorName.text = comment.author.getDisplayName()
         textViewCommentBody.text = comment.text
-        textViewCommentTime.text = dateFormatter.dateTimeToStringRelative(comment.sendTime)
+        textViewCommentTime.text = dateFormatter.getDateTimeRelative(comment.sendTime)
     }
 }

@@ -16,8 +16,11 @@ import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getKeyboardInset
 import com.wires.app.extensions.load
 import com.wires.app.extensions.navigateBack
+import com.wires.app.extensions.toLocalDate
+import com.wires.app.managers.DateFormatter
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
+import javax.inject.Inject
 
 class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
@@ -35,6 +38,8 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
     private var initialMessageSent = false
 
     private lateinit var messagesAdapter: MessagesListAdapter<Message>
+
+    @Inject lateinit var dateFormatter: DateFormatter
 
     override fun callOperations() {
         viewModel.getChannel(args.channelId)
@@ -132,6 +137,9 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             setLoadMoreListener { _, offset ->
                 // TODO: custom viewholder
                 viewModel.getMessages(args.channelId, offset)
+            }
+            setDateHeadersFormatter { date ->
+                dateFormatter.getDateRelative(date.toLocalDate())
             }
         }
         binding.messagesListChat.setAdapter(messagesAdapter)

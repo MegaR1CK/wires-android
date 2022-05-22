@@ -7,20 +7,24 @@
     <string name="confirm">Подтвердить</string>
 
     <!-- DATES -->
-    <string name="date_relative_less_minute">меньше минуты назад</string>
-    <string name="date_relative_today">сегодня в %s</string>
-    <string name="date_relative_yesterday">вчера в %s</string>
+    <string name="date_time_relative_less_minute">меньше минуты назад</string>
+    <string name="date_time_relative_today">сегодня в %s</string>
+    <string name="date_time_relative_yesterday">вчера в %s</string>
+    <string name="date_relative_today">сегодня</string>
+    <string name="date_relative_yesterday">вчера</string>
     <string name="template_date_text_month_time">dd MMMM в HH:mm</string>
     <string name="template_full_date_time">dd MMMM yyyy в HH:mm</string>
     <string name="template_time_standard">HH:mm</string>
+    <string name="template_date_day_month">dd MMMM</string>
+    <string name="template_date_standard">dd MMMM yyyy</string>
 
-    <plurals name="date_relative_minute_ago">
+    <plurals name="date_time_relative_minute_ago">
         <item quantity="one">%d минута назад</item>
         <item quantity="few">%d минуты назад</item>
         <item quantity="many">%d минут назад</item>
         <item quantity="other">%d минут назад</item>
     </plurals>
-    <plurals name="date_relative_hour_ago">
+    <plurals name="date_time_relative_hour_ago">
         <item quantity="one">%d час назад</item>
         <item quantity="few">%d часа назад</item>
         <item quantity="many">%d часов назад</item>

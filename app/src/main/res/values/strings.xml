@@ -7,18 +7,22 @@
     <string name="confirm">Confirm</string>
 
     <!-- DATES -->
-    <string name="date_relative_less_minute">less than a minute ago</string>
-    <string name="date_relative_today">today at %s</string>
-    <string name="date_relative_yesterday">yesterday at %s</string>
+    <string name="date_time_relative_less_minute">less than a minute ago</string>
+    <string name="date_time_relative_today">today at %s</string>
+    <string name="date_time_relative_yesterday">yesterday at %s</string>
+    <string name="date_relative_today">today</string>
+    <string name="date_relative_yesterday">yesterday</string>
     <string name="template_date_text_month_time">MMMM dd \'at\' hh:mm a</string>
     <string name="template_full_date_time">MMMM dd, yyyy \'at\' hh:mm a</string>
     <string name="template_time_standard">hh:mm</string>
+    <string name="template_date_day_month">MMMM dd</string>
+    <string name="template_date_standard">MMMM dd yyyy</string>
 
-    <plurals name="date_relative_minute_ago">
+    <plurals name="date_time_relative_minute_ago">
         <item quantity="one">%d minute ago</item>
         <item quantity="other">%d minutes ago</item>
     </plurals>
-    <plurals name="date_relative_hour_ago">
+    <plurals name="date_time_relative_hour_ago">
         <item quantity="one">%d hour ago</item>
         <item quantity="other">%d hours ago</item>
     </plurals>

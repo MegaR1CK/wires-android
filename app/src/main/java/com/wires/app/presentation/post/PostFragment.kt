@@ -231,7 +231,7 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
 
     private fun bindPost(post: Post) = with(binding.viewPost) {
         textViewPostAuthor.text = post.author.getDisplayName()
-        textVewPostTime.text = dateFormatter.dateTimeToStringRelative(post.publishTime)
+        textVewPostTime.text = dateFormatter.getDateTimeRelative(post.publishTime)
         imageViewPostAuthorAvatar.load(
             imageUrl = post.author.avatar?.url,
             placeHolderRes = R.drawable.ic_avatar_placeholder,
