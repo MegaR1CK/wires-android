@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
  */
 class ScrollMoreListener(
     private val layoutManager: LinearLayoutManager,
-    private val loadMore: (Int) -> Unit
+    private val loadMoreListener: OnLoadMoreListener
 ) : RecyclerView.OnScrollListener() {
 
     private var previousTotalItemCount = 0
     private var loading = true
 
     override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-        val totalItemCount = layoutManager.itemCount
+        val totalItemCount = loadMoreListener.getPrimaryItemsCount()
         val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
         if (totalItemCount < previousTotalItemCount) {
             previousTotalItemCount = totalItemCount
@@ -27,8 +27,13 @@ class ScrollMoreListener(
         }
         val visibleThreshold = 5
         if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
-            loadMore(totalItemCount)
+            loadMoreListener.loadMore(totalItemCount)
             loading = true
         }
+    }
+
+    interface OnLoadMoreListener {
+        fun loadMore(offset: Int)
+        fun getPrimaryItemsCount(): Int
     }
 }

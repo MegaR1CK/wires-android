@@ -132,7 +132,14 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
     private fun setupMessagesList(userId: Int) = with(binding.messagesListChat) {
         addLinearSpaceItemDecoration(R.dimen.chat_items_spacing, showFirstHorizontalDivider = true)
         (layoutManager as? LinearLayoutManager)?.let { layoutManager ->
-            addOnScrollListener(ScrollMoreListener(layoutManager) { viewModel.getMessages(args.channelId, it) })
+            val onLoadMoreListener = object : ScrollMoreListener.OnLoadMoreListener {
+                override fun getPrimaryItemsCount() = messagesAdapter.messagesCount
+
+                override fun loadMore(offset: Int) {
+                    viewModel.getMessages(args.channelId, offset)
+                }
+            }
+            addOnScrollListener(ScrollMoreListener(layoutManager, onLoadMoreListener))
         }
         adapter = messagesAdapter.apply {
             senderId = userId

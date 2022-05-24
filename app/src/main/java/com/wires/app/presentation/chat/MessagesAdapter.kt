@@ -28,6 +28,9 @@ class MessagesAdapter @Inject constructor(
     var senderId: Int? = null
     var isGroupMode = true
 
+    val messagesCount: Int
+        get() = items.filterIsInstance<MessageListItem.ListMessage>().size
+
     override fun getItemViewType(position: Int) = when (getItem(position)) {
         is IncomingMessage -> VIEW_TYPE_MESSAGE_INCOMING
         is OutcomingMessage -> VIEW_TYPE_MESSAGE_OUTCOMING
@@ -82,7 +85,11 @@ class MessagesAdapter @Inject constructor(
 
     fun addToEnd(messages: List<Message>) {
         val oldSize = items.size
+        if ((items.lastOrNull() as? DateHeader)?.date == messages.firstOrNull()?.sendTime?.toLocalDate()) {
+            items.removeAt(items.lastIndex)
+        }
         messages.forEach(::addMessageWithDateCheck)
+        messages.lastOrNull()?.sendTime?.toLocalDate()?.let { date -> items.add(DateHeader(date)) }
         notifyItemRangeInserted(oldSize, items.size - oldSize)
     }
 
