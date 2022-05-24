@@ -17,7 +17,7 @@ typealias DateHeader = MessageListItem.DateHeader
 
 class MessagesAdapter @Inject constructor(
     private val dateFormatter: DateFormatter
-): BaseAdapter<MessageListItem, RecyclerView.ViewHolder>() {
+) : BaseAdapter<MessageListItem, RecyclerView.ViewHolder>() {
 
     companion object {
         private const val VIEW_TYPE_MESSAGE_OUTCOMING = 0
@@ -105,7 +105,7 @@ class MessagesAdapter @Inject constructor(
 
     private fun Message.toListItem() = if (author.id == senderId) {
         OutcomingMessage(this)
-    }  else {
+    } else {
         IncomingMessage(this, isGroupMode)
     }
 }
