@@ -18,7 +18,8 @@ fun RecyclerView.addLinearSpaceItemDecoration(
     showFirstVerticalDivider: Boolean = false,
     showLastVerticalDivider: Boolean = false,
     showFirstHorizontalDivider: Boolean = false,
-    showLastHorizontalDivider: Boolean = false
+    showLastHorizontalDivider: Boolean = false,
+    shouldDecorate: (parent: RecyclerView, child: View) -> Boolean = { _, _ -> true }
 ) {
     addItemDecoration(
         LinearSpaceItemDecoration(
@@ -26,7 +27,8 @@ fun RecyclerView.addLinearSpaceItemDecoration(
             showFirstVerticalDivider,
             showLastVerticalDivider,
             showFirstHorizontalDivider,
-            showLastHorizontalDivider
+            showLastHorizontalDivider,
+            shouldDecorate
         )
     )
 }

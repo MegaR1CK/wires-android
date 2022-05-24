@@ -11,7 +11,8 @@ class LinearSpaceItemDecoration(
     private val showFirstVerticalDivider: Boolean = false,
     private val showLastVerticalDivider: Boolean = false,
     private val showFirstHorizontalDivider: Boolean = false,
-    private val showLastHorizontalDivider: Boolean = false
+    private val showLastHorizontalDivider: Boolean = false,
+    private val shouldDecorate: (parent: RecyclerView, child: View) -> Boolean
 ) : RecyclerView.ItemDecoration() {
     private var orientation = UNSET
 
@@ -41,6 +42,7 @@ class LinearSpaceItemDecoration(
      * */
     private fun makeLinearOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State): Rect =
         outRect.apply {
+            if (!shouldDecorate(parent, view)) return@apply
             val position = parent.getChildAdapterPosition(view)
             if (position != RecyclerView.NO_POSITION) {
                 when (orientation) {
