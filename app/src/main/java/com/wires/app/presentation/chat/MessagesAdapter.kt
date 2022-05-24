@@ -60,4 +60,10 @@ class MessagesAdapter @Inject constructor(
         items.add(0, message)
         notifyItemInserted(0)
     }
+
+    fun addToEnd(messages: List<Message>) {
+        val oldSize = items.size
+        items.addAll(messages)
+        notifyItemRangeInserted(oldSize, items.size - oldSize)
+    }
 }

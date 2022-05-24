@@ -5,15 +5,16 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.data.LoadableResult
-import com.wires.app.data.model.Channel
 import com.wires.app.databinding.FragmentChatBinding
 import com.wires.app.extensions.addLinearSpaceItemDecoration
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getKeyboardInset
 import com.wires.app.extensions.navigateBack
+import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 import javax.inject.Inject
@@ -72,9 +73,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 initialMessageSent = items.isNotEmpty()
                 val displayingItems = items.filter { !it.isInitial }
                 binding.emptyViewMessageList.isVisible = displayingItems.isEmpty() && messagesAdapter.isEmpty
-                messagesAdapter.submitList(displayingItems)
+                messagesAdapter.addToEnd(displayingItems)
             }
             result.doOnFailure { error ->
+                if (!messagesAdapter.isEmpty) showSnackbar(error.message)
                 Timber.e(error.message)
             }
         }
@@ -99,7 +101,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             }
             result.doOnError { error ->
                 Timber.e(error)
-                binding.stateViewFlipperChat.setStateFromResult(LoadableResult.failure<Channel>(error))
+                showSnackbar(getString(R.string.error_no_network_description))
             }
             result.doOnMessage { message ->
                 if (!message.isInitial) {
@@ -129,6 +131,9 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     private fun setupMessagesList(userId: Int) = with(binding.messagesListChat) {
         addLinearSpaceItemDecoration(R.dimen.chat_messages_spacing, showFirstHorizontalDivider = true)
+        (layoutManager as? LinearLayoutManager)?.let { layoutManager ->
+            addOnScrollListener(ScrollMoreListener(layoutManager) { viewModel.getMessages(args.channelId, it) })
+        }
         adapter = messagesAdapter.apply {
             senderId = userId
         }
