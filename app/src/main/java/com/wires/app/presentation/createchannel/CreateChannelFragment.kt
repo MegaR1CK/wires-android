@@ -49,7 +49,7 @@ class CreateChannelFragment : BaseFragment(R.layout.fragment_create_channel) {
         root.fitKeyboardInsetsWithPadding()
         toolbarCreateChannel.setNavigationOnClickListener { navigateBack() }
         recyclerViewCreateChannelUsers.adapter = usersAdapter.apply {
-            switchButtonState(itemCount == 0)
+            switchButtonState(isEmpty)
             submitList(viewModel.usersInChannel)
             buttonCreateChannelDone.isVisible = itemCount != 0
         }

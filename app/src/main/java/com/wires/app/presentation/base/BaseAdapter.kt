@@ -7,6 +7,9 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapt
 
     override fun getItemCount() = items.size
 
+    val isEmpty: Boolean
+        get() = itemCount == 0
+
     fun getItem(position: Int): T {
         return items[position]
     }

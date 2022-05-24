@@ -11,7 +11,8 @@ data class Message(
     val author: UserPreview,
     val messageText: String,
     val sendTime: LocalDateTime,
-    val isInitial: Boolean
+    val isInitial: Boolean,
+    val isRead: Boolean
 ) : IMessage, Serializable {
     override fun getId() = id.toString()
     override fun getText() = messageText

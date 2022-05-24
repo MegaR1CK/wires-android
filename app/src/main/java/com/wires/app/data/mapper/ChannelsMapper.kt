@@ -36,7 +36,8 @@ class ChannelsMapper @Inject constructor(
             author = userMapper.fromResponseToModel(messageResponse.author),
             messageText = messageResponse.text,
             sendTime = messageResponse.sendTime,
-            isInitial = messageResponse.isInitial
+            isInitial = messageResponse.isInitial,
+            isRead = messageResponse.isRead
         )
     }
 }

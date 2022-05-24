@@ -66,7 +66,7 @@ class FeedChildFragment : BaseFragment(R.layout.fragment_feed_child) {
         userLiveData.observe { result ->
             if (!result.isSuccess) binding.stateViewFlipperFeedChild.setStateFromResult(result)
             result.doOnSuccess {
-                if (postsAdapter.itemCount == 0 || isRefreshingBySwipe) {
+                if (postsAdapter.isEmpty || isRefreshingBySwipe) {
                     getPosts(arguments?.getSerializable(INTEREST_KEY) as? UserInterest?)
                 }
             }

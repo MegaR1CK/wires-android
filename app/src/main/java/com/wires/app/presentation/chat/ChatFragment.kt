@@ -6,18 +6,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.stfalcon.chatkit.messages.MessagesListAdapter
 import com.wires.app.R
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Channel
-import com.wires.app.data.model.Message
 import com.wires.app.databinding.FragmentChatBinding
+import com.wires.app.extensions.addLinearSpaceItemDecoration
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getKeyboardInset
-import com.wires.app.extensions.load
 import com.wires.app.extensions.navigateBack
-import com.wires.app.extensions.toLocalDate
-import com.wires.app.managers.DateFormatter
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,9 +33,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     private var initialMessageSent = false
 
-    private lateinit var messagesAdapter: MessagesListAdapter<Message>
-
-    @Inject lateinit var dateFormatter: DateFormatter
+    @Inject lateinit var messagesAdapter: MessagesAdapter
 
     override fun callOperations() {
         viewModel.getChannel(args.channelId)
@@ -78,7 +72,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 initialMessageSent = items.isNotEmpty()
                 val displayingItems = items.filter { !it.isInitial }
                 binding.emptyViewMessageList.isVisible = displayingItems.isEmpty() && messagesAdapter.isEmpty
-                messagesAdapter.addToEnd(displayingItems, false)
+                messagesAdapter.submitList(displayingItems)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -87,7 +81,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
         userLiveData.observe { result ->
             result.doOnSuccess { userWrapper ->
-                userWrapper.user?.getId()?.let(::setupAdapter)
+                userWrapper.user?.id?.let(::setupMessagesList)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -108,7 +102,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 binding.stateViewFlipperChat.setStateFromResult(LoadableResult.failure<Channel>(error))
             }
             result.doOnMessage { message ->
-                if (!message.isInitial) messagesAdapter.addToStart(message, true)
+                if (!message.isInitial) {
+                    messagesAdapter.addNewMessage(message)
+                    binding.messagesListChat.scrollToPosition(0)
+                }
                 binding.emptyViewMessageList.isVisible = messagesAdapter.isEmpty
                 setFragmentResult(
                     requestKey = LAST_MESSAGE_CHANGED_RESULT_KEY,
@@ -130,19 +127,11 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         super.onDestroyView()
     }
 
-    private fun setupAdapter(userId: String) {
-        messagesAdapter = MessagesListAdapter<Message>(userId) { imageView, url, _ ->
-            imageView.load(url, isCircle = true)
-        }.apply {
-            setLoadMoreListener { _, offset ->
-                // TODO: custom viewholder
-                viewModel.getMessages(args.channelId, offset)
-            }
-            setDateHeadersFormatter { date ->
-                dateFormatter.getDateRelative(date.toLocalDate())
-            }
+    private fun setupMessagesList(userId: Int) = with(binding.messagesListChat) {
+        addLinearSpaceItemDecoration(R.dimen.chat_messages_spacing, showFirstHorizontalDivider = true)
+        adapter = messagesAdapter.apply {
+            senderId = userId
         }
-        binding.messagesListChat.setAdapter(messagesAdapter)
     }
 
     private fun sendInitialMessage() =

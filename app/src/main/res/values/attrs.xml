@@ -45,6 +45,8 @@
     <attr name="colorTabSelected" format="reference|color" />
     <attr name="colorTabUnselected" format="reference|color" />
 
+    <attr name="colorSurfaceChat" format="reference|color" />
+
     <attr name="dividerColor" format="reference|color" />
     <attr name="colorToolbarIcons" format="reference|color" />
 
