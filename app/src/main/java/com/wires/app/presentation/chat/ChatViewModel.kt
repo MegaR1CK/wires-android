@@ -54,9 +54,9 @@ class ChatViewModel @Inject constructor(
         _channelLiveData.launchLoadData(getChannelUseCase.executeLoadable(GetChannelUseCase.Params(channelId)))
     }
 
-    fun getMessages(channelId: Int, offset: Int) {
+    fun getMessages(channelId: Int, offset: Int? = null, limit: Int? = null) {
         _messagesLiveData.launchLoadData(
-            getChannelMessagesUseCase.executeLoadable(GetChannelMessagesUseCase.Params(channelId, offset))
+            getChannelMessagesUseCase.executeLoadable(GetChannelMessagesUseCase.Params(channelId, offset, limit))
         )
     }
 

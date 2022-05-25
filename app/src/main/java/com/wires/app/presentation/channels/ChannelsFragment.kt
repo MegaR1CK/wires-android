@@ -66,7 +66,7 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
             }
         }
         openChatLiveEvent.observe { channelId ->
-            navigateTo(ChannelsFragmentDirections.actionChannelFragmentToChatGraph(channelId))
+            navigateTo(ChannelsFragmentDirections.actionChannelFragmentToChatGraph(channelId, 10))
         }
         openCreateChannelLiveEvent.observe {
             navigateTo(ChannelsFragmentDirections.actionChannelsFragmentToCreateChannelGraph())

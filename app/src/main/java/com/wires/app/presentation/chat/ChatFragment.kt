@@ -26,6 +26,18 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         const val LAST_MESSAGE_RESULT_KEY = "result_last_message"
         const val CHANNEL_ID_RESULT_KEY = "result_channel_id"
         const val CHATS_CHANGED_RESULT_KEY = "result_chats_changed"
+
+        /** Количество сообщений, гарантированно видимое на экране */
+        private const val VISIBLE_MESSAGES_COUNT = 3
+
+        /** Максимальное количество непрочитанных сообщений, при котором не нужно увеличивать лимит пагинации */
+        private const val UNREAD_MESSAGES_WITHOUT_PAGINATION = 5
+
+        /**
+         *  Дополнительный прирост лимита пагинации для создания буфера
+         *  прогруженных сообщений при скролле к первому непрочитанному
+         */
+        private const val ADDITIONAL_LIMIT = 15
     }
 
     private val binding by viewBinding(FragmentChatBinding::bind)
@@ -58,7 +70,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
             result.doOnSuccess { channel ->
                 binding.toolbarChat.title = channel.name
-                getMessages(args.channelId, 0)
+                getMessages(
+                    args.channelId,
+                    limit = args.unreadMessagesCount.takeIf { it > UNREAD_MESSAGES_WITHOUT_PAGINATION }?.plus(ADDITIONAL_LIMIT)
+                )
             }
             result.doOnFailure { error ->
                 Timber.d(error.message)
@@ -66,14 +81,20 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         messagesLiveData.observe { result ->
-            if (messagesAdapter.isEmpty) {
-                if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result) else listenChannel(args.channelId)
-            }
+            if (messagesAdapter.isEmpty && !result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
             result.doOnSuccess { items ->
                 initialMessageSent = items.isNotEmpty()
                 val displayingItems = items.filter { !it.isInitial }
                 binding.emptyViewMessageList.isVisible = displayingItems.isEmpty() && messagesAdapter.isEmpty
+                val isFirstPage = messagesAdapter.isEmpty
                 messagesAdapter.addToEnd(displayingItems)
+                if (isFirstPage) {
+                    listenChannel(args.channelId)
+                    val elementsToScroll = args.unreadMessagesCount + messagesAdapter.headersCountUntil(args.unreadMessagesCount)
+                    if (elementsToScroll > VISIBLE_MESSAGES_COUNT) {
+                        binding.messagesListChat.scrollToPosition(elementsToScroll - 1)
+                    }
+                }
             }
             result.doOnFailure { error ->
                 if (!messagesAdapter.isEmpty) showSnackbar(error.message)
