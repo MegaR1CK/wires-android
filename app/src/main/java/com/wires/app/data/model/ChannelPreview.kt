@@ -6,7 +6,8 @@ data class ChannelPreview(
     val id: Int,
     val name: String,
     val image: Image?,
-    val lastSentMessage: Message?
+    val lastSentMessage: Message?,
+    val unreadMessagesCount: Int
 ) : IDialog<Message> {
     override fun getId() = id.toString()
     override fun getDialogPhoto() = image?.url

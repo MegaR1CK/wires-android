@@ -26,7 +26,7 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
         imageView.load(url, isCircle = true)
     }.apply {
         setOnDialogClickListener { channel ->
-            viewModel.openChat(channel.id)
+            viewModel.openChat(channel.id, channel.unreadMessagesCount)
         }
     }
 
@@ -65,8 +65,8 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
                 Timber.e(error.message)
             }
         }
-        openChatLiveEvent.observe { channelId ->
-            navigateTo(ChannelsFragmentDirections.actionChannelFragmentToChatGraph(channelId, 10))
+        openChatLiveEvent.observe { params ->
+            navigateTo(ChannelsFragmentDirections.actionChannelFragmentToChatGraph(params.channelId, params.unreadMessagesCount))
         }
         openCreateChannelLiveEvent.observe {
             navigateTo(ChannelsFragmentDirections.actionChannelsFragmentToCreateChannelGraph())

@@ -1,6 +1,7 @@
 package com.wires.app.data.remote
 
 import com.wires.app.data.remote.params.CommentAddParams
+import com.wires.app.data.remote.params.MessagesReadParams
 import com.wires.app.data.remote.params.UserLoginParams
 import com.wires.app.data.remote.params.UserPasswordChangeParams
 import com.wires.app.data.remote.params.UserRegisterParams
@@ -116,6 +117,12 @@ interface WiresApiService {
         @Part("create_params") createParams: RequestBody,
         @Part image: MultipartBody.Part?
     ): ObjectResponse<ChannelResponse>
+
+    @POST("channels/{id}/read")
+    suspend fun readChannelMessages(
+        @Path("id") channelId: Int,
+        @Body params: MessagesReadParams
+    ): ObjectResponse<Unit>
 
     @GET("user/{id}/posts")
     suspend fun getUserPosts(

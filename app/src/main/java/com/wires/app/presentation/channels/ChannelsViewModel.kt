@@ -16,8 +16,8 @@ class ChannelsViewModel @Inject constructor(
     private val _channelsLiveData = MutableLiveData<LoadableResult<List<ChannelPreview>>>()
     val channelsLiveData: LiveData<LoadableResult<List<ChannelPreview>>> = _channelsLiveData
 
-    private val _openChatLiveEvent = SingleLiveEvent<Int>()
-    val openChatLiveEvent: LiveData<Int> = _openChatLiveEvent
+    private val _openChatLiveEvent = SingleLiveEvent<OpenChatParams>()
+    val openChatLiveEvent: LiveData<OpenChatParams> = _openChatLiveEvent
 
     private val _openCreateChannelLiveEvent = SingleLiveEvent<Unit>()
     val openCreateChannelLiveEvent: LiveData<Unit> = _openCreateChannelLiveEvent
@@ -26,11 +26,16 @@ class ChannelsViewModel @Inject constructor(
         _channelsLiveData.launchLoadData(getUserChannelsUseCase.executeLoadable(Unit))
     }
 
-    fun openChat(channelId: Int) {
-        _openChatLiveEvent.postValue(channelId)
+    fun openChat(channelId: Int, unreadMessagesCount: Int) {
+        _openChatLiveEvent.postValue(OpenChatParams(channelId, unreadMessagesCount))
     }
 
     fun openCreateChannel() {
         _openCreateChannelLiveEvent.postValue(Unit)
     }
+
+    data class OpenChatParams(
+        val channelId: Int,
+        val unreadMessagesCount: Int
+    )
 }

@@ -9,6 +9,7 @@ import com.wires.app.data.model.Message
 import com.wires.app.data.remote.WiresApiService
 import com.wires.app.data.remote.params.ChannelCreateParams
 import com.wires.app.data.remote.params.MessageSendParams
+import com.wires.app.data.remote.params.MessagesReadParams
 import com.wires.app.data.remote.websocket.SocketEvent
 import com.wires.app.data.remote.websocket.WebSocketService
 import com.wires.app.extensions.toMultipartPart
@@ -60,5 +61,9 @@ class ChannelsRepository @Inject constructor(
                 imagePath?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
             ).data
         )
+    }
+
+    suspend fun readChannelMessages(channelId: Int, messagesIds: Set<Int>) {
+        apiService.readChannelMessages(channelId, MessagesReadParams(messagesIds))
     }
 }

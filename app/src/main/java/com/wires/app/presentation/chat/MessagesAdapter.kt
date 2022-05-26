@@ -93,18 +93,8 @@ class MessagesAdapter @Inject constructor(
         notifyItemRangeInserted(oldSize, items.size - oldSize)
     }
 
-    /**
-     * Метод рассчитывает количество заголовков с датами
-     * среди переданного количества сообщений, начиная с начала
-     */
-    fun headersCountUntil(messagesCount: Int): Int {
-        var messagesCountInner = messagesCount
-        var headersCount = 0
-        for (item in items) {
-            if (item is DateHeader) headersCount++ else messagesCountInner--
-            if (messagesCountInner == 0) break
-        }
-        return headersCount
+    fun getPositionById(messageId: Int): Int {
+        return items.indexOf(items.find { it is MessageListItem.ListMessage && it.message.id == messageId })
     }
 
     private fun addMessageWithDateCheck(message: Message, index: Int? = null) {

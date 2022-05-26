@@ -11,14 +11,11 @@ import com.wires.app.domain.usecase.channels.DisconnectChannelUseCase
 import com.wires.app.domain.usecase.channels.GetChannelMessagesUseCase
 import com.wires.app.domain.usecase.channels.GetChannelUseCase
 import com.wires.app.domain.usecase.channels.ListenChannelUseCase
+import com.wires.app.domain.usecase.channels.ReadMessagesUseCase
 import com.wires.app.domain.usecase.channels.SendMessageUseCase
 import com.wires.app.domain.usecase.user.GetStoredUserUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -28,6 +25,7 @@ class ChatViewModel @Inject constructor(
     private val getStoredUserUseCase: GetStoredUserUseCase,
     private val listenChannelUseCase: ListenChannelUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
+    private val readMessagesUseCase: ReadMessagesUseCase,
     private val disconnectChannelUseCase: DisconnectChannelUseCase
 ) : BaseViewModel() {
 
@@ -45,6 +43,8 @@ class ChatViewModel @Inject constructor(
 
     private val _receiveMessageLiveEvent = SingleLiveEvent<SocketEvent<Message>>()
     val receiveMessageLiveEvent: LiveData<SocketEvent<Message>> = _receiveMessageLiveEvent
+
+    val messagesIdsForRead = mutableSetOf<Int>()
 
     fun getUser() {
         _userLiveData.launchLoadData(getStoredUserUseCase.executeLoadable(Unit))
@@ -70,11 +70,14 @@ class ChatViewModel @Inject constructor(
         )
     }
 
-    fun disconnectChannel(channelId: Int) {
-        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch {
-            disconnectChannelUseCase.executeLoadable(DisconnectChannelUseCase.Params(channelId)).collect { result ->
-                result.doOnFailure { error -> Timber.e(error.message) }
-            }
+    fun readMessages(channelId: Int) = if (messagesIdsForRead.isNotEmpty()) {
+        readMessagesUseCase.executeOutOfLifecycle(ReadMessagesUseCase.Params(channelId, messagesIdsForRead)) { result ->
+            result.doOnFailure { error -> Timber.e(error.message) }
         }
-    }
+    } else Unit
+
+    fun disconnectChannel(channelId: Int) =
+        disconnectChannelUseCase.executeOutOfLifecycle(DisconnectChannelUseCase.Params(channelId)) { result ->
+            result.doOnFailure { error -> Timber.e(error.message) }
+        }
 }

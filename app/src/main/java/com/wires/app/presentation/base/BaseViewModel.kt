@@ -9,8 +9,12 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.remote.websocket.SocketEvent
+import com.wires.app.domain.usecase.base.UseCaseLoadable
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
@@ -70,6 +74,12 @@ abstract class BaseViewModel : ViewModel() {
         block: Flow<SocketEvent<T>>
     ): Job = viewModelScope.launch {
         block.collect { event -> this@launchSocketData.postValue(event) }
+    }
+
+    protected fun <T, R> UseCaseLoadable<T, R>.executeOutOfLifecycle(params: T, block: (LoadableResult<R>) -> Unit) {
+        CoroutineScope(SupervisorJob() + Dispatchers.Main).launch {
+            executeLoadable(params).collect(block)
+        }
     }
 
     protected fun MutableLiveData<LoadableResult<Unit>>.bindPagingState(loadState: CombinedLoadStates) {

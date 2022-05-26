@@ -17,7 +17,8 @@ class ChannelsMapper @Inject constructor(
             id = channelPreviewResponse.id,
             name = channelPreviewResponse.name,
             image = channelPreviewResponse.image?.let { imagesMapper.fromResponseToModel(it) },
-            lastSentMessage = channelPreviewResponse.lastMessage?.let { fromResponseToModel(it) }
+            lastSentMessage = channelPreviewResponse.lastMessage?.let { fromResponseToModel(it) },
+            unreadMessagesCount = channelPreviewResponse.unreadMessages
         )
     }
 
