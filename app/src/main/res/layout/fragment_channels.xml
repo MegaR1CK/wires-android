@@ -32,11 +32,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.stfalcon.chatkit.dialogs.DialogsList
-                android:id="@+id/channelsListChannels"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewChannels"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:overScrollMode="never" />
+                android:layout_marginTop="16dp"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_channel"
+                tools:itemCount="5" />
 
             <TextView
                 android:id="@+id/emptyViewChannelsList"

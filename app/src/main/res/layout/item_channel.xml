@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="@dimen/padding_24">
+
+    <ImageView
+        android:id="@+id/imageViewChannel"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textViewChannelName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/FontStyle.Caption.Bold"
+        app:layout_constraintBottom_toTopOf="@id/textViewChannelLastMessage"
+        app:layout_constraintEnd_toStartOf="@+id/textViewChannelLastMessageDate"
+        app:layout_constraintStart_toEndOf="@+id/imageViewChannel"
+        app:layout_constraintTop_toTopOf="@id/imageViewChannel"
+        tools:text="John Smith" />
+
+    <TextView
+        android:id="@+id/textViewChannelLastMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/FontStyle.XSmall"
+        android:textColor="?android:textColorSecondary"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewChannel"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayoutChannelBadge"
+        app:layout_constraintStart_toEndOf="@+id/imageViewChannel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewChannelName"
+        tools:text="John Smith" />
+
+    <TextView
+        android:id="@+id/textViewChannelLastMessageDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/FontStyle.Tiny"
+        android:textColor="?android:textColorSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Сегодня" />
+
+    <FrameLayout
+        android:id="@+id/frameLayoutChannelBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_channel_badge"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="2dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@id/textViewChannelLastMessage"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewChannelLastMessage"
+        app:layout_constraintEnd_toEndOf="@+id/textViewChannelLastMessageDate"
+        app:layout_constraintTop_toTopOf="@+id/textViewChannelLastMessage"
+        tools:visibility="visible" >
+
+        <TextView
+            android:id="@+id/textViewChannelUnreadMessages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/FontStyle.Tiny"
+            android:textColor="?textColorOnContrast"
+            tools:text="2" />
+
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

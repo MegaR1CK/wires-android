@@ -23,5 +23,7 @@
 
     <dimen name="pick_users_list_bottom_padding">8dp</dimen>
 
+    <dimen name="channels_items_spacing">8dp</dimen>
+
     <dimen name="chat_items_spacing">12dp</dimen>
 </resources>

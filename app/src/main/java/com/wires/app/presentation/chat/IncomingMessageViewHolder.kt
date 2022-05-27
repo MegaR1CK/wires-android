@@ -24,7 +24,7 @@ class IncomingMessageViewHolder(
             isCircle = true
         )
         textViewMessageAuthorName.text = message.author.getDisplayName()
-        textViewMessageText.text = message.messageText
+        textViewMessageText.text = message.text
         textViewMessageTime.text = dateFormatter.getTimeStandard(message.sendTime)
     }
 }

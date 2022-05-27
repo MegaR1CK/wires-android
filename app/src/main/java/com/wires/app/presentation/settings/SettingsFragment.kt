@@ -98,7 +98,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
     private fun createMailIntent(user: User?): Intent {
         return Intent(Intent.ACTION_SENDTO).apply {
             val messageBody = StringBuilder(getString(R.string.settings_report_warning))
-            if (user != null && user.name.isNotEmpty()) {
+            if (user != null && user.username.isNotEmpty()) {
                 messageBody.append(getString(R.string.settings_report_username, user.username))
             }
             messageBody.append(getString(R.string.settings_report_version, Build.VERSION.SDK_INT))

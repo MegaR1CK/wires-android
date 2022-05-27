@@ -11,7 +11,7 @@ class OutcomingMessageViewHolder(
 
     fun bind(messageItem: MessageListItem.ListMessage.OutcomingMessage) = with(binding) {
         val message = messageItem.message
-        textViewMessageText.text = message.messageText
+        textViewMessageText.text = message.text
         textViewMessageTime.text = dateFormatter.getTimeStandard(message.sendTime)
     }
 }

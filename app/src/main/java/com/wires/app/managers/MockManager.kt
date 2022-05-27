@@ -116,7 +116,7 @@ class MockManager @Inject constructor() {
                 id = 1,
                 author = UserPreview(1, "name", null, null, null),
                 sendTime = LocalDateTime.parse("2021-11-03T10:15:30"),
-                messageText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris.",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim felis mauris.",
                 isInitial = false,
                 isRead = true
             )

@@ -27,6 +27,8 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         const val LAST_MESSAGE_RESULT_KEY = "result_last_message"
         const val CHANNEL_ID_RESULT_KEY = "result_channel_id"
         const val CHATS_CHANGED_RESULT_KEY = "result_chats_changed"
+        const val UNREAD_MESSAGES_CHANGED_RESULT_KEY = "unread_messages_changed"
+        const val UNREAD_MESSAGES_RESULT_KEY = "unread_messages"
 
         /** Количество сообщений, гарантированно видимое на экране */
         private const val VISIBLE_MESSAGES_COUNT = 3
@@ -154,6 +156,13 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
     override fun onStop() {
         super.onStop()
         viewModel.readMessages(args.channelId)
+        setFragmentResult(
+            requestKey = UNREAD_MESSAGES_CHANGED_RESULT_KEY,
+            result = bundleOf(
+                CHANNEL_ID_RESULT_KEY to args.channelId,
+                UNREAD_MESSAGES_RESULT_KEY to args.unreadMessagesCount - viewModel.messagesIdsForRead.size
+            )
+        )
     }
 
     override fun onDestroyView() {
@@ -176,7 +185,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             // Состоит из двух режимов:
             // 1 - стандартный ход (чтение сообщений по мере прокрутки списка),
             // 2 - обратный ход (если во время быстрой прокрутки несколько сообщений
-            // оказались пропущены, идем по списку вверх, пока не процчитаем их все)
+            // оказались пропущены, идем по списку вверх, пока не прочитаем их все)
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
@@ -194,17 +203,18 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                             // сообщением больше одного, запускаем обратный ход
                             if (lastReadMessagePosition - currentPosition > 1) {
                                 var missedItemPosition = currentPosition + 1
-                                var missedItem = messagesAdapter.getItem(missedItemPosition)
-                                // Пока список для чтения сообщений не содержит id пропущенного сообщения,
-                                // добавляем его в список и поднимаемся вверх (увеличиваем позицию)
-                                while (!viewModel.messagesIdsForRead.contains((missedItem as? MessageListItem.ListMessage)?.message?.id)) {
-                                    if (missedItem is MessageListItem.ListMessage) {
-                                        viewModel.messagesIdsForRead.add(missedItem.message.id)
-                                    }
+                                var missedItem = messagesAdapter.getItem(missedItemPosition) as? MessageListItem.ListMessage
+                                // Пока список для чтения сообщений не содержит id пропущенного сообщения или пока не дошли
+                                // до прочитанного сообщения, добавляем его в список и поднимаемся вверх (увеличиваем позицию)
+                                while (
+                                    !viewModel.messagesIdsForRead.contains(missedItem?.message?.id) &&
+                                    missedItem?.message?.isRead != true
+                                ) {
+                                    missedItem?.message?.id?.let { viewModel.messagesIdsForRead.add(it) }
                                     // Если следующая позиция выходит за границы списка,
                                     // значит мы дошли до конца списка, выходим из цикла
                                     if (++missedItemPosition == messagesAdapter.itemCount) break
-                                    missedItem = messagesAdapter.getItem(missedItemPosition)
+                                    missedItem = messagesAdapter.getItem(missedItemPosition) as? MessageListItem.ListMessage
                                 }
                             }
                             lastReadMessagePosition = currentPosition
