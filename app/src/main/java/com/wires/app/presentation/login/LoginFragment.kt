@@ -26,6 +26,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             true
         }
         buttonLogin.setOnClickListener { performLogin() }
+        buttonLoginBack.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onBindViewModel() = with(viewModel) {

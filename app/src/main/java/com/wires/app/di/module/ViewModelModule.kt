@@ -13,7 +13,6 @@ import com.wires.app.presentation.edituser.EditUserViewModel
 import com.wires.app.presentation.feed.FeedViewModel
 import com.wires.app.presentation.feed.feedchild.FeedChildViewModel
 import com.wires.app.presentation.login.LoginViewModel
-import com.wires.app.presentation.onboarding.OnboardingViewModel
 import com.wires.app.presentation.pickusers.PickUsersViewModel
 import com.wires.app.presentation.post.PostViewModel
 import com.wires.app.presentation.profile.ProfileViewModel
@@ -34,11 +33,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     abstract fun splashViewModel(viewModel: SplashViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(OnboardingViewModel::class)
-    abstract fun onboardingViewModel(viewModel: OnboardingViewModel): ViewModel
 
     @Binds
     @IntoMap

@@ -65,8 +65,14 @@ class ValidationTextInput @JvmOverloads constructor(
                 validationRegex =
                     getString(R.styleable.ValidationTextInput_validationPattern)?.toRegex() ?: DEFAULT_REGEX.toRegex()
                 canBeEmpty = getBoolean(R.styleable.ValidationTextInput_canBeEmpty, false)
-                binding.textInputLayout.hint = getString(R.styleable.ValidationTextInput_fieldHint)
                 with(editText) {
+                    setCompoundDrawablesWithIntrinsicBounds(
+                        getDrawable(R.styleable.ValidationTextInput_fieldStartIcon),
+                        null,
+                        getDrawable(R.styleable.ValidationTextInput_fieldEndIcon),
+                        null
+                    )
+                    hint = getString(R.styleable.ValidationTextInput_fieldHint)
                     imeOptions = if (getInt(R.styleable.ValidationTextInput_fieldImeOptions, 0) == 0) {
                         EditorInfo.IME_ACTION_NEXT
                     } else {

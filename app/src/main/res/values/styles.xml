@@ -1,34 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="ButtonStyle">
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-        <item name="android:textAppearance">@style/FontStyle.ButtonRegular.Bold</item>
-        <item name="textAllCaps">false</item>
-        <item name="android:stateListAnimator">@null</item>
-        <item name="cornerRadius">8dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:textAppearance">@style/FontStyle.Subheading2</item>
     </style>
 
-    <style name="ButtonStyle.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="android:textAppearance">@style/FontStyle.ButtonRegular.Bold</item>
-        <item name="textAllCaps">false</item>
-        <item name="cornerRadius">8dp</item>
-        <item name="strokeColor">?colorPrimary</item>
+    <style name="ButtonStyle.Contrast">
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="backgroundTint">?colorSurface</item>
+        <item name="rippleColor">?colorRippleDark</item>
     </style>
 
     <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusBottomEnd">10dp</item>
-        <item name="boxCornerRadiusTopEnd">10dp</item>
-        <item name="boxCornerRadiusBottomStart">10dp</item>
-        <item name="boxCornerRadiusTopStart">10dp</item>
-        <item name="boxStrokeColor">?colorPrimary</item>
-        <item name="boxStrokeErrorColor">?errorColor</item>
+        <item name="boxCornerRadiusBottomEnd">4dp</item>
+        <item name="boxCornerRadiusTopEnd">4dp</item>
+        <item name="boxCornerRadiusBottomStart">4dp</item>
+        <item name="boxCornerRadiusTopStart">4dp</item>
+        <item name="boxBackgroundColor">?colorInputBackground</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
         <item name="errorTextColor">?errorColor</item>
         <item name="errorEnabled">true</item>
+        <item name="errorIconDrawable">@null</item>
+        <item name="hintEnabled">false</item>
     </style>
-    
+
+    <style name="EditTextStyle">
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textAppearance">@style/FontStyle.Body.Bold</item>
+        <item name="android:textColorHint">?colorInputHint</item>
+        <item name="drawableTint">?iconColorPrimary</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.OutcomingMessage">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">16dp</item>
@@ -44,4 +58,8 @@
         <item name="cornerSizeBottomLeft">0dp</item>
         <item name="cornerSizeBottomRight">16dp</item>
     </style>
+
+
+    <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
+    <style name="ButtonStyle.Outlined" />
 </resources>

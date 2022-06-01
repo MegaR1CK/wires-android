@@ -33,7 +33,9 @@
 
     <!-- AUTH -->
     <string name="login_label">Вход</string>
+    <string name="login_button_text">Войти</string>
     <string name="register_label">Регистрация</string>
+    <string name="register_button_text">Зарегистрироваться</string>
     <string name="login_title">Вход в аккаунт</string>
     <string name="register_title">Регистрация нового пользователя</string>
     <string name="password_hint">Пароль</string>

@@ -1,20 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?colorPrimary"
+    android:paddingHorizontal="@dimen/padding_24">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayoutSplash"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/bg_splash"
-        android:layout_gravity="center"
-        android:layout_marginVertical="10dp"/>
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="26dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <include
-        android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/app_name"
+            android:textAllCaps="true"
+            android:textAppearance="@style/FontStyle.Heading1"
+            android:textColor="?textColorOnContrast" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:text="@string/app_subtitle"
+            android:textAppearance="@style/FontStyle.Subheading1"
+            android:textColor="?textColorOnContrast" />
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSplashLogin"
+        style="@style/ButtonStyle.Contrast"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/view_app_header"
-        android:layout_gravity="center" />
+        android:layout_marginTop="56dp"
+        android:alpha="0"
+        android:text="@string/login_label"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutSplash"
+        tools:alpha="1"
+        tools:visibility="visible" />
 
-</FrameLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSplashRegister"
+        style="@style/ButtonStyle.Contrast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:alpha="0"
+        android:text="@string/register_label"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSplashLogin"
+        tools:alpha="1"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,8 +29,10 @@
 
     <!-- AUTH -->
     <string name="login_label">Login</string>
+    <string name="login_button_text">Login</string>
     <string name="register_label">Register</string>
-    <string name="login_title">Login to your account</string>
+    <string name="register_button_text">Register</string>
+    <string name="login_title">Login to account</string>
     <string name="register_title">Register account</string>
     <string name="email_hint" translatable="false">E-mail</string>
     <string name="password_hint">Password</string>

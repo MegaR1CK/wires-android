@@ -75,7 +75,7 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
             navigateTo(SettingsFragmentDirections.actionSettingsFragmentToChangePasswordFragment())
         }
         logoutLiveEvent.observe {
-            navigateTo(SettingsFragmentDirections.actionSettingsFragmentToAuthGraph())
+            navigateTo(SettingsFragmentDirections.actionSettingsFragmentToNavGraph(needSkipAnimation = true))
         }
     }
 

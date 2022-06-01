@@ -5,171 +5,83 @@
         <item name="android:textColor">@color/primary_black</item>
     </style>
 
-    <style name="FontStyle.Headline1">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">48sp</item>
-        <item name="lineHeight">60dp</item>
-    </style>
-
-    <style name="FontStyle.Headline1.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">48sp</item>
-        <item name="lineHeight">60dp</item>
-    </style>
-
-    <style name="FontStyle.Headline2">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">37sp</item>
-        <item name="lineHeight">52dp</item>
-    </style>
-
-    <style name="FontStyle.Headline2.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">37sp</item>
-        <item name="lineHeight">52dp</item>
-    </style>
-
-    <style name="FontStyle.Headline3">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">31sp</item>
-        <item name="lineHeight">48dp</item>
-    </style>
-
-    <style name="FontStyle.Headline3.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">31sp</item>
-        <item name="lineHeight">48dp</item>
-    </style>
-
-    <style name="FontStyle.Headline4">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">26sp</item>
+    <style name="FontStyle.Heading1">
+        <item name="android:fontFamily">@font/mulish_bold</item>
+        <item name="android:textSize">32sp</item>
         <item name="lineHeight">40dp</item>
     </style>
 
-    <style name="FontStyle.Headline4.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">26sp</item>
-        <item name="lineHeight">40dp</item>
-    </style>
-
-    <style name="FontStyle.Headline5">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">21sp</item>
-        <item name="lineHeight">32dp</item>
-    </style>
-
-    <style name="FontStyle.Headline5.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">21sp</item>
-        <item name="lineHeight">32dp</item>
-    </style>
-
-    <style name="FontStyle.Lead">
-        <item name="android:fontFamily">@font/inter_regular</item>
+    <style name="FontStyle.Heading2">
+        <item name="android:fontFamily">@font/mulish_bold</item>
         <item name="android:textSize">24sp</item>
-        <item name="lineHeight">36dp</item>
+        <item name="lineHeight">30dp</item>
     </style>
 
-    <style name="FontStyle.Lead.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">24sp</item>
-        <item name="lineHeight">36dp</item>
+    <style name="FontStyle.Subheading1">
+        <item name="android:fontFamily">@font/mulish_semi_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="lineHeight">30dp</item>
+    </style>
+
+    <style name="FontStyle.Subheading2">
+        <item name="android:fontFamily">@font/mulish_semi_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="lineHeight">28dp</item>
     </style>
 
     <style name="FontStyle.Body">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">18sp</item>
-        <item name="lineHeight">32dp</item>
+        <item name="android:fontFamily">@font/mulish_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="lineHeight">24dp</item>
     </style>
 
     <style name="FontStyle.Body.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">18sp</item>
-        <item name="lineHeight">32dp</item>
-    </style>
-
-    <style name="FontStyle.Small">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">16sp</item>
-        <item name="lineHeight">28dp</item>
-    </style>
-
-    <style name="FontStyle.Small.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">16sp</item>
-        <item name="lineHeight">28dp</item>
-    </style>
-
-    <style name="FontStyle.Caption">
-        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:fontFamily">@font/mulish_semi_bold</item>
         <item name="android:textSize">14sp</item>
-        <item name="lineHeight">20dp</item>
+        <item name="lineHeight">24dp</item>
     </style>
 
-    <style name="FontStyle.Caption.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">14sp</item>
-        <item name="lineHeight">20dp</item>
-    </style>
-
-    <style name="FontStyle.XSmall">
-        <item name="android:fontFamily">@font/inter_regular</item>
+    <style name="FontStyle.Metadata1">
+        <item name="android:fontFamily">@font/mulish_regular</item>
         <item name="android:textSize">12sp</item>
         <item name="lineHeight">20dp</item>
     </style>
 
-    <style name="FontStyle.XSmall.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
+    <style name="FontStyle.Metadata1.Bold">
+        <item name="android:fontFamily">@font/mulish_semi_bold</item>
         <item name="android:textSize">12sp</item>
         <item name="lineHeight">20dp</item>
     </style>
 
-    <style name="FontStyle.Tiny">
-        <item name="android:fontFamily">@font/inter_regular</item>
+    <style name="FontStyle.Metadata2">
+        <item name="android:fontFamily">@font/mulish_regular</item>
         <item name="android:textSize">10sp</item>
         <item name="lineHeight">16dp</item>
     </style>
 
-    <style name="FontStyle.Tiny.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
+    <style name="FontStyle.Metadata2.Bold">
+        <item name="android:fontFamily">@font/mulish_semi_bold</item>
         <item name="android:textSize">10sp</item>
         <item name="lineHeight">16dp</item>
     </style>
 
-    <style name="FontStyle.ButtonLarge">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">21sp</item>
-        <item name="lineHeight">32dp</item>
-    </style>
 
-    <style name="FontStyle.ButtonLarge.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">21sp</item>
-        <item name="lineHeight">32dp</item>
-    </style>
 
-    <style name="FontStyle.ButtonRegular">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">16sp</item>
-        <item name="lineHeight">28dp</item>
-    </style>
 
-    <style name="FontStyle.ButtonRegular.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">16sp</item>
-        <item name="lineHeight">28dp</item>
-    </style>
-
-    <style name="FontStyle.ButtonSmall">
-        <item name="android:fontFamily">@font/inter_regular</item>
-        <item name="android:textSize">14sp</item>
-        <item name="lineHeight">20dp</item>
-    </style>
-
-    <style name="FontStyle.ButtonSmall.Bold">
-        <item name="android:fontFamily">@font/inter_bold</item>
-        <item name="android:textSize">14sp</item>
-        <item name="lineHeight">20dp</item>
-    </style>
+    <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
+    <style name="FontStyle.Headline5" />
+    <style name="FontStyle.Headline5.Bold" />
+    <style name="FontStyle.Small" />
+    <style name="FontStyle.Small.Bold" />
+    <style name="FontStyle.Caption" />
+    <style name="FontStyle.Caption.Bold" />
+    <style name="FontStyle.XSmall" />
+    <style name="FontStyle.XSmall.Bold" />
+    <style name="FontStyle.ButtonRegular" />
+    <style name="FontStyle.ButtonRegular.Bold" />
+    <style name="FontStyle.ButtonSmall" />
+    <style name="FontStyle.ButtonSmall.Bold" />
+    <style name="FontStyle.Tiny" />
+    <style name="FontStyle.Headline4" />
+    <style name="FontStyle.Headline4.Bold" />
 </resources>

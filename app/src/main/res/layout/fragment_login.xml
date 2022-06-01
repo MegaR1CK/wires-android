@@ -1,65 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayoutLogin"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?colorSurface">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollViewLogin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:id="@+id/linearLayoutLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/auth_horizontal_padding"
-            android:paddingBottom="@dimen/padding_20"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:paddingBottom="@dimen/padding_24"
+            android:paddingHorizontal="@dimen/padding_8">
 
-            <include
-                android:id="@+id/viewLoginHeader"
-                layout="@layout/view_app_header"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLoginBack"
+                style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="4dp"
+                app:icon="@drawable/ic_arrow_back"
+                app:iconTint="?iconColorPrimary"
+                app:rippleColor="?colorControlHighlight" />
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:src="@drawable/ic_logo" />
 
             <TextView
                 android:id="@+id/textViewLoginTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginHorizontal="16dp"
                 android:text="@string/login_title"
-                android:textAppearance="@style/FontStyle.Headline5.Bold" />
+                android:textAppearance="@style/FontStyle.Heading2" />
 
             <com.wires.app.presentation.views.ValidationTextInput
                 android:id="@+id/inputLoginEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="42dp"
+                android:layout_marginHorizontal="16dp"
                 app:fieldHint="@string/email_hint"
                 app:fieldImeOptions="actionNext"
-                app:fieldInputType="email" />
+                app:fieldInputType="email"
+                app:fieldStartIcon="@drawable/ic_email" />
 
             <com.wires.app.presentation.views.ValidationTextInput
                 android:id="@+id/inputLoginPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="16dp"
                 app:fieldHint="@string/password_hint"
                 app:fieldImeOptions="actionDone"
-                app:fieldInputType="textPassword" />
+                app:fieldInputType="textPassword"
+                app:fieldStartIcon="@drawable/ic_lock" />
 
             <com.wires.app.presentation.views.StatefulMaterialButton
                 android:id="@+id/buttonLogin"
                 style="@style/ButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/login_label"
-                android:textAppearance="@style/FontStyle.ButtonRegular.Bold" />
+                android:layout_marginTop="28dp"
+                android:layout_marginHorizontal="16dp"
+                android:text="@string/login_button_text" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

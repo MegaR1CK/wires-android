@@ -1,41 +1,35 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
-        <item name="colorOnPrimary">@color/white</item>
-
-        <item name="colorSecondary">@color/orange</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnPrimary">@color/off_white</item>
 
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/primary_black</item>
-        <item name="colorControlHighlight">@color/semi_gray</item>
+        <item name="colorControlHighlight">@color/light_gray</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
 
         <item name="textColorPrimary">@color/primary_black</item>
-        <item name="textColorSecondary">@color/darkest_gray</item>
-        <item name="textColorTitle">@color/blue</item>
-        <item name="textColorSubtitle">@color/dark_blue</item>
-        <item name="errorColor">@color/red</item>
+        <item name="textColorSecondary">@color/dark_gray</item>
         <item name="textColorAccent">@color/red</item>
+        <item name="textColorOnContrast">@color/off_white</item>
+        <item name="errorColor">@color/red</item>
 
-        <item name="textColorOnContrast">@color/white</item>
-        <item name="iconColorOnContrast">@color/white</item>
-        <item name="iconColorSecondary">@color/gray</item>
+        <item name="iconColorPrimary">@color/primary_black</item>
+        <item name="iconColorOnContrast">@color/off_white</item>
 
         <item name="colorSurfaceChat">@color/off_white</item>
+        <item name="colorInputBackground">@color/off_white</item>
+        <item name="colorInputHint">@color/gray</item>
 
-        <item name="colorTabSelected">@color/orange</item>
-        <item name="colorTabUnselected">@color/light_orange</item>
+        <item name="colorTabSelected">@color/blue</item>
+        <item name="colorTabUnselected">@color/blue_50</item>
 
-        <item name="dividerColor">@color/semi_gray</item>
-        <item name="colorToolbarIcons">@color/primary_black</item>
+        <item name="dividerColor">@color/light_gray</item>
 
-        <item name="colorImagePlaceholder">@color/semi_gray</item>
-
+        <item name="colorImagePlaceholder">@color/light_gray</item>
         <item name="colorRippleDark">@color/gray</item>
-
         <item name="colorAvatarDarken">@color/black_60</item>
 
         <item name="android:windowTranslucentNavigation">true</item>
@@ -46,5 +40,11 @@
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+
+        <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
+        <item name="colorToolbarIcons">@color/primary_black</item>
+        <item name="textColorSubtitle">@color/primary_black</item>
+        <item name="iconColorSecondary">@color/primary_black</item>
     </style>
 </resources>

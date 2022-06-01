@@ -19,6 +19,12 @@ class SplashViewModel @Inject constructor(
     private val _initLiveEvent = SingleLiveEvent<LoadableResult<SplashResult>>()
     val initLiveEvent: LiveData<LoadableResult<SplashResult>> = _initLiveEvent
 
+    private val _navigateToLoginLiveEvent = SingleLiveEvent<Unit>()
+    val navigateToLoginLiveEvent: LiveData<Unit> = _navigateToLoginLiveEvent
+
+    private val _navigateToRegisterLiveEvent = SingleLiveEvent<Unit>()
+    val navigateToRegisterLiveEvent: LiveData<Unit> = _navigateToRegisterLiveEvent
+
     fun runIntroFlow() {
         _initLiveEvent.launchLoadData {
             delay(SPLASH_MIN_DELAY)
@@ -28,6 +34,14 @@ class SplashViewModel @Inject constructor(
                 SplashResult.AUTH
             }
         }
+    }
+
+    fun navigateToLogin() {
+        _navigateToLoginLiveEvent.postValue(Unit)
+    }
+
+    fun navigateToRegister() {
+        _navigateToRegisterLiveEvent.postValue(Unit)
     }
 
     enum class SplashResult {
