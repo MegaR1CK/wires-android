@@ -20,7 +20,7 @@
         <attr name="maxTextLength" format="integer" />
         <attr name="canBeEmpty" format="boolean" />
         <attr name="fieldStartIcon" format="reference" />
-        <attr name="fieldEndIcon" format="reference" />
+        <attr name="fieldPasswordToggleEnabled" format="boolean" />
         <attr name="fieldImeOptions" format="enum">
             <enum name="actionNext" value="0" />
             <enum name="actionDone" value="1" />

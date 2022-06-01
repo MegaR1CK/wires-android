@@ -70,7 +70,8 @@
                 app:fieldHint="@string/password_hint"
                 app:fieldImeOptions="actionNext"
                 app:fieldInputType="textPassword"
-                app:fieldStartIcon="@drawable/ic_lock" />
+                app:fieldStartIcon="@drawable/ic_lock"
+                app:fieldPasswordToggleEnabled="true" />
 
             <com.wires.app.presentation.views.ValidationTextInput
                 android:id="@+id/inputRegisterConfirmPassword"
@@ -81,7 +82,8 @@
                 app:fieldHint="@string/confirm_password_hint"
                 app:fieldImeOptions="actionDone"
                 app:fieldInputType="textPassword"
-                app:fieldStartIcon="@drawable/ic_lock" />
+                app:fieldStartIcon="@drawable/ic_lock"
+                app:fieldPasswordToggleEnabled="true" />
 
             <com.wires.app.presentation.views.StatefulMaterialButton
                 android:id="@+id/buttonRegister"

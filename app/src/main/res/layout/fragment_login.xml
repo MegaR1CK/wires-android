@@ -66,7 +66,8 @@
                 app:fieldHint="@string/password_hint"
                 app:fieldImeOptions="actionDone"
                 app:fieldInputType="textPassword"
-                app:fieldStartIcon="@drawable/ic_lock" />
+                app:fieldStartIcon="@drawable/ic_lock"
+                app:fieldPasswordToggleEnabled="true" />
 
             <com.wires.app.presentation.views.StatefulMaterialButton
                 android:id="@+id/buttonLogin"
