@@ -40,6 +40,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
             if (!inputRegisterPassword.isEmpty()) inputRegisterPassword.validate()
         }
         buttonRegister.setOnClickListener { performRegister() }
+        buttonRegisterBack.setOnClickListener { requireActivity().onBackPressed() }
     }
 
     override fun onBindViewModel() = with(viewModel) {

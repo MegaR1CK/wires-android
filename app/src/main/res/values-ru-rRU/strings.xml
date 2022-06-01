@@ -37,9 +37,9 @@
     <string name="register_label">Регистрация</string>
     <string name="register_button_text">Зарегистрироваться</string>
     <string name="login_title">Вход в аккаунт</string>
-    <string name="register_title">Регистрация нового пользователя</string>
+    <string name="register_title">Регистрация</string>
     <string name="password_hint">Пароль</string>
-    <string name="confirm_password_hint">Повторите пароль</string>
+    <string name="confirm_password_hint">Подтвердите пароль</string>
     <string name="username_hint">Имя пользователя</string>
 
     <!-- FEED -->
