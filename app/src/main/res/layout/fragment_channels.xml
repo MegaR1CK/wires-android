@@ -49,7 +49,7 @@
                 android:gravity="center"
                 android:paddingBottom="?actionBarSize"
                 android:text="@string/channels_empty_text"
-                android:textAppearance="@style/FontStyle.Body" />
+                android:textAppearance="@style/FontStyle.Subheading1" />
 
         </FrameLayout>
     </com.wires.app.presentation.views.StateViewFlipper>

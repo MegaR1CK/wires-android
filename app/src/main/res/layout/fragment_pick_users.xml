@@ -106,7 +106,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/pick_users_empty_added"
-                    android:textAppearance="@style/FontStyle.Small"
+                    android:textAppearance="@style/FontStyle.Subheading2"
                     android:visibility="gone" />
 
             </FrameLayout>
@@ -149,7 +149,7 @@
                         android:gravity="center_horizontal"
                         android:paddingTop="100dp"
                         android:text="@string/pick_users_nothing_found"
-                        android:textAppearance="@style/FontStyle.Body"
+                        android:textAppearance="@style/FontStyle.Subheading1"
                         android:visibility="gone" />
 
                 </FrameLayout>

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
     android:gravity="center"
-    android:textAppearance="@style/FontStyle.Subheading2"
+    android:textAppearance="@style/FontStyle.Title"
     android:paddingHorizontal="@dimen/padding_16"
     android:paddingVertical="8dp"
     tools:text="Android development"/>

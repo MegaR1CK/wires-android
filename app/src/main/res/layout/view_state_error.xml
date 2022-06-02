@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textAppearance="@style/FontStyle.Headline4.Bold"
+            android:textAppearance="@style/FontStyle.Heading1"
             tools:text="Connection error!" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textAppearance="@style/FontStyle.Small.Bold"
+            android:textAppearance="@style/FontStyle.Subheading1"
             android:gravity="center"
             tools:text="Please, check your connection and try again." />
 

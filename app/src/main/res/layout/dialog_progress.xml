@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="@string/dialog_progress_text"
-        android:textAppearance="@style/FontStyle.Body" />
+        android:textAppearance="@style/FontStyle.Subheading1" />
 
 </LinearLayout>

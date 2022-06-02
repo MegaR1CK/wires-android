@@ -33,7 +33,7 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="100dp"
                 android:text="@string/feed_empty_text"
-                android:textAppearance="@style/FontStyle.Body"
+                android:textAppearance="@style/FontStyle.Subheading1"
                 android:visibility="gone" />
 
         </FrameLayout>

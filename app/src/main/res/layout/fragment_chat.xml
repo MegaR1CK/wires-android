@@ -56,7 +56,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="@string/chat_message_empty_text"
-                    android:textAppearance="@style/FontStyle.Body"
+                    android:textAppearance="@style/FontStyle.Subheading1"
                     android:visibility="gone" />
 
             </FrameLayout>
