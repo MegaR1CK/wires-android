@@ -22,6 +22,11 @@
             <argument
                 android:name="userId"
                 app:argType="integer" />
+
+            <argument
+                android:name="isCurrentUser"
+                app:argType="boolean" />
+
         </action>
 
         <action

@@ -56,24 +56,15 @@ class ProfileViewModel @Inject constructor(
     private val _openCreatePostLiveEvent = SingleLiveEvent<Int>()
     val openCreatePostLiveEvent: LiveData<Int> = _openCreatePostLiveEvent
 
-    private val _currentUserLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
-
-    val isCurrentUserProfile: Boolean
-        get() {
-            return _currentUserLiveData.value?.getOrNull() == _userLiveData.value?.getOrNull()
-        }
-
     fun getUser(userId: Int) {
-        val currentUserFlow = getStoredUserUseCase.executeLoadable(Unit)
-        _currentUserLiveData.launchLoadData(currentUserFlow)
         if (userId == 0) {
-            _userLiveData.launchLoadData(currentUserFlow)
+            _userLiveData.launchLoadData(getStoredUserUseCase.executeLoadable(Unit))
         } else {
             _userLiveData.launchLoadData(getUserByIdUseCase.executeLoadable(GetUserByIdUseCase.Params(userId)))
         }
     }
 
-    fun getUserPosts(userId: Int) {
+    fun getUserPosts(userId: Int, isCurrentUserProfile: Boolean) {
         _userPostsLiveData.launchPagingData(
             getUserPostsUseCase.execute(GetUserPostsUseCase.Params(userId)).mapPagingValue { post ->
                 post.copy(isEditable = isCurrentUserProfile)

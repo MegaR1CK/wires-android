@@ -12,6 +12,11 @@
         tools:layout="@layout/fragment_profile">
 
         <argument
+            android:name="isCurrentUser"
+            app:argType="boolean"
+            android:defaultValue="true" />
+
+        <argument
             android:name="userId"
             app:argType="integer"
             android:defaultValue="0" />
@@ -32,6 +37,10 @@
             <argument
                 android:name="userId"
                 app:argType="integer" />
+
+            <argument
+                android:name="isCurrentUser"
+                app:argType="boolean" />
         </action>
 
         <action

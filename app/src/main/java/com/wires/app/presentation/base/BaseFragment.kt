@@ -53,6 +53,10 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : Fragment(layoutRes) {
         observe(this@BaseFragment.viewLifecycleOwner, { block.invoke(it) })
     }
 
+    protected fun setBottomNavigationViewVisibility(isVisible: Boolean) {
+        bottomNavigationViewManager?.setNavigationViewVisibility(isVisible)
+    }
+
     @MainThread
     inline fun <reified VM : ViewModel> Fragment.appViewModels() =
         createViewModelLazy(VM::class, { this.viewModelStore }, { viewModelFactory })

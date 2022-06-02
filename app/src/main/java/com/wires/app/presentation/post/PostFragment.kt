@@ -222,7 +222,12 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
             }
         }
         openProfileLiveEvent.observe { userId ->
-            navigateTo(PostFragmentDirections.actionPostFragmentToProfileGraph(userId))
+            navigateTo(
+                PostFragmentDirections.actionPostFragmentToProfileGraph(
+                    userId = userId,
+                    isCurrentUser = viewModel.userLiveData.value?.getOrNull()?.user?.id == userId
+                )
+            )
         }
         openCreatePostLiveEvent.observe { postId ->
             navigateTo(PostFragmentDirections.actionPostFragmentToCreatePostGraph(postId))

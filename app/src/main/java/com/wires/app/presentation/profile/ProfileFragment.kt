@@ -43,8 +43,6 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     private var isUserSet = false
     private var isUserUpdated = false
 
-    override val showBottomNavigationView = true
-
     @Inject lateinit var postsAdapter: PostsAdapter
 
     override fun callOperations() {
@@ -60,6 +58,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         setupAppbar()
         setupPostsList()
         setupResultListeners()
+        setBottomNavigationViewVisibility(args.userId == 0)
     }
 
     override fun onBindViewModel() = with(viewModel) {
@@ -67,7 +66,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             if (!result.isSuccess || isUserSet) binding.stateViewFlipperProfile.setStateFromResult(result)
             result.doOnSuccess { wrapper ->
                 wrapper.user?.let { user ->
-                    if (postsAdapter.isEmpty && !isUserSet) getUserPosts(user.id)
+                    if (postsAdapter.isEmpty && !isUserSet) getUserPosts(user.id, args.isCurrentUser)
                     setupUser(user)
                 }
             }
@@ -116,7 +115,12 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             navigateTo(ProfileFragmentDirections.actionProfileFragmentToPostGraph(postId))
         }
         openProfileLiveEvent.observe { userId ->
-            navigateTo(ProfileFragmentDirections.actionProfileFragmentToProfileGraph(userId))
+            navigateTo(
+                ProfileFragmentDirections.actionProfileFragmentToProfileGraph(
+                    userId = userId,
+                    isCurrentUser = viewModel.userLiveData.value?.getOrNull()?.user?.id == userId
+                )
+            )
         }
         openEditUserLiveEvent.observe {
             navigateTo(ProfileFragmentDirections.actionProfileFragmentToEditUserFragment())
@@ -144,7 +148,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         } else {
             textViewProfileInterests.isVisible = false
         }
-        if (!viewModel.isCurrentUserProfile) {
+        if (!args.isCurrentUser) {
             buttonProfileEdit.isVisible = false
             buttonProfileSettings.isVisible = false
         }
@@ -207,7 +211,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
             callOperations()
         }
         setFragmentResultListener(CreatePostFragment.POST_CHANGED_RESULT_KEY) { _, _ ->
-            viewModel.userLiveData.value?.getOrNull()?.user?.id?.let { viewModel.getUserPosts(it) }
+            viewModel.userLiveData.value?.getOrNull()?.user?.id?.let { viewModel.getUserPosts(it, args.isCurrentUser) }
         }
         setFragmentResultListener(PostFragment.LIKE_CHANGED_RESULT_KEY) { _, bundle ->
             val postId = bundle.getInt(PostFragment.POST_ID_RESULT_KEY)

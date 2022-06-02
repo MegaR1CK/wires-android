@@ -7,6 +7,7 @@ import com.wires.app.data.model.Message
 import com.wires.app.databinding.ItemChannelBinding
 import com.wires.app.managers.DateFormatter
 import com.wires.app.presentation.base.BaseAdapter
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class ChannelsAdapter @Inject constructor(
@@ -27,7 +28,7 @@ class ChannelsAdapter @Inject constructor(
     }
 
     fun sortByLastMessageDate() {
-        items.sortWith(compareBy(nullsFirst()) { it.lastSentMessage?.sendTime })
+        items.sortWith(compareBy<ChannelPreview, LocalDateTime?>(nullsFirst()) { it.lastSentMessage?.sendTime }.reversed())
         notifyItemRangeChanged(0, items.size)
     }
 

@@ -121,7 +121,12 @@ class FeedChildFragment : BaseFragment(R.layout.fragment_feed_child) {
             navigateTo(FeedFragmentDirections.actionFeedFragmentToPostGraph(postId))
         }
         openProfileLiveEvent.observe { userId ->
-            navigateTo(FeedFragmentDirections.actionFeedFragmentToProfileGraph(userId))
+            navigateTo(
+                FeedFragmentDirections.actionFeedFragmentToProfileGraph(
+                    userId = userId,
+                    isCurrentUser = viewModel.userLiveData.value?.getOrNull()?.user?.id == userId
+                )
+            )
         }
     }
 

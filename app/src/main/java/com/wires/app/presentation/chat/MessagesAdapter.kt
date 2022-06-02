@@ -85,7 +85,9 @@ class MessagesAdapter @Inject constructor(
 
     fun addToEnd(messages: List<Message>) {
         val oldSize = items.size
-        if ((items.lastOrNull() as? DateHeader)?.date == messages.firstOrNull()?.sendTime?.toLocalDate()) {
+        val lastHeaderDate = (items.lastOrNull() as? DateHeader)?.date
+        val firstMessageDate = messages.firstOrNull()?.sendTime?.toLocalDate()
+        if (lastHeaderDate == firstMessageDate && lastHeaderDate != null && firstMessageDate != null) {
             items.removeAt(items.lastIndex)
         }
         messages.forEach(::addMessageWithDateCheck)
