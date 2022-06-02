@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16"
             android:text="@string/create_post_select_topic"
-            android:textAppearance="@style/FontStyle.Headline5.Bold" />
+            android:textAppearance="@style/FontStyle.Subheading1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewTopicSelect"

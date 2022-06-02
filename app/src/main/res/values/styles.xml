@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ButtonStyle">
+    <style name="ButtonStyle" parent="Widget.Material3.Button">
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:paddingTop">16dp</item>
@@ -13,6 +13,11 @@
         <item name="android:textColor">?colorPrimary</item>
         <item name="backgroundTint">?colorSurface</item>
         <item name="rippleColor">?colorRippleDark</item>
+    </style>
+
+    <style name="IconButtonStyle" parent="Widget.Material3.Button.IconButton">
+        <item name="iconTint">?iconColorPrimary</item>
+        <item name="rippleColor">?colorControlHighlight</item>
     </style>
 
     <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

@@ -15,7 +15,7 @@
             android:id="@+id/toolbarCreatePost"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:titleTextAppearance="@style/FontStyle.Body.Bold"
+            app:titleTextAppearance="@style/FontStyle.Subheading1"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="?colorToolbarIcons">
 
@@ -64,8 +64,8 @@
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:text="@string/create_post_select_topic"
-                android:textAppearance="@style/FontStyle.Body"
-                android:textColor="?android:textColorHint"
+                android:textAppearance="@style/FontStyle.Body.Bold"
+                android:textColor="?colorInputHint"
                 android:paddingVertical="4dp"
                 android:paddingHorizontal="@dimen/padding_16"/>
 
@@ -77,7 +77,8 @@
                 android:layout_marginTop="12dp"
                 android:gravity="top"
                 android:background="?colorSurface"
-                android:textAppearance="@style/FontStyle.Body"
+                android:textAppearance="@style/FontStyle.Body.Bold"
+                android:textColorHint="?colorInputHint"
                 android:hint="@string/create_post_hint"
                 android:paddingHorizontal="@dimen/padding_16" />
 

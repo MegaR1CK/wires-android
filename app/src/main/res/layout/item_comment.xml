@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:textAppearance="@style/FontStyle.XSmall.Bold"
+        android:textAppearance="@style/FontStyle.Metadata1.Bold"
         app:layout_constraintStart_toEndOf="@+id/imageViewCommentAuthorAvatar"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Estelle Shea" />
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
-        android:textAppearance="@style/FontStyle.XSmall"
+        android:textAppearance="@style/FontStyle.Metadata1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewCommentAuthorAvatar"
         app:layout_constraintTop_toBottomOf="@+id/textViewCommentAuthorName"
@@ -45,8 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="4dp"
-        android:textAppearance="@style/FontStyle.XSmall"
-        android:textColor="?textColorSubtitle"
+        android:textAppearance="@style/FontStyle.Metadata2"
+        android:textColor="?textColorSecondary"
         app:layout_constraintStart_toEndOf="@+id/imageViewCommentAuthorAvatar"
         app:layout_constraintTop_toBottomOf="@+id/textViewCommentBody"
         tools:text="10 minutes ago" />

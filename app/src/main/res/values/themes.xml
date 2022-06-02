@@ -1,7 +1,8 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
+        <item name="colorSecondary">@color/blue</item>
         <item name="colorOnPrimary">@color/off_white</item>
 
         <item name="colorSurface">@color/white</item>

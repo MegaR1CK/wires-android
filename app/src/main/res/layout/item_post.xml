@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:textAppearance="@style/FontStyle.Caption.Bold"
+                android:textAppearance="@style/FontStyle.Body.Bold"
                 app:layout_constraintBottom_toTopOf="@id/textVewPostTime"
                 app:layout_constraintStart_toEndOf="@+id/imageViewPostAuthorAvatar"
                 app:layout_constraintTop_toTopOf="@+id/imageViewPostAuthorAvatar"
@@ -55,8 +55,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
-                android:textAppearance="@style/FontStyle.XSmall"
-                android:textColor="?textColorSubtitle"
+                android:textAppearance="@style/FontStyle.Metadata1"
+                android:textColor="?textColorSecondary"
                 app:layout_constraintBottom_toBottomOf="@+id/imageViewPostAuthorAvatar"
                 app:layout_constraintStart_toEndOf="@+id/imageViewPostAuthorAvatar"
                 app:layout_constraintTop_toBottomOf="@id/textViewPostAuthor"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:textAppearance="@style/FontStyle.Caption"
+            android:textAppearance="@style/FontStyle.Body"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayoutPostAuthor"
@@ -134,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:textAppearance="@style/FontStyle.XSmall.Bold"
+                android:textAppearance="@style/FontStyle.Metadata1.Bold"
                 tools:text="100" />
 
         </LinearLayout>
@@ -163,7 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:textAppearance="@style/FontStyle.XSmall.Bold"
+                android:textAppearance="@style/FontStyle.Metadata1.Bold"
                 tools:text="100" />
 
         </LinearLayout>

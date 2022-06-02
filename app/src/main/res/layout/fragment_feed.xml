@@ -22,17 +22,16 @@
             app:layout_scrollFlags="scroll"
             app:contentInsetStart="28dp"
             app:contentInsetEnd="20dp"
-            app:titleTextAppearance="@style/FontStyle.Body.Bold"
+            app:titleTextAppearance="@style/FontStyle.Subheading1"
             tools:title="Здравствуйте, Константин">
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonFeedCreatePost"
+                style="@style/IconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add"
-                android:padding="8dp"
-                android:background="@drawable/bg_circle_ripple"
-                android:layout_gravity="center_horizontal|end" />
+                android:layout_gravity="center_horizontal|end"
+                app:icon="@drawable/ic_add" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
