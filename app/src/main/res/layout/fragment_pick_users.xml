@@ -19,7 +19,8 @@
             app:navigationIconTint="?colorToolbarIcons"
             app:contentInsetStartWithNavigation="0dp"
             app:contentInsetEnd="8dp"
-            app:title="@string/pick_users_title">
+            app:title="@string/pick_users_title"
+            app:titleTextAppearance="@style/FontStyle.Subheading1" >
 
             <LinearLayout
                 android:id="@+id/linearLayoutPickUsersSearch"
@@ -51,14 +52,13 @@
 
             </LinearLayout>
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonPickUsersSearch"
+                style="@style/IconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:background="@drawable/bg_circle_ripple"
-                android:src="@drawable/ic_search"
-                android:padding="8dp" />
+                app:icon="@drawable/ic_search" />
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>

@@ -14,7 +14,8 @@
             android:id="@+id/toolbarChat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:titleTextAppearance="@style/FontStyle.Body.Bold"
+            app:contentInsetStartWithNavigation="0dp"
+            app:titleTextAppearance="@style/FontStyle.Subheading1"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="?colorToolbarIcons"/>
 

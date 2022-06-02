@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingVertical="4dp"
-            android:textAppearance="@style/FontStyle.Caption"
+            android:textAppearance="@style/FontStyle.Metadata1"
             tools:text="Сегодня" />
 
     </com.google.android.material.card.MaterialCardView>

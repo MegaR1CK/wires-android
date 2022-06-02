@@ -15,21 +15,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?colorSurface"
+            app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="?colorToolbarIcons"
-            app:title="@string/create_channel_group_title">
+            app:title="@string/create_channel_group_title"
+            app:titleTextAppearance="@style/FontStyle.Subheading1">
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonCreateChannelDone"
+                style="@style/IconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_done"
-                android:background="@drawable/bg_circle_ripple"
-                android:padding="12dp"
                 android:layout_marginEnd="@dimen/margin_8"
                 android:layout_gravity="end"
                 android:visibility="gone"
-                app:tint="?colorToolbarIcons"
+                app:icon="@drawable/ic_done"
                 tools:visibility="visible"/>
 
         </com.google.android.material.appbar.MaterialToolbar>
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/create_channel_users"
-            android:textAppearance="@style/FontStyle.Body.Bold"
+            android:textAppearance="@style/FontStyle.Subheading2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inputCreateChannelName" />
 
@@ -114,6 +114,8 @@
             android:minHeight="0dp"
             android:text="@string/create_channel_add_users"
             style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textAppearance="@style/FontStyle.Metadata1.Bold"
+            android:textAllCaps="true"
             app:icon="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -145,8 +147,5 @@
                 android:visibility="gone" />
 
         </FrameLayout>
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

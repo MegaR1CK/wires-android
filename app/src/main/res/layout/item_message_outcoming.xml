@@ -28,7 +28,7 @@
                 android:maxWidth="330dp"
                 android:minWidth="50dp"
                 android:gravity="end"
-                android:textAppearance="@style/FontStyle.Small"
+                android:textAppearance="@style/FontStyle.Body"
                 android:textColor="?textColorOnContrast"
                 tools:text="Hello world!" />
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="4dp"
-                android:textAppearance="@style/FontStyle.Caption"
+                android:textAppearance="@style/FontStyle.Metadata2"
                 android:textColor="?textColorOnContrast"
                 tools:text="16:50" />
 

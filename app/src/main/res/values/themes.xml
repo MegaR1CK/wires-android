@@ -5,6 +5,9 @@
         <item name="colorSecondary">@color/blue</item>
         <item name="colorOnPrimary">@color/off_white</item>
 
+        <item name="colorPrimaryDark">@color/dark_blue</item>
+        <item name="colorPrimaryBackground">@color/light_blue</item>
+
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/primary_black</item>
         <item name="colorControlHighlight">@color/light_gray</item>
@@ -14,7 +17,7 @@
         <item name="textColorPrimary">@color/primary_black</item>
         <item name="textColorSecondary">@color/dark_gray</item>
         <item name="textColorAccent">@color/red</item>
-        <item name="textColorOnContrast">@color/off_white</item>
+        <item name="textColorOnContrast">@color/white</item>
         <item name="errorColor">@color/red</item>
 
         <item name="iconColorPrimary">@color/primary_black</item>

@@ -32,6 +32,9 @@
         </attr>
     </declare-styleable>
 
+    <attr name="colorPrimaryDark" format="reference|color" />
+    <attr name="colorPrimaryBackground" format="reference|color" />
+
     <attr name="textColorPrimary" format="reference|color" />
     <attr name="textColorSecondary" format="reference|color" />
     <attr name="textColorAccent" format="reference|color" />

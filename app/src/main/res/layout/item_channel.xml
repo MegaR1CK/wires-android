@@ -25,7 +25,7 @@
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textAppearance="@style/FontStyle.Caption.Bold"
+        android:textAppearance="@style/FontStyle.Body.Bold"
         app:layout_constraintBottom_toTopOf="@id/textViewChannelLastMessage"
         app:layout_constraintEnd_toStartOf="@+id/textViewChannelLastMessageDate"
         app:layout_constraintStart_toEndOf="@+id/imageViewChannel"
@@ -39,7 +39,7 @@
         android:layout_marginStart="16dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textAppearance="@style/FontStyle.XSmall"
+        android:textAppearance="@style/FontStyle.Metadata1"
         android:textColor="?android:textColorSecondary"
         app:layout_constraintBottom_toBottomOf="@id/imageViewChannel"
         app:layout_constraintEnd_toStartOf="@+id/frameLayoutChannelBadge"
@@ -51,7 +51,7 @@
         android:id="@+id/textViewChannelLastMessageDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/FontStyle.Tiny"
+        android:textAppearance="@style/FontStyle.Metadata2"
         android:textColor="?android:textColorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -76,8 +76,8 @@
             android:id="@+id/textViewChannelUnreadMessages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/FontStyle.Tiny"
-            android:textColor="?textColorOnContrast"
+            android:textAppearance="@style/FontStyle.Metadata2.Bold"
+            android:textColor="?colorPrimaryDark"
             tools:text="2" />
 
     </FrameLayout>
