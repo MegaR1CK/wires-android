@@ -31,7 +31,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|end"
-                app:icon="@drawable/ic_add" />
+                app:icon="@drawable/ic_add"
+                app:iconSize="24dp" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 

@@ -64,17 +64,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonPostActions"
+            style="@style/IconButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_circle_ripple"
-            android:src="@drawable/ic_more_vert"
-            android:padding="4dp"
             android:visibility="gone"
+            app:icon="@drawable/ic_more_vert"
+            app:iconSize="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?iconColorSecondary"
             tools:visibility="visible" />
 
         <TextView

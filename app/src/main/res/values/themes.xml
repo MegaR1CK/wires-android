@@ -21,7 +21,7 @@
         <item name="errorColor">@color/red</item>
 
         <item name="iconColorPrimary">@color/primary_black</item>
-        <item name="iconColorOnContrast">@color/off_white</item>
+        <item name="iconColorOnContrast">@color/white</item>
 
         <item name="colorSurfaceChat">@color/off_white</item>
         <item name="colorInputBackground">@color/off_white</item>

@@ -30,6 +30,7 @@
                 android:layout_gravity="end"
                 android:visibility="gone"
                 app:icon="@drawable/ic_done"
+                app:iconSize="24dp"
                 tools:visibility="visible"/>
 
         </com.google.android.material.appbar.MaterialToolbar>

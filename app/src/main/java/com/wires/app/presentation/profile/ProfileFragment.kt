@@ -16,11 +16,12 @@ import com.wires.app.domain.paging.PagingLoadStateAdapter
 import com.wires.app.extensions.addVerticalDividerItemDecoration
 import com.wires.app.extensions.createLoadableResultDialog
 import com.wires.app.extensions.fitTopInsetsWithPadding
-import com.wires.app.extensions.getColorAttribute
+import com.wires.app.extensions.getColorCompat
 import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.load
 import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.navigateTo
+import com.wires.app.extensions.resolveAttribute
 import com.wires.app.extensions.setupScrollWithAppBar
 import com.wires.app.extensions.showAlertDialog
 import com.wires.app.extensions.showSnackbar
@@ -183,13 +184,14 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         appBarLayoutProfile.addOnOffsetChangedListener(
             AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
                 val lightMode = verticalOffset < -resources.getDimensionPixelSize(R.dimen.profile_background_height) / 2
-                val requiredColor = requireContext()
-                    .getColorAttribute(if (lightMode) R.attr.colorOnSurface else R.attr.iconColorOnContrast)
+                val requiredColorRes = requireContext()
+                    .resolveAttribute(if (lightMode) R.attr.textColorPrimary else R.attr.textColorOnContrast)
                 collapsingToolbarLayoutProfile.setScrimsShown(lightMode)
-                buttonProfileEdit.setColorFilter(requiredColor)
-                buttonProfileSettings.setColorFilter(requiredColor)
+                buttonProfileEdit.setIconTintResource(requiredColorRes)
+                buttonProfileSettings.setIconTintResource(requiredColorRes)
                 with(toolbarProfile) {
                     title = if (lightMode) textViewProfileName.text else null
+                    val requiredColor = requireContext().getColorCompat(requiredColorRes)
                     setTitleTextColor(requiredColor)
                     setNavigationIconTint(requiredColor)
                 }

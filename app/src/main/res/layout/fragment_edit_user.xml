@@ -16,21 +16,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?colorSurface"
+            app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="?colorToolbarIcons"
-            app:title="@string/edit_profile_title">
+            app:title="@string/edit_profile_title"
+            app:titleTextAppearance="@style/FontStyle.Subheading1">
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEditProfileDone"
+                style="@style/IconButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/margin_8"
-                android:background="@drawable/bg_circle_ripple"
-                android:src="@drawable/ic_done"
-                android:padding="8dp"
                 android:visibility="gone"
-                app:tint="?colorToolbarIcons"
+                app:icon="@drawable/ic_done"
+                app:iconSize="24dp"
                 tools:visibility="visible" />
 
         </com.google.android.material.appbar.MaterialToolbar>
@@ -96,6 +96,7 @@
                     app:fieldHint="@string/edit_profile_first_name_hint"
                     app:fieldInputType="text"
                     app:fieldImeOptions="actionNext"
+                    app:fieldStartIcon="@drawable/ic_profile"
                     app:lengthErrorText="@string/error_length_name"
                     app:minTextLength="2"
                     app:maxTextLength="16"
@@ -110,6 +111,7 @@
                     app:fieldHint="@string/edit_profile_last_name_hint"
                     app:fieldInputType="text"
                     app:fieldImeOptions="actionNext"
+                    app:fieldStartIcon="@drawable/ic_profile"
                     app:lengthErrorText="@string/error_length_name"
                     app:minTextLength="2"
                     app:maxTextLength="16"
@@ -124,6 +126,7 @@
                     app:fieldHint="@string/username_hint"
                     app:fieldInputType="text"
                     app:fieldImeOptions="actionNext"
+                    app:fieldStartIcon="@drawable/ic_profile"
                     app:lengthErrorText="@string/error_length_username"
                     app:minTextLength="3"
                     app:maxTextLength="24"
@@ -137,6 +140,7 @@
                     app:fieldHint="@string/email_hint"
                     app:fieldInputType="email"
                     app:fieldImeOptions="actionNext"
+                    app:fieldStartIcon="@drawable/ic_email"
                     app:patternErrorText="@string/error_incorrect_email" />
 
                 <TextView
@@ -144,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/edit_profile_interests_title"
-                    android:textAppearance="@style/FontStyle.Small.Bold" />
+                    android:textAppearance="@style/FontStyle.Subheading2" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewEditProfileInterests"

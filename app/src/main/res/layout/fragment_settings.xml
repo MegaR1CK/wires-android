@@ -15,9 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?colorSurface"
+            app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="?colorToolbarIcons"
-            app:title="@string/settings_title" />
+            app:title="@string/settings_title"
+            app:titleTextAppearance="@style/FontStyle.Subheading1"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -28,81 +29,140 @@
         android:paddingTop="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/frameLayoutSettingsChangePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingVertical="12dp"
-            android:paddingHorizontal="@dimen/padding_20">
+            android:paddingHorizontal="@dimen/padding_16">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_lock" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
                 android:text="@string/settings_change_password"
-                android:textAppearance="@style/FontStyle.Small" />
-        </FrameLayout>
+                android:textAppearance="@style/FontStyle.Body.Bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?dividerColor" />
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/frameLayoutSettingsLocale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingVertical="12dp"
-            android:paddingHorizontal="@dimen/padding_20">
+            android:paddingHorizontal="@dimen/padding_16">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_language" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
                 android:text="@string/settings_change_locale"
-                android:textAppearance="@style/FontStyle.Small" />
-        </FrameLayout>
+                android:textAppearance="@style/FontStyle.Body.Bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?dividerColor" />
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/frameLayoutSettingsReport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingVertical="12dp"
-            android:paddingHorizontal="@dimen/padding_20">
+            android:paddingHorizontal="@dimen/padding_16">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_attention" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
                 android:text="@string/settings_report_title"
-                android:textAppearance="@style/FontStyle.Small" />
-        </FrameLayout>
+                android:textAppearance="@style/FontStyle.Body.Bold" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right" />
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?dividerColor" />
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/frameLayoutSettingsLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingVertical="12dp"
-            android:paddingHorizontal="@dimen/padding_20">
+            android:paddingHorizontal="@dimen/padding_16">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_logout"
+                app:tint="?textColorAccent" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
                 android:text="@string/settings_logout"
-                android:textAppearance="@style/FontStyle.Small"
-                android:textColor="?textColorAccent"/>
-        </FrameLayout>
+                android:textAppearance="@style/FontStyle.Body.Bold"
+                android:textColor="?textColorAccent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_right"
+                app:tint="?textColorAccent" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
