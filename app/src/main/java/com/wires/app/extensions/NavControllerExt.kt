@@ -3,10 +3,11 @@ package com.wires.app.extensions
 import android.net.Uri
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
 import timber.log.Timber
 
-fun NavController.navigateSafe(direction: NavDirections) {
-    currentDestination?.getAction(direction.actionId)?.let { navigate(direction) }
+fun NavController.navigateSafe(direction: NavDirections, options: NavOptions? = null) {
+    currentDestination?.getAction(direction.actionId)?.let { navigate(direction, options) }
 }
 
 // В блоке try/catch защита от неправильных диплинков

@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.google.android.material.snackbar.Snackbar
 import com.wires.app.R
 import com.wires.app.presentation.views.LoadableResultDialog
@@ -66,7 +67,15 @@ fun Fragment.share(shareMessage: String) {
 }
 
 fun Fragment.navigateTo(direction: NavDirections) {
-    findNavController().navigateSafe(direction)
+    val options = navOptions {
+        anim {
+            enter = R.anim.nav_enter_anim
+            exit = R.anim.nav_exit_anim
+            popEnter = R.anim.nav_pop_enter_anim
+            popExit = R.anim.nav_pop_exit_anim
+        }
+    }
+    findNavController().navigateSafe(direction, options)
 }
 
 fun Fragment.navigateTo(uri: Uri?) {
