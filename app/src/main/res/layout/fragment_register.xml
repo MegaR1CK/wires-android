@@ -47,7 +47,12 @@
                 app:fieldHint="@string/username_hint"
                 app:fieldImeOptions="actionNext"
                 app:fieldInputType="text"
-                app:fieldStartIcon="@drawable/ic_profile" />
+                app:fieldStartIcon="@drawable/ic_profile"
+                app:lengthErrorText="@string/error_length_username"
+                app:minTextLength="3"
+                app:maxTextLength="24"
+                app:validationPattern="^[a-z0-9_]*$"
+                app:patternErrorText="@string/error_incorrect_username"/>
 
             <com.wires.app.presentation.views.ValidationTextInput
                 android:id="@+id/inputRegisterEmail"
@@ -58,7 +63,8 @@
                 app:fieldHint="@string/email_hint"
                 app:fieldImeOptions="actionNext"
                 app:fieldInputType="email"
-                app:fieldStartIcon="@drawable/ic_email" />
+                app:fieldStartIcon="@drawable/ic_email"
+                app:patternErrorText="@string/error_incorrect_email" />
 
             <com.wires.app.presentation.views.ValidationTextInput
                 android:id="@+id/inputRegisterPassword"
@@ -70,7 +76,13 @@
                 app:fieldImeOptions="actionNext"
                 app:fieldInputType="textPassword"
                 app:fieldStartIcon="@drawable/ic_lock"
-                app:fieldPasswordToggleEnabled="true" />
+                app:fieldPasswordToggleEnabled="true"
+                app:minTextLength="8"
+                app:maxTextLength="24"
+                app:lengthErrorText="@string/error_length_password"
+                app:validationPattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$"
+                app:patternErrorText="@string/error_weak_password"
+                app:additionalValidationErrorText="@string/error_different_passwords" />
 
             <com.wires.app.presentation.views.ValidationTextInput
                 android:id="@+id/inputRegisterConfirmPassword"
@@ -82,7 +94,8 @@
                 app:fieldImeOptions="actionDone"
                 app:fieldInputType="textPassword"
                 app:fieldStartIcon="@drawable/ic_lock"
-                app:fieldPasswordToggleEnabled="true" />
+                app:fieldPasswordToggleEnabled="true"
+                app:additionalValidationErrorText="@string/error_different_passwords" />
 
             <com.wires.app.presentation.views.StatefulMaterialButton
                 android:id="@+id/buttonRegister"
