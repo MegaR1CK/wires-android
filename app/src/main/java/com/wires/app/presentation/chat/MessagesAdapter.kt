@@ -79,8 +79,9 @@ class MessagesAdapter @Inject constructor(
     }
 
     fun addNewMessage(message: Message) {
-        addMessageWithDateCheck(message, 0)
-        notifyItemInserted(0)
+        val oldSize = items.size
+        addMessageWithDateCheck(message, addToStart = true)
+        notifyItemRangeInserted(0, items.size - oldSize)
     }
 
     fun addToEnd(messages: List<Message>) {
@@ -99,14 +100,14 @@ class MessagesAdapter @Inject constructor(
         return items.indexOf(items.find { it is MessageListItem.ListMessage && it.message.id == messageId })
     }
 
-    private fun addMessageWithDateCheck(message: Message, index: Int? = null) {
+    private fun addMessageWithDateCheck(message: Message, addToStart: Boolean = false) {
         val messageDate = message.sendTime.toLocalDate()
-        val lastItem = (items.lastOrNull() as? MessageListItem.ListMessage).takeIf { it?.message?.id != message.id }
+        val lastItem = ((if (addToStart) items.firstOrNull() else items.lastOrNull()) as? MessageListItem.ListMessage).takeIf { it?.message?.id != message.id }
         lastItem?.let { item ->
             val lastItemDate = item.message.sendTime.toLocalDate()
-            if (lastItemDate != messageDate) items.add(DateHeader(lastItemDate))
+            if (lastItemDate != messageDate) items.add(if (addToStart) 0 else items.size, DateHeader(if (addToStart) messageDate else lastItemDate))
         }
-        if (index != null) items.add(index, message.toListItem()) else items.add(message.toListItem())
+        items.add(if (addToStart) 0 else items.size, message.toListItem())
     }
 
     private fun Message.toListItem() = if (author.id == senderId) {
