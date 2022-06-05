@@ -16,9 +16,21 @@
             android:id="@+id/toolbarChannels"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:contentInsetEnd="@dimen/padding_8"
             app:title="@string/channels_title"
             app:titleTextAppearance="@style/FontStyle.Subheading1"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonChannelsCreate"
+                style="@style/IconButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                app:icon="@drawable/ic_channel_add"
+                app:iconSize="24dp" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -53,20 +65,4 @@
 
         </FrameLayout>
     </com.wires.app.presentation.views.StateViewFlipper>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/buttonChannelsCreate"
-        style="@style/Widget.Material3.FloatingActionButton.Primary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/margin_16"
-        android:src="@drawable/ic_add"
-        android:visibility="gone"
-        app:backgroundTint="?colorPrimaryBackground"
-        app:tint="?iconColorPrimary"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-        tools:visibility="visible"
-        tools:ignore="ContentDescription" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

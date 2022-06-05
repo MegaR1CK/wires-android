@@ -16,9 +16,11 @@ class ChannelsMapper @Inject constructor(
         return ChannelPreview(
             id = channelPreviewResponse.id,
             name = channelPreviewResponse.name,
+            type = channelPreviewResponse.type,
             image = channelPreviewResponse.image?.let { imagesMapper.fromResponseToModel(it) },
             lastSentMessage = channelPreviewResponse.lastMessage?.let { fromResponseToModel(it) },
-            unreadMessagesCount = channelPreviewResponse.unreadMessages
+            unreadMessagesCount = channelPreviewResponse.unreadMessages,
+            dialogMember = channelPreviewResponse.dialogMember?.let { userMapper.fromResponseToModel(it) }
         )
     }
 
@@ -26,6 +28,7 @@ class ChannelsMapper @Inject constructor(
         return Channel(
             id = channelResponse.id,
             name = channelResponse.name,
+            type = channelResponse.type,
             image = channelResponse.image?.let { imagesMapper.fromResponseToModel(it) },
             members = channelResponse.members.map(userMapper::fromResponseToModel)
         )

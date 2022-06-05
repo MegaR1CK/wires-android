@@ -13,7 +13,23 @@
 
         <argument
             android:name="pickedUsers"
-            app:argType="com.wires.app.data.model.UserPreview[]" />
+            app:argType="com.wires.app.data.model.UserPreview[]"
+            app:nullable="true" />
 
+        <action
+            android:id="@+id/action_pickUsersFragment_to_chat_graph"
+            app:destination="@id/chat_graph"
+            app:popUpTo="@id/pick_users_graph"
+            app:popUpToInclusive="true" >
+
+            <argument
+                android:name="channelId"
+                app:argType="integer" />
+
+            <argument
+                android:name="isNew"
+                app:argType="boolean" />
+
+        </action>
     </fragment>
 </navigation>

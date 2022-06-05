@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ChannelCreateParams(
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("type")
     val type: String,
     @SerializedName("members_ids")

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/channelCreateActionPersonal"
+        android:title="@string/create_channel_personal" />
+
+    <item
+        android:id="@+id/channelCreateActionGroup"
+        android:title="@string/create_channel_group" />
+</menu>

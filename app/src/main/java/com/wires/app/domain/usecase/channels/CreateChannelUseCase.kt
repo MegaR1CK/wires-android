@@ -18,7 +18,7 @@ class CreateChannelUseCase @Inject constructor(
     }
 
     data class Params(
-        val name: String,
+        val name: String?,
         val type: ChannelType,
         val membersIds: List<Int>,
         val imagePath: String?

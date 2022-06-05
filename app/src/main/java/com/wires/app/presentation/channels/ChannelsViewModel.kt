@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.ChannelPreview
+import com.wires.app.data.model.ChannelType
 import com.wires.app.domain.usecase.channels.GetUserChannelsUseCase
 import com.wires.app.presentation.base.BaseViewModel
 import com.wires.app.presentation.base.SingleLiveEvent
@@ -19,8 +20,8 @@ class ChannelsViewModel @Inject constructor(
     private val _openChatLiveEvent = SingleLiveEvent<OpenChatParams>()
     val openChatLiveEvent: LiveData<OpenChatParams> = _openChatLiveEvent
 
-    private val _openCreateChannelLiveEvent = SingleLiveEvent<Unit>()
-    val openCreateChannelLiveEvent: LiveData<Unit> = _openCreateChannelLiveEvent
+    private val _openCreateChannelLiveEvent = SingleLiveEvent<ChannelType>()
+    val openCreateChannelLiveEvent: LiveData<ChannelType> = _openCreateChannelLiveEvent
 
     fun getChannels() {
         _channelsLiveData.launchLoadData(getUserChannelsUseCase.executeLoadable(Unit))
@@ -30,8 +31,8 @@ class ChannelsViewModel @Inject constructor(
         _openChatLiveEvent.postValue(OpenChatParams(channelId, unreadMessagesCount))
     }
 
-    fun openCreateChannel() {
-        _openCreateChannelLiveEvent.postValue(Unit)
+    fun openCreateChannel(type: ChannelType) {
+        _openCreateChannelLiveEvent.postValue(type)
     }
 
     data class OpenChatParams(

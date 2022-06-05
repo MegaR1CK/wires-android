@@ -26,4 +26,9 @@ class UsersAdapter @Inject constructor() : BaseAdapter<UserPreview, UserViewHold
         item.isSelected = selectedItems.map { it.id }.contains(item.id)
         notifyItemChanged(items.indexOf(item))
     }
+
+    fun setLockItems(isLocked: Boolean) = items.forEach { item ->
+        item.isEnabled = !isLocked
+        notifyItemChanged(items.indexOf(item))
+    }
 }

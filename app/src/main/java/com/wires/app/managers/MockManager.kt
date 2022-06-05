@@ -1,6 +1,7 @@
 package com.wires.app.managers
 
 import com.wires.app.data.model.Channel
+import com.wires.app.data.model.ChannelType
 import com.wires.app.data.model.Comment
 import com.wires.app.data.model.Image
 import com.wires.app.data.model.ImageSize
@@ -103,6 +104,7 @@ class MockManager @Inject constructor() {
             Channel(
                 id = 1,
                 name = "ChannelName",
+                type = ChannelType.GROUP,
                 members = List(3) { UserPreview(1, "name", null, null, null) },
                 image = Image("https://placekitten.com/70/70", ImageSize(70, 70)),
             )

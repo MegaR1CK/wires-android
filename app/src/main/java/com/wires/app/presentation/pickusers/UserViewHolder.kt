@@ -28,5 +28,6 @@ class UserViewHolder(
             checkboxUser.isChecked = !checkboxUser.isChecked
             onItemClick(userPreview)
         }
+        root.isEnabled = userPreview.isEnabled
     }
 }

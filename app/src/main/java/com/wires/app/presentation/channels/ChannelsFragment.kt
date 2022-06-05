@@ -5,12 +5,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
+import com.wires.app.data.model.ChannelType
 import com.wires.app.data.model.Message
 import com.wires.app.databinding.FragmentChannelsBinding
 import com.wires.app.extensions.addLinearSpaceItemDecoration
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.setupScrollWithAppBar
+import com.wires.app.extensions.showPopupMenu
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.chat.ChatFragment
 import timber.log.Timber
@@ -32,7 +34,14 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
         root.fitTopInsetsWithPadding()
         stateViewFlipperChannels.setRetryMethod { callOperations() }
-        buttonChannelsCreate.setOnClickListener { viewModel.openCreateChannel() }
+        buttonChannelsCreate.setOnClickListener { button ->
+            button.showPopupMenu { itemId ->
+                when (itemId) {
+                    R.id.channelCreateActionPersonal -> viewModel.openCreateChannel(ChannelType.PERSONAL)
+                    R.id.channelCreateActionGroup -> viewModel.openCreateChannel(ChannelType.GROUP)
+                }
+            }
+        }
         setupChannelsList()
         setupResultListeners()
     }
@@ -50,11 +59,17 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
                 Timber.e(error.message)
             }
         }
+        openCreateChannelLiveEvent.observe { type ->
+            navigateTo(
+                if (type == ChannelType.GROUP) {
+                    ChannelsFragmentDirections.actionChannelsFragmentToCreateChannelGraph()
+                } else {
+                    ChannelsFragmentDirections.actionChannelFragmentToPickUsersGraph(null)
+                }
+            )
+        }
         openChatLiveEvent.observe { params ->
             navigateTo(ChannelsFragmentDirections.actionChannelFragmentToChatGraph(params.channelId, params.unreadMessagesCount))
-        }
-        openCreateChannelLiveEvent.observe {
-            navigateTo(ChannelsFragmentDirections.actionChannelsFragmentToCreateChannelGraph())
         }
     }
 

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll"
             app:contentInsetStart="28dp"
-            app:contentInsetEnd="20dp"
+            app:contentInsetEnd="@dimen/padding_8"
             app:titleTextAppearance="@style/FontStyle.Subheading1"
             tools:title="Здравствуйте, Константин">
 

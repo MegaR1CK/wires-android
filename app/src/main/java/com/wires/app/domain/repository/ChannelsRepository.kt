@@ -54,7 +54,7 @@ class ChannelsRepository @Inject constructor(
         webSocketService.disconnectChatSocket(channelId)
     }
 
-    suspend fun createChannel(name: String, type: ChannelType, membersIds: List<Int>, imagePath: String?): Channel {
+    suspend fun createChannel(name: String?, type: ChannelType, membersIds: List<Int>, imagePath: String?): Channel {
         return channelsMapper.fromResponseToModel(
             apiService.createChannel(
                 gson.toJson(ChannelCreateParams(name, type.name, membersIds)).toRequestBody(),

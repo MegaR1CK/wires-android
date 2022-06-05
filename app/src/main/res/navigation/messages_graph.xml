@@ -28,5 +28,16 @@
         <action
             android:id="@+id/action_channelsFragment_to_create_channel_graph"
             app:destination="@id/create_channel_graph" />
+
+        <action
+            android:id="@+id/action_channelFragment_to_pick_users_graph"
+            app:destination="@id/pick_users_graph">
+
+            <argument
+                android:name="pickedUsers"
+                app:argType="com.wires.app.data.model.UserPreview[]"
+                app:nullable="true" />
+
+        </action>
     </fragment>
 </navigation>

@@ -1,8 +1,6 @@
 package com.wires.app.presentation.feed.feedchild
 
 import android.animation.AnimatorInflater
-import android.view.View
-import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.wires.app.R
@@ -13,6 +11,7 @@ import com.wires.app.extensions.countViewHeight
 import com.wires.app.extensions.enableLinks
 import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.load
+import com.wires.app.extensions.showPopupMenu
 import com.wires.app.managers.DateFormatter
 
 class PostViewHolder(
@@ -41,7 +40,14 @@ class PostViewHolder(
             }
             root.setOnClickListener { onItemClick.invoke(post.id) }
             buttonPostActions.isVisible = post.isEditable
-            buttonPostActions.setOnClickListener { showPopupMenu(it, post.id) }
+            buttonPostActions.setOnClickListener { button ->
+                button.showPopupMenu { itemId ->
+                    when (itemId) {
+                        R.id.postActionEdit -> onEditClick(post.id)
+                        R.id.postActionDelete -> onDeleteClick(post.id)
+                    }
+                }
+            }
             bindBottomPanel(post)
             bindPostAuthor(post.author)
         } else {
@@ -75,19 +81,5 @@ class PostViewHolder(
             placeHolderRes = R.drawable.ic_avatar_placeholder,
             isCircle = true
         )
-    }
-
-    private fun showPopupMenu(view: View, postId: Int) {
-        PopupMenu(context, view).run {
-            inflate(R.menu.menu_post_actions)
-            setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.postActionEdit -> onEditClick(postId)
-                    R.id.postActionDelete -> onDeleteClick(postId)
-                }
-                true
-            }
-            show()
-        }
     }
 }

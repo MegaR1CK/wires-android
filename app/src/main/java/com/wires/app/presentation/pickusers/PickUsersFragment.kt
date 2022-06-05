@@ -14,6 +14,7 @@ import com.wires.app.databinding.FragmentPickUsersBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.hideSoftKeyboard
 import com.wires.app.extensions.navigateBack
+import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.extensions.showSoftKeyboard
 import com.wires.app.presentation.base.BaseFragment
@@ -33,6 +34,8 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
 
     @Inject lateinit var foundUsersAdapter: UsersAdapter
     @Inject lateinit var addedUsersAdapter: AddedUsersAdapter
+
+    private var isPersonalMode = false
 
     override fun callOperations() {
         viewModel.getUser()
@@ -69,12 +72,13 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
             requireActivity().hideSoftKeyboard()
             true
         }
+        isPersonalMode = args.pickedUsers == null
         setupLists()
         setSearchFocus()
     }
 
     override fun onBindViewModel() = with(viewModel) {
-        pickedUsers = args.pickedUsers.toMutableList()
+        pickedUsers = args.pickedUsers?.toMutableList() ?: mutableListOf()
         userLiveData.observe { result ->
             binding.stateViewFlipperPickUsers.setStateFromResult(result)
             result.doOnFailure { error ->
@@ -98,7 +102,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
             foundUsersAdapter.updateSelectedItems(list)
             with(binding) {
                 recyclerViewAddedUsers.scrollToPosition(list.lastIndex)
-                buttonPickUsersConfirm.isVisible = args.pickedUsers.toSet() != list.toSet()
+                buttonPickUsersConfirm.isVisible = (args.pickedUsers?.toSet() ?: emptySet()) != list.toSet()
                 buttonPickUsersConfirm.post {
                     recyclerViewFoundUsers.updatePadding(
                         bottom = if (buttonPickUsersConfirm.isVisible) buttonPickUsersConfirm.height else 0 +
@@ -110,6 +114,17 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
         searchErrorLiveEvent.observe {
             showSnackbar(getString(R.string.error_short_search_query))
         }
+        createChannelLiveEvent.observe { result ->
+            binding.progressIndicatorPickUsers.isVisible = result.isLoading
+            foundUsersAdapter.setLockItems(result.isLoading)
+            result.doOnSuccess { channel ->
+                navigateTo(PickUsersFragmentDirections.actionPickUsersFragmentToChatGraph(channel.id, true))
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+                showSnackbar(error.message)
+            }
+        }
     }
 
     private fun setSearchFocus() = with(binding) {
@@ -119,10 +134,18 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
     }
 
     private fun setupLists() = with(binding) {
+        frameLayoutAddedUsers.isVisible = !isPersonalMode
+        textViewAddedUsers.isVisible = !isPersonalMode
         (recyclerViewFoundUsers.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         recyclerViewFoundUsers.adapter = foundUsersAdapter.apply {
-            onItemClick = { user -> viewModel.proceedUser(user, removeOnly = false) }
-            checkboxesEnabled = true
+            onItemClick = { user ->
+                if (isPersonalMode) {
+                    viewModel.createChannel(user.id)
+                } else {
+                    viewModel.proceedUser(user, removeOnly = false)
+                }
+            }
+            checkboxesEnabled = !isPersonalMode
         }
         recyclerViewFoundUsers.emptyView = emptyViewFoundUsers
         recyclerViewAddedUsers.adapter = addedUsersAdapter.apply {

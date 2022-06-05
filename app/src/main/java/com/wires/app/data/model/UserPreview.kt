@@ -13,5 +13,6 @@ data class UserPreview(
     var firstName: String?,
     var lastName: String?,
     var avatar: Image?,
-    var isSelected: Boolean = false
+    var isSelected: Boolean = false,
+    var isEnabled: Boolean = true
 ) : Parcelable
