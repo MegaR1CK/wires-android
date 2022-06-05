@@ -1,6 +1,5 @@
 package com.wires.app.presentation.createpost
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -13,7 +12,6 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.wires.app.R
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.model.Post
@@ -23,9 +21,11 @@ import com.wires.app.extensions.bytesEqualTo
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getInputText
+import com.wires.app.extensions.handleImagePickerResult
 import com.wires.app.extensions.load
 import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.navigateTo
+import com.wires.app.extensions.pickImage
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
@@ -36,19 +36,21 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
 
     companion object {
         const val POST_CHANGED_RESULT_KEY = "post_changed_key"
-        private const val FILE_PATH_KEY = "extra.file_path"
     }
 
     private val binding by viewBinding(FragmentCreatePostBinding::bind)
     private val viewModel: CreatePostViewModel by appViewModels()
     private val args: CreatePostFragmentArgs by navArgs()
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.extras?.getString(FILE_PATH_KEY)?.let { path ->
+    private val pickerResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        requireActivity().handleImagePickerResult(
+            result = result,
+            needPath = true,
+            onSuccess = { path ->
                 setImage(Uri.fromFile(File(path)).toString(), isInitial = false)
-            }
-        }
+            },
+            onFailure = { showSnackbar(getString(R.string.message_image_pick_error)) }
+        )
     }
 
     private var isEditMode = false
@@ -78,7 +80,9 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
                 viewModel.createPost(editTextCreatePost.getInputText())
             }
         }
-        buttonCreatePostImageAdd.setOnClickListener { startImagePicker() }
+        buttonCreatePostImageAdd.setOnClickListener {
+            requireActivity().pickImage(pickerResultLauncher)
+        }
         buttonCreatePostImageRemove.setOnClickListener { removeImage() }
         textViewTopicSelect.setOnClickListener { viewModel.openTopicSelect() }
         setFragmentResultListener(SelectTopicDialog.SELECT_INTEREST_RESULT_KEY) { _, bundle ->
@@ -155,14 +159,6 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
             isVisible = false
         }
         if (editTextCreatePost.getInputText().isBlank()) buttonCreatePostDone.isVisible = false
-    }
-
-    private fun startImagePicker() {
-        ImagePicker
-            .with(requireActivity())
-            .createIntent { intent ->
-                resultLauncher.launch(intent)
-            }
     }
 
     private fun bindPostForEdit(post: Post) = with(binding) {

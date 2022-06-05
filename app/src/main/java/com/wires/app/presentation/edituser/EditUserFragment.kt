@@ -1,6 +1,5 @@
 package com.wires.app.presentation.edituser
 
-import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.util.Patterns
@@ -10,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
@@ -22,8 +20,10 @@ import com.wires.app.databinding.FragmentEditUserBinding
 import com.wires.app.extensions.addFlexboxSpaceItemDecoration
 import com.wires.app.extensions.addOrRemove
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
+import com.wires.app.extensions.handleImagePickerResult
 import com.wires.app.extensions.load
 import com.wires.app.extensions.navigateBack
+import com.wires.app.extensions.pickImage
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import timber.log.Timber
@@ -38,21 +38,24 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
     private val binding by viewBinding(FragmentEditUserBinding::bind)
     private val viewModel: EditUserViewModel by appViewModels()
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { uri ->
+    private val pickerResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        requireActivity().handleImagePickerResult(
+            result = result,
+            onSuccess = { stringUri ->
+                val uri = Uri.parse(stringUri)
                 selectedAvatarUri = uri
                 viewModel.selectedAvatarPath = uri.path
+                setDoneButtonVisibility()
+            },
+            onComplete = {
                 binding.imageViewEditProfileAvatar.load(
-                    imageUrl = uri.toString(),
+                    imageUrl = selectedAvatarUri?.toString(),
                     placeHolderRes = R.drawable.ic_avatar_placeholder,
                     isCircle = true
                 )
-                setDoneButtonVisibility()
-            }
-        } else {
-            binding.imageViewEditProfileAvatar.setImageURI(selectedAvatarUri)
-        }
+            },
+            onFailure = { showSnackbar(getString(R.string.message_image_pick_error)) }
+        )
     }
 
     private var selectedAvatarUri: Uri? = null
@@ -112,12 +115,7 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
 
     private fun setupUser(user: User) = with(binding) {
         imageViewEditProfileAvatar.setOnClickListener {
-            ImagePicker
-                .with(requireActivity())
-                .cropSquare()
-                .createIntent { intent ->
-                    resultLauncher.launch(intent)
-                }
+            requireActivity().pickImage(pickerResultLauncher, needCrop = true)
         }
         imageViewEditProfileAvatar.load(
             imageUrl = user.avatar?.url,

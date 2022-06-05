@@ -1,22 +1,22 @@
 package com.wires.app.presentation.createchannel
 
-import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.wires.app.R
 import com.wires.app.data.model.UserPreview
 import com.wires.app.databinding.FragmentCreateChannelBinding
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
 import com.wires.app.extensions.getColorAttribute
 import com.wires.app.extensions.getDrawableCompat
+import com.wires.app.extensions.handleImagePickerResult
 import com.wires.app.extensions.hideSoftKeyboard
 import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.navigateTo
+import com.wires.app.extensions.pickImage
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.pickusers.PickUsersFragment
@@ -29,17 +29,20 @@ class CreateChannelFragment : BaseFragment(R.layout.fragment_create_channel) {
     private val binding by viewBinding(FragmentCreateChannelBinding::bind)
     private val viewModel: CreateChannelViewModel by appViewModels()
 
-    private var selectedImageUri: Uri? = null
-
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { uri ->
+    private val pickerResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        requireActivity().handleImagePickerResult(
+            result = result,
+            onSuccess = { stringUri ->
+                val uri = Uri.parse(stringUri)
                 selectedImageUri = uri
                 viewModel.selectedImagePath = uri.path
-            }
-        }
-        setChannelImage(selectedImageUri)
+            },
+            onFailure = { showSnackbar(getString(R.string.message_image_pick_error)) },
+            onComplete = { setChannelImage(selectedImageUri) }
+        )
     }
+
+    private var selectedImageUri: Uri? = null
 
     @Inject lateinit var usersAdapter: UsersAdapter
 
@@ -57,10 +60,7 @@ class CreateChannelFragment : BaseFragment(R.layout.fragment_create_channel) {
         setChannelImage(selectedImageUri)
         buttonCreateChannelEdit.setOnClickListener { viewModel.openPickUsers() }
         viewImagePickerCreateChannel.setOnClickListener {
-            ImagePicker
-                .with(requireActivity())
-                .cropSquare()
-                .createIntent { resultLauncher.launch(it) }
+            requireActivity().pickImage(pickerResultLauncher, needCrop = true)
         }
         inputCreateChannelName.setOnEditorActionListener {
             clearInputFocus()
