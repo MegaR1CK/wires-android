@@ -9,6 +9,7 @@ import com.wires.app.databinding.ItemMessageIncomingBinding
 import com.wires.app.databinding.ItemMessageOutcomingBinding
 import com.wires.app.managers.DateFormatter
 import com.wires.app.presentation.base.BaseAdapter
+import java.time.LocalDate
 import javax.inject.Inject
 
 typealias IncomingMessage = MessageListItem.ListMessage.IncomingMessage
@@ -102,10 +103,14 @@ class MessagesAdapter @Inject constructor(
 
     private fun addMessageWithDateCheck(message: Message, addToStart: Boolean = false) {
         val messageDate = message.sendTime.toLocalDate()
-        val lastItem = ((if (addToStart) items.firstOrNull() else items.lastOrNull()) as? MessageListItem.ListMessage).takeIf { it?.message?.id != message.id }
-        lastItem?.let { item ->
-            val lastItemDate = item.message.sendTime.toLocalDate()
-            if (lastItemDate != messageDate) items.add(if (addToStart) 0 else items.size, DateHeader(if (addToStart) messageDate else lastItemDate))
+        val lastItem = (if (addToStart) items.firstOrNull() else items.lastOrNull()) as? MessageListItem.ListMessage
+        val lastItemWithDiffDate = lastItem.takeIf { it?.message?.id != message.id }
+        if (lastItemWithDiffDate != null || (itemCount == 0 && addToStart)) {
+            val lastItemDate = lastItemWithDiffDate?.message?.sendTime?.toLocalDate()
+            if (lastItemDate != messageDate) {
+                val dateForAdd = if (addToStart) messageDate else lastItemDate ?: LocalDate.now()
+                items.add(if (addToStart) 0 else items.size, DateHeader(dateForAdd))
+            }
         }
         items.add(if (addToStart) 0 else items.size, message.toListItem())
     }
