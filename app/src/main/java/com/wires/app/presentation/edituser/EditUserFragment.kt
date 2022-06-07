@@ -153,7 +153,7 @@ class EditUserFragment : BaseFragment(R.layout.fragment_edit_user) {
         }
         addFlexboxSpaceItemDecoration(R.dimen.interests_list_spacing)
         adapter = interestsAdapter.apply {
-            submitList(UserInterest.values().toList().map { ListInterest(it, userInterests.contains(it)) })
+            submitList(UserInterest.values().map { ListInterest(it, userInterests.contains(it)) })
             onItemClick = { interest ->
                 viewModel.selectedInterests.addOrRemove(interest)
                 setDoneButtonVisibility(userInterests)

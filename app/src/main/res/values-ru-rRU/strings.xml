@@ -42,6 +42,13 @@
     <string name="confirm_password_hint">Подтвердите пароль</string>
     <string name="username_hint">Имя пользователя</string>
 
+    <!-- ONBOARDING -->
+    <string name="onboarding_title">Добро пожаловать!</string>
+    <string name="onboarding_user_setup_description">Введите свои данные, чтобы другим пользователям было проще узнавать вас</string>
+    <string name="onboarding_continue">Продолжить</string>
+    <string name="onboarding_interests_setup_description">Укажите ваши интересы, чтобы получать актуальные для вас посты</string>
+    <string name="onboarding_confirm">Подтвердить</string>
+
     <!-- FEED -->
     <string name="feed_title">Здравствуйте, %s</string>
     <string name="feed_first_tab_text">Для вас</string>

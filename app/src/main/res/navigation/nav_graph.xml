@@ -54,7 +54,21 @@
         tools:layout="@layout/fragment_register">
 
         <action
-            android:id="@+id/action_registerFragment_to_feed_graph"
+            android:id="@+id/action_registerFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.wires.app.presentation.onboarding.OnboardingFragment"
+        android:label="OnboardingFragment"
+        tools:layout="@layout/fragment_onboarding">
+
+        <action
+            android:id="@+id/action_onboardingFragment_to_feed_graph"
             app:destination="@id/feed_graph"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true"/>

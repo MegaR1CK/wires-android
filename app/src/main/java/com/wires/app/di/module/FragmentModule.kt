@@ -9,6 +9,9 @@ import com.wires.app.presentation.edituser.EditUserFragment
 import com.wires.app.presentation.feed.FeedFragment
 import com.wires.app.presentation.feed.feedchild.FeedChildFragment
 import com.wires.app.presentation.login.LoginFragment
+import com.wires.app.presentation.onboarding.OnboardingFragment
+import com.wires.app.presentation.onboarding.interestssetup.InterestsSetupFragment
+import com.wires.app.presentation.onboarding.usersetup.UserSetupFragment
 import com.wires.app.presentation.pickusers.PickUsersFragment
 import com.wires.app.presentation.post.PostFragment
 import com.wires.app.presentation.profile.ProfileFragment
@@ -29,6 +32,15 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun registerFragment(): RegisterFragment
+
+    @ContributesAndroidInjector
+    abstract fun onboardingFragment(): OnboardingFragment
+
+    @ContributesAndroidInjector
+    abstract fun userSetupFragment(): UserSetupFragment
+
+    @ContributesAndroidInjector
+    abstract fun interestsSetupFragment(): InterestsSetupFragment
 
     @ContributesAndroidInjector
     abstract fun feedFragment(): FeedFragment

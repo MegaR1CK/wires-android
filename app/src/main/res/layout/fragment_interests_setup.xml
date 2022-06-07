@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/padding_24"
+    android:paddingVertical="@dimen/padding_24">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/onboarding_interests_setup_description"
+        android:textAppearance="@style/FontStyle.Subheading2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewOnboardingInterests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:overScrollMode="never"
+        tools:listitem="@layout/view_topic_chip"
+        tools:itemCount="2" />
+
+    <com.wires.app.presentation.views.StatefulMaterialButton
+        android:id="@+id/buttonOnboardingConfirm"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/onboarding_confirm" />
+</LinearLayout>

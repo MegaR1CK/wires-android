@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarOnboarding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorSurface"
+            app:contentInsetEnd="@dimen/padding_8"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="?iconColorPrimary">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/onboarding_title"
+                android:textAppearance="@style/FontStyle.Subheading1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonOnboardingSkip"
+                style="@style/IconButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                app:icon="@drawable/ic_skip"
+                app:iconSize="24dp" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPagerOnboarding"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.rd.PageIndicatorView
+        android:id="@+id/viewOnboardingIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="32dp"
+        app:piv_animationType="slide"
+        app:piv_interactiveAnimation="true"
+        app:piv_radius="5dp"
+        app:piv_selectedColor="?colorPrimary"
+        app:piv_unselectedColor="?iconColorSecondary"
+        tools:piv_count="2" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

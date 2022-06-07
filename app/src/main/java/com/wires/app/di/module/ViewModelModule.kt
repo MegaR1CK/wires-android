@@ -13,6 +13,9 @@ import com.wires.app.presentation.edituser.EditUserViewModel
 import com.wires.app.presentation.feed.FeedViewModel
 import com.wires.app.presentation.feed.feedchild.FeedChildViewModel
 import com.wires.app.presentation.login.LoginViewModel
+import com.wires.app.presentation.onboarding.OnboardingViewModel
+import com.wires.app.presentation.onboarding.interestssetup.InterestsSetupViewModel
+import com.wires.app.presentation.onboarding.usersetup.UserSetupViewModel
 import com.wires.app.presentation.pickusers.PickUsersViewModel
 import com.wires.app.presentation.post.PostViewModel
 import com.wires.app.presentation.profile.ProfileViewModel
@@ -43,6 +46,21 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(RegisterViewModel::class)
     abstract fun registerViewModel(viewModel: RegisterViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OnboardingViewModel::class)
+    abstract fun onboardingViewModel(viewModel: OnboardingViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserSetupViewModel::class)
+    abstract fun userSetupViewModel(viewModel: UserSetupViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(InterestsSetupViewModel::class)
+    abstract fun interestsSetupViewModel(viewModel: InterestsSetupViewModel): ViewModel
 
     @Binds
     @IntoMap

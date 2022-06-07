@@ -21,6 +21,7 @@
         <item name="errorColor">@color/red</item>
 
         <item name="iconColorPrimary">@color/primary_black</item>
+        <item name="iconColorSecondary">@color/gray</item>
         <item name="iconColorOnContrast">@color/white</item>
 
         <item name="colorSurfaceChat">@color/off_white</item>
@@ -32,9 +33,9 @@
 
         <item name="dividerColor">@color/light_gray</item>
 
-        <item name="colorImagePlaceholder">@color/light_gray</item>
+        <item name="colorImagePlaceholder">@color/off_white</item>
         <item name="colorRippleDark">@color/gray</item>
-        <item name="colorAvatarDarken">@color/black_60</item>
+        <item name="colorAvatarDarken">@color/black_40</item>
 
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -49,6 +50,5 @@
         <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
         <item name="colorToolbarIcons">@color/primary_black</item>
         <item name="textColorSubtitle">@color/primary_black</item>
-        <item name="iconColorSecondary">@color/primary_black</item>
     </style>
 </resources>

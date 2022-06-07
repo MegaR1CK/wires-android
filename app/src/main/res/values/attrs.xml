@@ -42,6 +42,7 @@
     <attr name="errorColor" format="reference|color" />
 
     <attr name="iconColorPrimary" format="reference|color" />
+    <attr name="iconColorSecondary" format="reference|color" />
     <attr name="iconColorOnContrast" format="reference|color" />
 
     <attr name="colorSurfaceChat" format="reference|color" />
@@ -60,5 +61,4 @@
     <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
     <attr name="colorToolbarIcons" format="reference|color" />
     <attr name="textColorSubtitle" format="reference|color" />
-    <attr name="iconColorSecondary" format="reference|color" />
 </resources>

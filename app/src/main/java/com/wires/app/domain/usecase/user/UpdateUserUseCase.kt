@@ -25,11 +25,11 @@ class UpdateUserUseCase @Inject constructor(
     }
 
     data class Params(
-        val username: String?,
-        val email: String?,
-        val firstName: String?,
-        val lastName: String?,
-        val interests: List<UserInterest>,
-        val avatarPath: String?
+        val username: String? = null,
+        val email: String? = null,
+        val firstName: String? = null,
+        val lastName: String? = null,
+        val interests: List<UserInterest> = emptyList(),
+        val avatarPath: String? = null,
     )
 }

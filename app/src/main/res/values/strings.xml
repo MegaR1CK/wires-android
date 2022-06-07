@@ -39,6 +39,13 @@
     <string name="confirm_password_hint">Confirm password</string>
     <string name="username_hint">Username</string>
 
+    <!-- ONBOARDING -->
+    <string name="onboarding_title">Welcome!</string>
+    <string name="onboarding_user_setup_description">Enter your personal data to make it easier for other users to recognize you</string>
+    <string name="onboarding_continue">Continue</string>
+    <string name="onboarding_interests_setup_description">Specify your interests to receive relevant posts for you</string>
+    <string name="onboarding_confirm">Confirm</string>
+
     <!-- FEED -->
     <string name="feed_title">Hello, %s</string>
     <string name="feed_first_tab_text">For you</string>

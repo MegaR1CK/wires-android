@@ -47,7 +47,7 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
         registerLiveEvent.observe { result ->
             binding.buttonRegister.isLoading = result.isLoading
             result.doOnSuccess {
-                navigateTo(RegisterFragmentDirections.actionRegisterFragmentToFeedGraph())
+                navigateTo(RegisterFragmentDirections.actionRegisterFragmentToOnboardingFragment())
             }
             result.doOnFailure { error ->
                 showSnackbar(error.message)

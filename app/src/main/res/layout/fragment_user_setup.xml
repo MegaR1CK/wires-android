@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/padding_24"
+        android:paddingVertical="@dimen/padding_24">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/onboarding_user_setup_description"
+            android:textAppearance="@style/FontStyle.Subheading2" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/viewImagePickerOnboarding"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:foreground="@drawable/bg_circle_ripple_dark"
+            app:cardBackgroundColor="?colorImagePlaceholder"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageViewOnboardingAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:tintMode="src_atop"
+                app:tint="?colorAvatarDarken" />
+
+            <ImageView
+                android:id="@+id/imageViewOnboardingIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_add_photo"
+                app:tint="?colorPrimary" />
+
+        </androidx.cardview.widget.CardView>
+
+        <com.wires.app.presentation.views.ValidationTextInput
+            android:id="@+id/inputOnboardingFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:fieldHint="@string/edit_profile_first_name_hint"
+            app:fieldInputType="text"
+            app:fieldImeOptions="actionNext"
+            app:lengthErrorText="@string/error_length_name"
+            app:minTextLength="2"
+            app:maxTextLength="16"
+            app:validationPattern="^[a-zA-Zа-яА-Я]*$"
+            app:patternErrorText="@string/error_incorrect_name" />
+
+        <com.wires.app.presentation.views.ValidationTextInput
+            android:id="@+id/inputOnboardingLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:fieldHint="@string/edit_profile_last_name_hint"
+            app:fieldInputType="text"
+            app:fieldImeOptions="actionDone"
+            app:lengthErrorText="@string/error_length_name"
+            app:minTextLength="2"
+            app:maxTextLength="16"
+            app:validationPattern="^[a-zA-Zа-яА-Я]*$"
+            app:patternErrorText="@string/error_incorrect_name" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonOnboardingContinue"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/onboarding_continue" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
