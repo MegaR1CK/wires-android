@@ -1,6 +1,7 @@
 package com.wires.app.presentation.onboarding
 
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -36,10 +37,16 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding), OnSubmitL
             viewOnboardingIndicator.isVisible = insets.getKeyboardInset() == 0
         }
         toolbarOnboarding.setNavigationOnClickListener {
-            val currentItem = viewPagerOnboarding.currentItem
-            if (currentItem != 0) viewPagerOnboarding.currentItem = currentItem.dec()
+            if (viewPagerOnboarding.currentItem != 0) viewPagerOnboarding.toPreviousItem()
         }
         buttonOnboardingSkip.setOnClickListener { viewModel.skipOnboarding() }
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner) {
+            if (viewPagerOnboarding.currentItem != 0) {
+                viewPagerOnboarding.toPreviousItem()
+            } else {
+                requireActivity().onBackPressed()
+            }
+        }
         setupPager()
     }
 
@@ -101,5 +108,9 @@ class OnboardingFragment : BaseFragment(R.layout.fragment_onboarding), OnSubmitL
 
     private fun findPagerFragmentAtPosition(fragmentManager: FragmentManager, position: Int): Fragment? {
         return fragmentManager.findFragmentByTag("f$position")
+    }
+
+    private fun ViewPager2.toPreviousItem() {
+        currentItem = currentItem.dec()
     }
 }
