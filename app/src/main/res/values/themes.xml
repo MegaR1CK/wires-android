@@ -45,10 +45,5 @@
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
-
-        <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
-        <item name="colorToolbarIcons">@color/primary_black</item>
-        <item name="textColorSubtitle">@color/primary_black</item>
     </style>
 </resources>

@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             app:titleTextAppearance="@style/FontStyle.Subheading1"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="?colorToolbarIcons">
+            app:navigationIconTint="?iconColorPrimary">
 
             <ImageButton
                 android:id="@+id/buttonCreatePostDone"
@@ -29,7 +29,7 @@
                 android:layout_marginEnd="@dimen/margin_8"
                 android:layout_gravity="end"
                 android:visibility="gone"
-                app:tint="?colorToolbarIcons"
+                app:tint="?iconColorPrimary"
                 tools:visibility="visible"/>
 
         </com.google.android.material.appbar.MaterialToolbar>

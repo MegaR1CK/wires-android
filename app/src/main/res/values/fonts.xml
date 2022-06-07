@@ -70,24 +70,4 @@
         <item name="android:textSize">10sp</item>
         <item name="lineHeight">16dp</item>
     </style>
-
-
-
-
-    <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
-    <style name="FontStyle.Headline5" />
-    <style name="FontStyle.Headline5.Bold" />
-    <style name="FontStyle.Small" />
-    <style name="FontStyle.Small.Bold" />
-    <style name="FontStyle.Caption" />
-    <style name="FontStyle.Caption.Bold" />
-    <style name="FontStyle.XSmall" />
-    <style name="FontStyle.XSmall.Bold" />
-    <style name="FontStyle.ButtonRegular" />
-    <style name="FontStyle.ButtonRegular.Bold" />
-    <style name="FontStyle.ButtonSmall" />
-    <style name="FontStyle.ButtonSmall.Bold" />
-    <style name="FontStyle.Tiny" />
-    <style name="FontStyle.Headline4" />
-    <style name="FontStyle.Headline4.Bold" />
 </resources>

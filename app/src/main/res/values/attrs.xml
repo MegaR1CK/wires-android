@@ -57,8 +57,4 @@
     <attr name="colorImagePlaceholder" format="reference|color" />
     <attr name="colorRippleDark" format="reference|color" />
     <attr name="colorAvatarDarken" format="reference|color" />
-
-    <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
-    <attr name="colorToolbarIcons" format="reference|color" />
-    <attr name="textColorSubtitle" format="reference|color" />
 </resources>

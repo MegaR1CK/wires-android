@@ -24,8 +24,4 @@
     <dimen name="channels_items_spacing">8dp</dimen>
 
     <dimen name="chat_items_spacing">12dp</dimen>
-
-
-    <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
-    <dimen name="auth_horizontal_padding">40dp</dimen>
 </resources>

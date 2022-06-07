@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:background="?colorSurface"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="?colorToolbarIcons"
+            app:navigationIconTint="?iconColorPrimary"
             app:contentInsetStartWithNavigation="0dp"
             app:contentInsetEnd="8dp"
             app:title="@string/pick_users_title"

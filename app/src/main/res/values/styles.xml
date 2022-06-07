@@ -63,8 +63,4 @@
         <item name="cornerSizeBottomLeft">0dp</item>
         <item name="cornerSizeBottomRight">16dp</item>
     </style>
-
-
-    <!-- REMOVE BOTTOM WHEN REDESIGN FINISHED -->
-    <style name="ButtonStyle.Outlined" />
 </resources>

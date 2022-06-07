@@ -70,7 +70,6 @@ class PostViewHolder(
         linearLayoutPostComment.setOnClickListener {
             onItemClick(post.id)
         }
-        linearLayoutPostShare.setOnClickListener { }
     }
 
     private fun bindPostAuthor(author: UserPreview) = with(itemBinding) {
