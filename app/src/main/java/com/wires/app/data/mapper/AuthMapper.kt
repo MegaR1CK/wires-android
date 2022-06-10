@@ -1,11 +1,14 @@
 package com.wires.app.data.mapper
 
-import com.wires.app.data.model.Token
-import com.wires.app.data.remote.response.TokenResponse
+import com.wires.app.data.model.TokenPair
+import com.wires.app.data.remote.response.TokenPairResponse
 import javax.inject.Inject
 
 class AuthMapper @Inject constructor() {
-    fun fromResponseToModel(response: TokenResponse): Token {
-        return Token(token = response.token)
+    fun fromResponseToModel(response: TokenPairResponse): TokenPair {
+        return TokenPair(
+            accessToken = response.accessToken,
+            refreshToken = response.refreshToken
+        )
     }
 }

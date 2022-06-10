@@ -12,7 +12,7 @@ import com.wires.app.data.remote.response.ListResponse
 import com.wires.app.data.remote.response.MessageResponse
 import com.wires.app.data.remote.response.ObjectResponse
 import com.wires.app.data.remote.response.PostResponse
-import com.wires.app.data.remote.response.TokenResponse
+import com.wires.app.data.remote.response.TokenPairResponse
 import com.wires.app.data.remote.response.UserPreviewResponse
 import com.wires.app.data.remote.response.UserResponse
 import okhttp3.MultipartBody
@@ -33,7 +33,7 @@ interface WiresApiService {
     suspend fun registerUser(@Body params: UserRegisterParams): ObjectResponse<Unit>
 
     @POST("user/login")
-    suspend fun loginUser(@Body params: UserLoginParams): ObjectResponse<TokenResponse>
+    suspend fun loginUser(@Body params: UserLoginParams): ObjectResponse<TokenPairResponse>
 
     @GET("user")
     suspend fun getCurrentUser(): ObjectResponse<UserResponse>

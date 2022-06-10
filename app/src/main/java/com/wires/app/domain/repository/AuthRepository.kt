@@ -1,7 +1,7 @@
 package com.wires.app.domain.repository
 
 import com.wires.app.data.mapper.AuthMapper
-import com.wires.app.data.model.Token
+import com.wires.app.data.model.TokenPair
 import com.wires.app.data.remote.WiresApiService
 import com.wires.app.data.remote.params.UserLoginParams
 import com.wires.app.data.remote.params.UserRegisterParams
@@ -11,7 +11,7 @@ class AuthRepository @Inject constructor(
     private val apiService: WiresApiService,
     private val authMapper: AuthMapper
 ) {
-    suspend fun loginUser(email: String, passwordHash: String): Token {
+    suspend fun loginUser(email: String, passwordHash: String): TokenPair {
         return authMapper.fromResponseToModel(apiService.loginUser(UserLoginParams(email, passwordHash)).data)
     }
 

@@ -13,6 +13,7 @@ class PreferenceStorage @Inject constructor(
     companion object {
         private const val SECURE_PREF_FILE_NAME = "secured_preferences"
         private const val ACCESS_TOKEN_KEY = "access_token_key"
+        private const val REFRESH_TOKEN_KEY = "refresh_token_key"
     }
 
     private val securePref: SharedPreferences
@@ -33,4 +34,8 @@ class PreferenceStorage @Inject constructor(
     var accessToken: String?
         get() = securePref.getString(ACCESS_TOKEN_KEY, null)
         set(value) = securePref.edit().putString(ACCESS_TOKEN_KEY, value).apply()
+
+    var refreshToken: String?
+        get() = securePref.getString(REFRESH_TOKEN_KEY, null)
+        set(value) = securePref.edit().putString(REFRESH_TOKEN_KEY, value).apply()
 }
