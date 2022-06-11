@@ -5,6 +5,7 @@ import com.wires.app.di.module.ActivityModule
 import com.wires.app.di.module.ApiServiceModule
 import com.wires.app.di.module.ApplicationModule
 import com.wires.app.di.module.FragmentModule
+import com.wires.app.di.module.ServiceModule
 import com.wires.app.di.module.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
@@ -20,6 +21,7 @@ import javax.inject.Singleton
         ApiServiceModule::class,
         ApplicationModule::class,
         FragmentModule::class,
+        ServiceModule::class,
         ViewModelModule::class
     ]
 )

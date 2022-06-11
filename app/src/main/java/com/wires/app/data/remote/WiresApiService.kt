@@ -1,6 +1,7 @@
 package com.wires.app.data.remote
 
 import com.wires.app.data.remote.params.CommentAddParams
+import com.wires.app.data.remote.params.DeviceRegisterParams
 import com.wires.app.data.remote.params.MessagesReadParams
 import com.wires.app.data.remote.params.UserLoginParams
 import com.wires.app.data.remote.params.UserLogoutParams
@@ -134,4 +135,9 @@ interface WiresApiService {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
     ): ListResponse<PostResponse>
+
+    @POST("device/register")
+    suspend fun registerDevice(
+        @Body params: DeviceRegisterParams
+    ): ObjectResponse<Unit>
 }
