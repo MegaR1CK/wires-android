@@ -18,8 +18,8 @@ class SettingsViewModel @Inject constructor(
     private val _openChangePasswordLiveEvent = SingleLiveEvent<Unit>()
     val openChangePasswordLiveEvent: LiveData<Unit> = _openChangePasswordLiveEvent
 
-    private val _logoutLiveEvent = SingleLiveEvent<Unit>()
-    val logoutLiveEvent: LiveData<Unit> = _logoutLiveEvent
+    private val _logoutLiveEvent = SingleLiveEvent<LoadableResult<Unit>>()
+    val logoutLiveEvent: LiveData<LoadableResult<Unit>> = _logoutLiveEvent
 
     private val _userLiveData = MutableLiveData<LoadableResult<UserWrapper>>()
     val userLiveData: LiveData<LoadableResult<UserWrapper>> = _userLiveData
@@ -40,6 +40,6 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun logout() {
-        _logoutLiveEvent.postValue(logoutUseCase.execute(Unit))
+        _logoutLiveEvent.launchLoadData(logoutUseCase.executeLoadable(Unit))
     }
 }

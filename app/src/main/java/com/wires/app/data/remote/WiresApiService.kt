@@ -3,6 +3,7 @@ package com.wires.app.data.remote
 import com.wires.app.data.remote.params.CommentAddParams
 import com.wires.app.data.remote.params.MessagesReadParams
 import com.wires.app.data.remote.params.UserLoginParams
+import com.wires.app.data.remote.params.UserLogoutParams
 import com.wires.app.data.remote.params.UserPasswordChangeParams
 import com.wires.app.data.remote.params.UserRegisterParams
 import com.wires.app.data.remote.response.ChannelPreviewResponse
@@ -34,6 +35,9 @@ interface WiresApiService {
 
     @POST("user/login")
     suspend fun loginUser(@Body params: UserLoginParams): ObjectResponse<TokenPairResponse>
+
+    @POST("user/logout")
+    suspend fun logoutUser(@Body params: UserLogoutParams): ObjectResponse<Unit>
 
     @GET("user")
     suspend fun getCurrentUser(): ObjectResponse<UserResponse>

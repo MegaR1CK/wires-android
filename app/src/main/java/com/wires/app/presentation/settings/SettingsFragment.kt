@@ -11,10 +11,12 @@ import com.wires.app.R
 import com.wires.app.data.model.User
 import com.wires.app.databinding.FragmentSettingsBinding
 import com.wires.app.extensions.copyToClipboard
+import com.wires.app.extensions.createLoadableResultDialog
 import com.wires.app.extensions.fitTopInsetsWithPadding
 import com.wires.app.extensions.navigateBack
 import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.showAlertDialog
+import com.wires.app.extensions.showSnackbar
 import com.wires.app.extensions.showToast
 import com.wires.app.managers.LocaleManager
 import com.wires.app.presentation.base.BaseFragment
@@ -74,8 +76,16 @@ class SettingsFragment : BaseFragment(R.layout.fragment_settings) {
         openChangePasswordLiveEvent.observe {
             navigateTo(SettingsFragmentDirections.actionSettingsFragmentToChangePasswordFragment())
         }
-        logoutLiveEvent.observe {
-            navigateTo(SettingsFragmentDirections.actionSettingsFragmentToNavGraph(needSkipAnimation = true))
+        val loadableResultDialog = createLoadableResultDialog()
+        logoutLiveEvent.observe { result ->
+            loadableResultDialog.setState(result)
+            result.doOnSuccess {
+                navigateTo(SettingsFragmentDirections.actionSettingsFragmentToNavGraph(needSkipAnimation = true))
+            }
+            result.doOnFailure { error ->
+                showSnackbar(error.message)
+                Timber.e(error.message)
+            }
         }
     }
 

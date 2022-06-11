@@ -13,11 +13,11 @@ class StoreTokensUseCase @Inject constructor(
 ) : UseCaseLoadable<StoreTokensUseCase.Params, Unit>() {
 
     override suspend fun execute(params: Params) = with(tokensRepository) {
-        setAccessToken(params.tokenPair.accessToken)
-        setRefreshToken(params.tokenPair.refreshToken)
+        setAccessToken(params.tokenPair?.accessToken)
+        setRefreshToken(params.tokenPair?.refreshToken)
     }
 
     data class Params(
-        val tokenPair: TokenPair
+        val tokenPair: TokenPair?
     )
 }
