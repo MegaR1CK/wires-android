@@ -6,5 +6,7 @@ data class UserLoginParams(
     @SerializedName("email")
     val email: String,
     @SerializedName("password_hash")
-    val passwordHash: String
+    val passwordHash: String,
+    @SerializedName("device_id")
+    val deviceId: String
 )

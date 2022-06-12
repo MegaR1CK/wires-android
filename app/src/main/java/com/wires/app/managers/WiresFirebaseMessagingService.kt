@@ -2,7 +2,7 @@ package com.wires.app.managers
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.wires.app.domain.usecase.devices.RegisterDeviceUseCase
+import com.wires.app.domain.usecase.devices.UpdatePushTokenUseCase
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class WiresFirebaseMessagingService : FirebaseMessagingService() {
 
-    @Inject lateinit var registerDeviceUseCase: RegisterDeviceUseCase
+    @Inject lateinit var updatePushTokenUseCase: UpdatePushTokenUseCase
 
     override fun onCreate() {
         super.onCreate()
@@ -21,7 +21,7 @@ class WiresFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            registerDeviceUseCase.executeLoadable(RegisterDeviceUseCase.Params(token)).collect { result ->
+            updatePushTokenUseCase.executeLoadable(UpdatePushTokenUseCase.Params(token)).collect { result ->
                 result.doOnFailure { Timber.e(it.message) }
             }
         }

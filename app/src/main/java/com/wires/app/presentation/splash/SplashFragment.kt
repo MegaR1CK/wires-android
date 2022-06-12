@@ -57,10 +57,10 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
         initLiveEvent.observe { result ->
             result.doOnSuccess {
                 when (it) {
-                    SplashViewModel.SplashResult.MAIN_SCREEN -> {
+                    SplashResult.MAIN_SCREEN -> {
                         navigateTo(SplashFragmentDirections.actionSplashFragmentToFeedGraph())
                     }
-                    SplashViewModel.SplashResult.AUTH -> {
+                    SplashResult.AUTH -> {
                         if (!args.needSkipAnimation) startLogoAnimation()
                     }
                 }

@@ -16,7 +16,7 @@ import java.io.File
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
-    preferenceStorage: PreferenceStorage,
+    private val preferenceStorage: PreferenceStorage,
     private val apiService: WiresApiService,
     private val localStorage: LocalStorage,
     private val userMapper: UserMapper,
@@ -27,7 +27,8 @@ class UserRepository @Inject constructor(
         private const val AVATAR_PART_NAME = "avatar"
     }
 
-    val isSignedIn = !preferenceStorage.accessToken.isNullOrEmpty()
+    val isSignedIn: Boolean
+        get() = !preferenceStorage.accessToken.isNullOrEmpty()
 
     fun getStoredUser(): User? {
         return localStorage.currentUser

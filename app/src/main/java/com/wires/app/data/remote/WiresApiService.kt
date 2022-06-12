@@ -1,8 +1,8 @@
 package com.wires.app.data.remote
 
 import com.wires.app.data.remote.params.CommentAddParams
-import com.wires.app.data.remote.params.DeviceRegisterParams
 import com.wires.app.data.remote.params.MessagesReadParams
+import com.wires.app.data.remote.params.PushTokenRegisterParams
 import com.wires.app.data.remote.params.UserLoginParams
 import com.wires.app.data.remote.params.UserLogoutParams
 import com.wires.app.data.remote.params.UserPasswordChangeParams
@@ -136,8 +136,8 @@ interface WiresApiService {
         @Query("offset") offset: Int
     ): ListResponse<PostResponse>
 
-    @POST("device/register")
-    suspend fun registerDevice(
-        @Body params: DeviceRegisterParams
+    @POST("device/register_push_token")
+    suspend fun registerPushToken(
+        @Body params: PushTokenRegisterParams
     ): ObjectResponse<Unit>
 }
