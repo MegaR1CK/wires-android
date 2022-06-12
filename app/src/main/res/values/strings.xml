@@ -167,4 +167,7 @@
     <string name="title_gallery">Gallery</string>
     <string name="title_camera">Camera</string>
     <string name="message_image_pick_error">Failed to get image</string>
+
+    <!-- NOTIFICATIONS -->
+    <string name="notifications_messages_channel_name">Messages</string>
 </resources>

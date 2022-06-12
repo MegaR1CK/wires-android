@@ -164,4 +164,7 @@
     <string name="title_gallery">Галерея</string>
     <string name="title_camera">Камера</string>
     <string name="message_image_pick_error">Не удалось получить изображение</string>
+
+    <!-- NOTIFICATIONS -->
+    <string name="notifications_messages_channel_name">Сообщения</string>
 </resources>
