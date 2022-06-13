@@ -3,9 +3,14 @@ package com.wires.app.managers
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.wires.app.R
@@ -23,6 +28,7 @@ class WiresFirebaseMessagingService : FirebaseMessagingService() {
         private const val CHANNEL_ID = "channel_messages"
         private const val NOTIFICATION_TITLE_KEY = "title"
         private const val NOTIFICATION_BODY_KEY = "body"
+        private const val NOTIFICATION_IMAGE_KEY = "image"
     }
 
     @Inject lateinit var updatePushTokenUseCase: UpdatePushTokenUseCase
@@ -45,15 +51,35 @@ class WiresFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         val messageData = message.data.toMap()
+        val title = messageData[NOTIFICATION_TITLE_KEY].orEmpty()
+        val body = messageData[NOTIFICATION_BODY_KEY].orEmpty()
+        val imageUrl = messageData[NOTIFICATION_IMAGE_KEY]
+        if (imageUrl.isNullOrEmpty()) {
+            showNotification(title, body)
+        } else {
+            getBitmapFromUrl(imageUrl) { bitmap -> showNotification(title, body, bitmap) }
+        }
+    }
+
+    private fun showNotification(title: String, body: String, image: Bitmap? = null) {
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_messages)
-            .setContentTitle(messageData[NOTIFICATION_TITLE_KEY])
-            .setContentText(messageData[NOTIFICATION_BODY_KEY])
+            .setLargeIcon(image)
+            .setContentTitle(title)
+            .setContentText(body)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
         NotificationManagerCompat.from(context).notify(Math.random().toInt(), notification)
     }
+
+    private fun getBitmapFromUrl(url: String, action: (Bitmap) -> Unit) =
+        Glide.with(context).asBitmap().load(url).into(
+            object : CustomTarget<Bitmap>() {
+                override fun onLoadCleared(placeholder: Drawable?) = Unit
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) = action(resource)
+            }
+        )
 
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
