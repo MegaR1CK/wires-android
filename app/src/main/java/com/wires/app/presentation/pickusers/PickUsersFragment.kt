@@ -57,7 +57,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
         buttonPickUsersSearch.setOnClickListener { setSearchFocus() }
         buttonPickUsersClear.setOnClickListener {
             editTextPickUsersSearch.text = null
-            requireActivity().showSoftKeyboard()
+            requireActivity().showSoftKeyboard(editTextPickUsersSearch)
         }
         buttonPickUsersConfirm.setOnClickListener {
             requireActivity().hideSoftKeyboard()
@@ -130,7 +130,7 @@ class PickUsersFragment : BaseFragment(R.layout.fragment_pick_users) {
     private fun setSearchFocus() = with(binding) {
         linearLayoutPickUsersSearch.isVisible = true
         editTextPickUsersSearch.requestFocus()
-        requireActivity().showSoftKeyboard()
+        requireActivity().showSoftKeyboard(editTextPickUsersSearch)
     }
 
     private fun setupLists() = with(binding) {

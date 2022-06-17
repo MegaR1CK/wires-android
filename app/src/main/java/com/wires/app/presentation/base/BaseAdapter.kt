@@ -1,5 +1,6 @@
 package com.wires.app.presentation.base
 
+import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
@@ -14,16 +15,12 @@ abstract class BaseAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerView.Adapt
         return items[position]
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     open fun submitList(items: List<T>) {
         this.items.apply {
             clear()
             addAll(items)
         }
         notifyDataSetChanged()
-    }
-
-    open fun addItem(item: T) {
-        items.add(item)
-        notifyItemInserted(items.lastIndex)
     }
 }

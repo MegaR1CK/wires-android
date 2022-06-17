@@ -50,7 +50,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : Fragment(layoutRes) {
     abstract fun onBindViewModel()
 
     protected infix fun <T> LiveData<T>.observe(block: (T) -> Unit) {
-        observe(this@BaseFragment.viewLifecycleOwner, { block.invoke(it) })
+        observe(this@BaseFragment.viewLifecycleOwner) { block.invoke(it) }
     }
 
     protected fun setBottomNavigationViewVisibility(isVisible: Boolean) {

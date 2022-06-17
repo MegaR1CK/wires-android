@@ -44,26 +44,6 @@ sealed class LoadableResult<R> {
     }
 
     /**
-     * Usage:
-     * val product: Product = result.getOrDefault {
-     *     calculateDefaultValue()
-     * }
-     */
-    fun getOrDefault(default: () -> R): R = when (this) {
-        is Success -> value
-        else -> default()
-    }
-
-    /**
-     * Usage:
-     * val product: Product = result.getOrDefault(Product.stub)
-     */
-    fun getOrDefault(defaultValue: R): R = when (this) {
-        is Success -> value
-        else -> defaultValue
-    }
-
-    /**
      * The given function is applied if this is a Success.
      * Usage:
      * Success(Product()).map {
@@ -74,21 +54,6 @@ sealed class LoadableResult<R> {
         is Loading -> loading()
         is Failure -> failure(throwable)
         is Success -> success(f(value))
-    }
-
-    /**
-     * Applies ifLoading if this is a Loading
-     * or ifFailure if this is a Failure
-     * or ifSuccess if this is a Success.
-     */
-    inline fun <C> fold(
-        ifLoading: () -> C,
-        ifFailure: (t: Throwable) -> C,
-        ifSuccess: (R) -> C
-    ): C = when (this) {
-        is Loading -> ifLoading()
-        is Failure -> ifFailure(throwable)
-        is Success -> ifSuccess(value)
     }
 
     /**

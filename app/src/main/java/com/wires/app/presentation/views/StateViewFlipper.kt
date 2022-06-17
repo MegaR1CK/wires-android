@@ -11,7 +11,6 @@ import android.widget.ViewFlipper
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
-import androidx.core.view.isVisible
 import com.wires.app.R
 import com.wires.app.data.LoadableResult
 import com.wires.app.data.remote.NetworkError
@@ -22,8 +21,7 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
     enum class State(val displayedChild: Int) {
         LOADING(0),
         ERROR(1),
-        DATA(2),
-        CUSTOM(3)
+        DATA(2)
     }
 
     private var state = State.LOADING
@@ -40,7 +38,7 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
 
     init {
         val layoutInflater = LayoutInflater.from(context)
-        val layoutResProvider = LayoutResProvider(context, attrs)
+        val layoutResProvider = LayoutResProvider()
 
         loadingView = layoutInflater.inflate(layoutResProvider.loadingRes, this, false)
         addView(loadingView)
@@ -59,28 +57,6 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
 
     fun setRetryMethod(retry: () -> Unit) {
         buttonError.setOnClickListener { retry.invoke() }
-    }
-
-    fun setCustomState() {
-        changeState(State.CUSTOM)
-    }
-
-    fun currentState() = state
-
-    /** Метод деактивирует определенное состояние и не обрабатывает его в changeState() */
-    fun disableState(vararg states: State) {
-        for (state in states) {
-            if (stateIsDisabled(state)) continue
-            disabledStates.add(state)
-            getChildAt(state.displayedChild)?.isVisible = false
-        }
-    }
-
-    fun setLoadingView(@LayoutRes layout: Int) {
-        removeView(loadingView)
-        loadingView = LayoutInflater.from(context).inflate(layout, this, false)
-        addView(loadingView, 0)
-        changeState(state)
     }
 
     private fun changeState(newState: State) {
@@ -136,15 +112,11 @@ class StateViewFlipper(context: Context, attrs: AttributeSet? = null) : ViewFlip
         imageViewError?.setImageResource(errorImageRes)
     }
 
-    fun setErrorImageVisibility(isVisible: Boolean) {
-        imageViewError?.isVisible = isVisible
-    }
-
     private fun stateIsDisabled(state: State): Boolean {
         return disabledStates.contains(state)
     }
 
-    private class LayoutResProvider(context: Context, attrs: AttributeSet?) {
+    private class LayoutResProvider {
 
         companion object {
             @LayoutRes

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.FragmentActivity
 import com.github.dhaval2404.imagepicker.ImagePicker
 
@@ -27,21 +26,9 @@ fun Activity.hideSoftKeyboard(view: View) {
     imm?.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Activity.showSoftKeyboard(showFlags: Int = InputMethodManager.SHOW_FORCED, hideFlags: Int = 0) {
-    val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.toggleSoftInput(showFlags, hideFlags)
-}
-
 fun Activity.showSoftKeyboard(view: View, showFlags: Int = 0) {
     val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.showSoftInput(view, showFlags)
-}
-
-fun Activity.isKeyboardVisible(insets: WindowInsetsCompat): Boolean {
-    val keyboardRatio = 0.25
-    val systemScreenHeight = this.window.decorView.height
-    val heightDiff = insets.getKeyboardInset() + insets.getTopInset()
-    return heightDiff > keyboardRatio * systemScreenHeight
 }
 
 fun Activity.restartApp() {

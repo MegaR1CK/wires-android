@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.wires.app.R
 import com.wires.app.presentation.views.FlexboxSpaceItemDecoration
-import com.wires.app.presentation.views.GridSpaceItemDecoration
 import com.wires.app.presentation.views.LinearSpaceItemDecoration
 import com.wires.app.presentation.views.VerticalDividerItemDecoration
 
@@ -29,20 +28,6 @@ fun RecyclerView.addLinearSpaceItemDecoration(
             showFirstHorizontalDivider,
             showLastHorizontalDivider,
             shouldDecorate
-        )
-    )
-}
-
-fun RecyclerView.addGridSpaceItemDecoration(
-    @DimenRes spacing: Int = R.dimen.padding_8,
-    includeEdge: Boolean = false,
-    excludeTopEdge: Boolean = true
-) {
-    addItemDecoration(
-        GridSpaceItemDecoration(
-            context.resources.getDimensionPixelSize(spacing),
-            includeEdge,
-            excludeTopEdge
         )
     )
 }

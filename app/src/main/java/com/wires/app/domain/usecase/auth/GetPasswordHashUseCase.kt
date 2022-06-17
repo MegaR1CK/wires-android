@@ -1,7 +1,7 @@
 package com.wires.app.domain.usecase.auth
 
 import com.wires.app.domain.usecase.base.UseCase
-import com.wires.app.presentation.utils.Cryptor
+import com.wires.app.managers.Cryptor
 import javax.inject.Inject
 
 /**

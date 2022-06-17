@@ -16,12 +16,12 @@ class FlexboxSpaceItemDecoration(
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        makeOffsets(outRect, view, parent, state)
+        makeOffsets(outRect, view, parent)
     }
 
-    private fun makeOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State): Rect {
+    private fun makeOffsets(outRect: Rect, view: View, parent: RecyclerView): Rect {
         return when (parent.layoutManager) {
-            is FlexboxLayoutManager -> makeLinearOffsets(outRect, view, parent, state)
+            is FlexboxLayoutManager -> makeLinearOffsets(outRect, view, parent)
             else -> throw IllegalStateException("RecyclerView have unsupported layout manager")
         }
     }
@@ -29,7 +29,7 @@ class FlexboxSpaceItemDecoration(
     /**
      * Возвращает [Rect] c отступами
      * */
-    private fun makeLinearOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State): Rect =
+    private fun makeLinearOffsets(outRect: Rect, view: View, parent: RecyclerView): Rect =
         outRect.apply {
             val position = parent.getChildAdapterPosition(view)
             if (position != RecyclerView.NO_POSITION) {

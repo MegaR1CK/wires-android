@@ -1,5 +1,6 @@
 package com.wires.app.extensions
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
@@ -17,6 +18,7 @@ import com.wires.app.R
  * Модифицированная версия функции для загрузки картинки с помощью Glide
  * Позволяет задавать трансформации, ресурсы для плейсхолдера или ошибки и др. параметры
  */
+@SuppressLint("CheckResult")
 fun ImageView.load(
     imageUrl: String?,
     @DrawableRes placeHolderRes: Int? = context.resolveAttribute(R.attr.colorImagePlaceholder),
