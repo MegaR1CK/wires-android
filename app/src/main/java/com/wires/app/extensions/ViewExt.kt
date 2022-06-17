@@ -43,13 +43,13 @@ fun View.requestApplyInsetsWhenAttached() {
  * Метод выставляет у вью паддинг, равный высоте статус бара (верхнему системному инсету).
  * При этом помечает, что обработал top inset
  * */
-fun View.fitTopInsetsWithPadding(callback: (WindowInsetsCompat) -> Unit = {}) {
+fun View.fitTopInsetsWithPadding(callback: (Insets) -> Unit = {}) {
     this.doOnApplyWindowInsets { view, insets, paddings ->
         val windowInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
         view.updatePadding(
             top = windowInsets.top + paddings.top
         )
-        callback.invoke(insets)
+        callback.invoke(windowInsets)
 
         WindowInsetsCompat.Builder().setInsets(
             WindowInsetsCompat.Type.systemBars(),

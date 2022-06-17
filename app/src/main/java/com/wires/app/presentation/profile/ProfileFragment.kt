@@ -2,6 +2,7 @@ package com.wires.app.presentation.profile
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.navArgs
 import androidx.paging.PagingData
@@ -50,7 +51,10 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
-        appBarLayoutProfile.fitTopInsetsWithPadding()
+        val isBottomNavigationVisible = args.userId == 0
+        appBarLayoutProfile.fitTopInsetsWithPadding { insets ->
+            if (!isBottomNavigationVisible) stateViewFlipperProfile.updatePadding(bottom = insets.bottom)
+        }
         toolbarProfile.setNavigationOnClickListener { navigateBack() }
         stateViewFlipperProfile.setRetryMethod { callOperations() }
         buttonProfileEdit.setOnClickListener { viewModel.openEditUser() }
@@ -58,7 +62,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile) {
         setupAppbar()
         setupPostsList()
         setupResultListeners()
-        setBottomNavigationViewVisibility(args.userId == 0)
+        setBottomNavigationViewVisibility(isBottomNavigationVisible)
     }
 
     override fun onBindViewModel() = with(viewModel) {
