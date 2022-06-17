@@ -14,10 +14,24 @@
             android:id="@+id/toolbarChat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:contentInsetEnd="@dimen/padding_8"
             app:contentInsetStartWithNavigation="0dp"
             app:titleTextAppearance="@style/FontStyle.Subheading1"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="?iconColorPrimary"/>
+            app:navigationIconTint="?iconColorPrimary">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonChatEdit"
+                style="@style/IconButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:visibility="gone"
+                app:icon="@drawable/ic_edit"
+                app:iconSize="24dp"
+                tools:visibility="visible" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

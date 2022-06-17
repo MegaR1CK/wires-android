@@ -107,6 +107,7 @@ class MockManager @Inject constructor() {
                 type = ChannelType.GROUP,
                 members = List(3) { UserPreview(1, "name", null, null, null) },
                 image = Image("https://placekitten.com/70/70", ImageSize(70, 70)),
+                ownerId = 1
             )
         }
     }

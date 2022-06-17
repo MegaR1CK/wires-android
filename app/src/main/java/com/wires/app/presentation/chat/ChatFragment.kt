@@ -4,19 +4,25 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.wires.app.R
 import com.wires.app.data.LoadableResult
+import com.wires.app.data.model.ChannelType
+import com.wires.app.data.model.Message
 import com.wires.app.databinding.FragmentChatBinding
 import com.wires.app.extensions.addLinearSpaceItemDecoration
 import com.wires.app.extensions.fitKeyboardInsetsWithPadding
+import com.wires.app.extensions.getDisplayName
 import com.wires.app.extensions.getKeyboardInset
 import com.wires.app.extensions.navigateBack
+import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
+import com.wires.app.presentation.createchannel.CreateChannelFragment
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -48,13 +54,15 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
     private val args: ChatFragmentArgs by navArgs()
 
     private var initialMessageSent = false
+
     /** Позиция последнего прочитанного сообщения в канале */
     private var lastReadMessagePosition = 0
+    private var isChannelEdited = false
+    private var isFirstLaunch = true
 
     @Inject lateinit var messagesAdapter: MessagesAdapter
 
     override fun callOperations() {
-        viewModel.getChannel(args.channelId)
         viewModel.getUser()
     }
 
@@ -67,26 +75,50 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         messageInputChat.setOnSendClickListener { text ->
             viewModel.sendMessage(args.channelId, text, isInitial = false)
         }
+        buttonChatEdit.setOnClickListener {
+            viewModel.readMessages(args.channelId)
+            viewModel.openEditChannel(args.channelId)
+        }
         if (args.isNew) setFragmentResult(CHATS_CHANGED_RESULT_KEY, bundleOf())
+        setFragmentResultListener(CreateChannelFragment.CHANNEL_UPDATED_RESULT_KEY) { _, bundle ->
+            setFragmentResult(CHATS_CHANGED_RESULT_KEY, bundleOf())
+            toolbarChat.title = bundle.getString(CreateChannelFragment.CHANNEL_NAME_RESULT_KEY)
+            isChannelEdited = true
+        }
     }
 
     override fun onBindViewModel() = with(viewModel) {
         channelLiveData.observe { result ->
             if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
             result.doOnSuccess { channel ->
-                binding.toolbarChat.title = channel.name
-                getMessages(
-                    args.channelId,
+                val channelName = when {
+                    isChannelEdited -> {
+                        isChannelEdited = false
+                        null
+                    }
+                    channel.type == ChannelType.GROUP -> channel.name
+                    else -> channel.members.firstOrNull { it.id != channel.ownerId }?.getDisplayName()
+                }
+                channelName?.let { binding.toolbarChat.title = it }
+                binding.buttonChatEdit.isVisible =
+                    channel.ownerId == userLiveData.value?.getOrNull()?.user?.id && channel.type == ChannelType.GROUP
+                // Если есть много непрочитанных сообщений, то запрашиваем
+                // их количество + дополнительный лимит на случай скролла вверх
+                if (isFirstLaunch) getMessages(
+                    channelId = args.channelId,
                     limit = args.unreadMessagesCount.takeIf { it > UNREAD_MESSAGES_WITHOUT_PAGINATION }?.plus(ADDITIONAL_LIMIT)
                 )
             }
             result.doOnFailure { error ->
-                Timber.d(error.message)
+                Timber.e(error.message)
             }
         }
 
         messagesLiveData.observe { result ->
-            if (messagesAdapter.isEmpty && !result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
+            if ((messagesAdapter.isEmpty && !result.isSuccess) || (result.isSuccess && !isFirstLaunch)) {
+                binding.stateViewFlipperChat.setStateFromResult(result)
+                if (isFirstLaunch) isFirstLaunch = false
+            }
             result.doOnSuccess { items ->
                 initialMessageSent = items.isNotEmpty()
                 val displayingItems = items.filter { !it.isInitial }
@@ -95,12 +127,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 messagesAdapter.addToEnd(displayingItems)
                 if (isFirstPage) {
                     listenChannel(args.channelId)
-                    val firstUnreadItemId = displayingItems.findLast { !it.isRead }?.id
-                    val firstUnreadPosition = firstUnreadItemId?.let { messagesAdapter.getPositionById(it) } ?: -1
-                    if (firstUnreadPosition > VISIBLE_MESSAGES_COUNT) {
-                        binding.recyclerViewMessages.scrollToPosition(firstUnreadPosition)
-                    }
-                    lastReadMessagePosition = firstUnreadPosition + 1
+                    scrollToFirstUnreadPosition(displayingItems)
                 }
             }
             result.doOnFailure { error ->
@@ -110,8 +137,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         userLiveData.observe { result ->
+            if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
             result.doOnSuccess { userWrapper ->
                 userWrapper.user?.id?.let(::setupMessagesList)
+                if (isFirstLaunch) viewModel.getChannel(args.channelId)
             }
             result.doOnFailure { error ->
                 Timber.e(error.message)
@@ -151,6 +180,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 Timber.e(error.message)
             }
         }
+
+        openEditChannelLiveEvent.observe { channelId ->
+            navigateTo(ChatFragmentDirections.actionChatFragmentToCreateChannelGraph(channelId))
+        }
     }
 
     override fun onStop() {
@@ -181,51 +214,62 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 }
             }
             addOnScrollListener(ScrollMoreListener(layoutManager, onLoadMoreListener))
-            // Скролл листенер для чтения сообщений по мере прокрутки
-            // Состоит из двух режимов:
-            // 1 - стандартный ход (чтение сообщений по мере прокрутки списка),
-            // 2 - обратный ход (если во время быстрой прокрутки несколько сообщений
-            // оказались пропущены, идем по списку вверх, пока не прочитаем их все)
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    // При скролле находим позицию самого нижнего видимого элемента
-                    val currentPosition = (layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition()
-                    // Если позиция меньше позиции последнего прочитаннного сообщения (или последнего
-                    // прочитанного сообщения не существует), получаем элемент на позиции
-                    if (currentPosition != null && (currentPosition < lastReadMessagePosition || lastReadMessagePosition == -1)) {
-                        val currentItem = messagesAdapter.getItem(currentPosition)
-                        // Если элемент является сообщением, добавляем его id в список для чтения
-                        if (currentItem is MessageListItem.ListMessage) {
-                            viewModel.messagesIdsForRead.add(currentItem.message.id)
-                            // Если пользователь скроллил быстро, есть вероятность, что листенер пропустил некоторые сообщения
-                            // Если разница между текущим и последним прочитанным
-                            // сообщением больше одного, запускаем обратный ход
-                            if (lastReadMessagePosition - currentPosition > 1) {
-                                var missedItemPosition = currentPosition + 1
-                                var missedItem = messagesAdapter.getItem(missedItemPosition) as? MessageListItem.ListMessage
-                                // Пока список для чтения сообщений не содержит id пропущенного сообщения или пока не дошли
-                                // до прочитанного сообщения, добавляем его в список и поднимаемся вверх (увеличиваем позицию)
-                                while (
-                                    !viewModel.messagesIdsForRead.contains(missedItem?.message?.id) &&
-                                    missedItem?.message?.isRead != true
-                                ) {
-                                    missedItem?.message?.id?.let { viewModel.messagesIdsForRead.add(it) }
-                                    // Если следующая позиция выходит за границы списка,
-                                    // значит мы дошли до конца списка, выходим из цикла
-                                    if (++missedItemPosition == messagesAdapter.itemCount) break
-                                    missedItem = messagesAdapter.getItem(missedItemPosition) as? MessageListItem.ListMessage
-                                }
-                            }
-                            lastReadMessagePosition = currentPosition
-                        }
-                    }
-                }
-            })
+            addOnScrollListener(getReadMessagesScrollListener(layoutManager))
         }
         adapter = messagesAdapter.apply {
             senderId = userId
         }
+    }
+
+    /**
+     * Скролл листенер для чтения сообщений по мере прокрутки
+     * Состоит из двух режимов:
+     * 1 - стандартный ход (чтение сообщений по мере прокрутки списка),
+     * 2 - обратный ход (если во время быстрой прокрутки несколько сообщений
+     * оказались пропущены, идем по списку вверх, пока не прочитаем их все)
+     */
+    private fun getReadMessagesScrollListener(layoutManager: LinearLayoutManager) = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            // При скролле находим позицию самого нижнего видимого элемента
+            val currentPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+            // Если позиция меньше позиции последнего прочитаннного сообщения (или последнего
+            // прочитанного сообщения не существует), получаем элемент на позиции
+            if (!(currentPosition < lastReadMessagePosition || lastReadMessagePosition == -1)) return
+            val currentItem = messagesAdapter.getItem(currentPosition)
+            // Если элемент является сообщением, добавляем его id в список для чтения
+            if (currentItem !is MessageListItem.ListMessage) return
+            viewModel.messagesIdsForRead.add(currentItem.message.id)
+            // Если пользователь скроллил быстро, есть вероятность, что листенер пропустил некоторые сообщения
+            // Если разница между текущим и последним прочитанным
+            // сообщением больше одного, запускаем обратный ход
+            if (lastReadMessagePosition - currentPosition > 1) {
+                var missedItemPosition = currentPosition + 1
+                var missedItem = messagesAdapter.getItem(missedItemPosition) as? MessageListItem.ListMessage
+                // Пока список для чтения сообщений не содержит id пропущенного сообщения или пока не дошли
+                // до прочитанного сообщения, добавляем его в список и поднимаемся вверх (увеличиваем позицию)
+                while (
+                    !viewModel.messagesIdsForRead.contains(missedItem?.message?.id) &&
+                    missedItem?.message?.isRead != true
+                ) {
+                    missedItem?.message?.id?.let { viewModel.messagesIdsForRead.add(it) }
+                    // Если следующая позиция выходит за границы списка,
+                    // значит мы дошли до конца списка, выходим из цикла
+                    if (++missedItemPosition == messagesAdapter.itemCount) break
+                    missedItem = messagesAdapter.getItem(missedItemPosition) as? MessageListItem.ListMessage
+                }
+            }
+            lastReadMessagePosition = currentPosition
+        }
+    }
+
+    private fun scrollToFirstUnreadPosition(displayingItems: List<Message>) {
+        val firstUnreadItemId = displayingItems.findLast { !it.isRead }?.id
+        val firstUnreadPosition = firstUnreadItemId?.let { messagesAdapter.getPositionById(it) } ?: -1
+        if (firstUnreadPosition > VISIBLE_MESSAGES_COUNT) {
+            binding.recyclerViewMessages.scrollToPosition(firstUnreadPosition)
+        }
+        lastReadMessagePosition = firstUnreadPosition + 1
     }
 
     private fun sendInitialMessage() =

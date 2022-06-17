@@ -8,6 +8,7 @@ import com.wires.app.data.model.ChannelType
 import com.wires.app.data.model.Message
 import com.wires.app.data.remote.WiresApiService
 import com.wires.app.data.remote.params.ChannelCreateParams
+import com.wires.app.data.remote.params.ChannelEditParams
 import com.wires.app.data.remote.params.MessageSendParams
 import com.wires.app.data.remote.params.MessagesReadParams
 import com.wires.app.data.remote.websocket.SocketEvent
@@ -57,13 +58,21 @@ class ChannelsRepository @Inject constructor(
     suspend fun createChannel(name: String?, type: ChannelType, membersIds: List<Int>, imagePath: String?): Channel {
         return channelsMapper.fromResponseToModel(
             apiService.createChannel(
-                gson.toJson(ChannelCreateParams(name, type.name, membersIds)).toRequestBody(),
-                imagePath?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
+                createParams = gson.toJson(ChannelCreateParams(name, type.name, membersIds)).toRequestBody(),
+                image = imagePath?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
             ).data
         )
     }
 
     suspend fun readChannelMessages(channelId: Int, messagesIds: Set<Int>) {
         apiService.readChannelMessages(channelId, MessagesReadParams(messagesIds))
+    }
+
+    suspend fun editChannel(channelId: Int, name: String, membersIds: List<Int>, imagePath: String?) {
+        apiService.editChannel(
+            channelId = channelId,
+            updateParams = gson.toJson(ChannelEditParams(name, membersIds)).toRequestBody(),
+            image = imagePath?.let { File(it).toMultipartPart(IMAGE_PART_NAME) }
+        )
     }
 }

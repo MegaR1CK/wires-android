@@ -129,6 +129,14 @@ interface WiresApiService {
         @Body params: MessagesReadParams
     ): ObjectResponse<Unit>
 
+    @Multipart
+    @PUT("channels/{id}/edit")
+    suspend fun editChannel(
+        @Path("id") channelId: Int,
+        @Part("update_params") updateParams: RequestBody,
+        @Part image: MultipartBody.Part?
+    )
+
     @GET("user/{id}/posts")
     suspend fun getUserPosts(
         @Path("id") userId: Int,

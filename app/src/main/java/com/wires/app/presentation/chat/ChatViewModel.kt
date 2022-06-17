@@ -44,6 +44,9 @@ class ChatViewModel @Inject constructor(
     private val _receiveMessageLiveEvent = SingleLiveEvent<SocketEvent<Message>>()
     val receiveMessageLiveEvent: LiveData<SocketEvent<Message>> = _receiveMessageLiveEvent
 
+    private val _openEditChannelLiveEvent = SingleLiveEvent<Int>()
+    val openEditChannelLiveEvent: LiveData<Int> = _openEditChannelLiveEvent
+
     val messagesIdsForRead = mutableSetOf<Int>()
 
     fun getUser() {
@@ -80,4 +83,8 @@ class ChatViewModel @Inject constructor(
         disconnectChannelUseCase.executeOutOfLifecycle(DisconnectChannelUseCase.Params(channelId)) { result ->
             result.doOnFailure { error -> Timber.e(error.message) }
         }
+
+    fun openEditChannel(channelId: Int) {
+        _openEditChannelLiveEvent.postValue(channelId)
+    }
 }

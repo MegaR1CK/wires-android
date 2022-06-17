@@ -78,6 +78,7 @@
     <string name="create_channel_add_users">Add</string>
     <string name="create_channel_personal">Create personal channel</string>
     <string name="create_channel_group">Create group channel</string>
+    <string name="create_channel_edit_mode_title">Edit group channel</string>
 
     <!-- PICK USERS -->
     <string name="pick_users_title">Add users</string>

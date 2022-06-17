@@ -25,5 +25,14 @@
             android:defaultValue="0"
             app:argType="integer" />
 
+        <action
+            android:id="@+id/action_chatFragment_to_create_channel_graph"
+            app:destination="@id/create_channel_graph">
+
+            <argument
+                android:name="channelId"
+                app:argType="integer" />
+
+        </action>
     </fragment>
 </navigation>

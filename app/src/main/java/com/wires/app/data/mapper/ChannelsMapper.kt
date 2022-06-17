@@ -30,7 +30,8 @@ class ChannelsMapper @Inject constructor(
             name = channelResponse.name,
             type = channelResponse.type,
             image = channelResponse.image?.let { imagesMapper.fromResponseToModel(it) },
-            members = channelResponse.members.map(userMapper::fromResponseToModel)
+            members = channelResponse.members.map(userMapper::fromResponseToModel),
+            ownerId = channelResponse.ownerId
         )
     }
 

@@ -59,11 +59,11 @@ class CreatePostFragment : BaseFragment(R.layout.fragment_create_post) {
     @Inject lateinit var appContext: Context
 
     override fun callOperations() {
-        if (args.postId != 0) viewModel.getPost(args.postId)
+        isEditMode = args.postId != 0
+        if (isEditMode) viewModel.getPost(args.postId)
     }
 
     override fun onSetupLayout(savedInstanceState: Bundle?) = with(binding) {
-        isEditMode = args.postId != 0
         root.fitKeyboardInsetsWithPadding()
         if (!isEditMode) stateViewFlipperCreatePost.setStateFromResult(LoadableResult.success(null))
         toolbarCreatePost.setNavigationOnClickListener { navigateBack() }

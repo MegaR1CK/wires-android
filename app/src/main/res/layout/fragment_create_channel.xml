@@ -18,7 +18,6 @@
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:navigationIconTint="?iconColorPrimary"
-            app:title="@string/create_channel_group_title"
             app:titleTextAppearance="@style/FontStyle.Subheading1">
 
             <com.google.android.material.button.MaterialButton
@@ -47,106 +46,112 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.wires.app.presentation.views.StateViewFlipper
+        android:id="@+id/stateViewFlipperCreateChannel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/padding_16"
-        android:paddingTop="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/viewImagePickerCreateChannel"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:foreground="@drawable/bg_circle_ripple_dark"
-            app:cardBackgroundColor="?colorImagePlaceholder"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageViewCreateChannel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:tintMode="src_atop"
-                app:tint="?colorAvatarDarken" />
-
-            <ImageView
-                android:id="@+id/imageViewCreateChannelIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_add_photo"
-                app:tint="?colorPrimary" />
-
-        </androidx.cardview.widget.CardView>
-
-        <com.wires.app.presentation.views.ValidationTextInput
-            android:id="@+id/inputCreateChannelName"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:fieldHint="@string/create_channel_name_hint"
-            app:fieldImeOptions="actionDone"
-            app:fieldInputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewImagePickerCreateChannel"
-            app:lengthErrorText="@string/error_length_channel_name"
-            app:maxTextLength="28"
-            app:minTextLength="3" />
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/padding_16"
+            android:paddingTop="16dp">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/create_channel_users"
-            android:textAppearance="@style/FontStyle.Subheading2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputCreateChannelName" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/viewImagePickerCreateChannel"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:foreground="@drawable/bg_circle_ripple_dark"
+                app:cardBackgroundColor="?colorImagePlaceholder"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonCreateChannelEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="0dp"
-            android:text="@string/create_channel_add_users"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:textAppearance="@style/FontStyle.Metadata1.Bold"
-            android:textAllCaps="true"
-            app:icon="@drawable/ic_add"
-            app:layout_constraintBottom_toBottomOf="@+id/textView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView" />
+                <ImageView
+                    android:id="@+id/imageViewCreateChannel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tintMode="src_atop"
+                    app:tint="?colorAvatarDarken" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
+                <ImageView
+                    android:id="@+id/imageViewCreateChannelIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add_photo"
+                    app:tint="?colorPrimary" />
 
-            <com.wires.app.presentation.views.EmptyRecyclerView
-                android:id="@+id/recyclerViewCreateChannelUsers"
+            </androidx.cardview.widget.CardView>
+
+            <com.wires.app.presentation.views.ValidationTextInput
+                android:id="@+id/inputCreateChannelName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_user" />
+                android:layout_marginTop="20dp"
+                app:fieldHint="@string/create_channel_name_hint"
+                app:fieldImeOptions="actionDone"
+                app:fieldInputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewImagePickerCreateChannel"
+                app:lengthErrorText="@string/error_length_channel_name"
+                app:maxTextLength="28"
+                app:minTextLength="3" />
 
             <TextView
-                android:id="@+id/emptyViewCreateChannelUsers"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:paddingTop="100dp"
-                android:text="@string/pick_users_empty_added"
-                android:textAppearance="@style/FontStyle.Subheading1"
-                android:visibility="gone" />
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/create_channel_users"
+                android:textAppearance="@style/FontStyle.Subheading2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inputCreateChannelName" />
 
-        </FrameLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonCreateChannelEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="0dp"
+                android:text="@string/create_channel_add_users"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textAppearance="@style/FontStyle.Metadata1.Bold"
+                android:textAllCaps="true"
+                app:icon="@drawable/ic_add"
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                <com.wires.app.presentation.views.EmptyRecyclerView
+                    android:id="@+id/recyclerViewCreateChannelUsers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_user" />
+
+                <TextView
+                    android:id="@+id/emptyViewCreateChannelUsers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="100dp"
+                    android:text="@string/pick_users_empty_added"
+                    android:textAppearance="@style/FontStyle.Subheading1"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.wires.app.presentation.views.StateViewFlipper>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

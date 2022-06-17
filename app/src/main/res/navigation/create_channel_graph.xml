@@ -11,6 +11,11 @@
         android:label="CreateChannelFragment"
         tools:layout="@layout/fragment_create_channel">
 
+        <argument
+            android:name="channelId"
+            app:argType="integer"
+            android:defaultValue="0" />
+
         <action
             android:id="@+id/action_createChannelFragment_to_pick_users_graph"
             app:destination="@id/pick_users_graph">

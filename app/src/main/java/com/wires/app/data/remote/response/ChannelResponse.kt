@@ -13,5 +13,7 @@ data class ChannelResponse(
     @SerializedName("image")
     val image: ImageResponse?,
     @SerializedName("members")
-    val members: List<UserPreviewResponse>
+    val members: List<UserPreviewResponse>,
+    @SerializedName("owner_id")
+    val ownerId: Int
 )

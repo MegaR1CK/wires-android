@@ -81,6 +81,7 @@
     <string name="create_channel_add_users">Добавить</string>
     <string name="create_channel_personal">Создать личный канал</string>
     <string name="create_channel_group">Создать групповой канал</string>
+    <string name="create_channel_edit_mode_title">Редактировать групповой канал</string>
 
     <!-- PICK USERS -->
     <string name="pick_users_title">Добавление пользователей</string>

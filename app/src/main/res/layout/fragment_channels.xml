@@ -48,8 +48,9 @@
                 android:id="@+id/recyclerViewChannels"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
+                android:clipToPadding="false"
                 android:overScrollMode="never"
+                android:paddingTop="16dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_channel"
                 tools:itemCount="5" />
