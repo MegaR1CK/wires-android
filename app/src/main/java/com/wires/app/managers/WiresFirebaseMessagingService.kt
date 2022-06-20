@@ -2,7 +2,9 @@ package com.wires.app.managers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -15,6 +17,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.wires.app.R
 import com.wires.app.domain.usecase.devices.UpdatePushTokenUseCase
+import com.wires.app.presentation.main.MainActivity
 import dagger.android.AndroidInjection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +32,7 @@ class WiresFirebaseMessagingService : FirebaseMessagingService() {
         private const val NOTIFICATION_TITLE_KEY = "title"
         private const val NOTIFICATION_BODY_KEY = "body"
         private const val NOTIFICATION_IMAGE_KEY = "image"
+        private const val NOTIFICATION_INTENT_REQUEST_CODE = 1
     }
 
     @Inject lateinit var updatePushTokenUseCase: UpdatePushTokenUseCase
@@ -67,6 +71,7 @@ class WiresFirebaseMessagingService : FirebaseMessagingService() {
             .setLargeIcon(image)
             .setContentTitle(title)
             .setContentText(body)
+            .setContentIntent(createNotificationIntent())
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
@@ -92,4 +97,11 @@ class WiresFirebaseMessagingService : FirebaseMessagingService() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
         notificationManager?.createNotificationChannel(channel)
     }
+
+    private fun createNotificationIntent() = PendingIntent.getActivity(
+        context,
+        NOTIFICATION_INTENT_REQUEST_CODE,
+        Intent(context, MainActivity::class.java),
+        PendingIntent.FLAG_UPDATE_CURRENT
+    )
 }
