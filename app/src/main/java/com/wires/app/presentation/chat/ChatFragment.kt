@@ -125,9 +125,9 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 binding.emptyViewMessageList.isVisible = displayingItems.isEmpty() && messagesAdapter.isEmpty
                 val isFirstPage = messagesAdapter.isEmpty
                 messagesAdapter.addToEnd(displayingItems)
-                if (isFirstPage) {
+                if (!isFirstLaunch || isFirstPage) {
                     listenChannel(args.channelId)
-                    scrollToFirstUnreadPosition(displayingItems)
+                    if (isFirstPage) scrollToFirstUnreadPosition(displayingItems)
                 }
             }
             result.doOnFailure { error ->

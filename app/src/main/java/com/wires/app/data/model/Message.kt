@@ -1,8 +1,10 @@
 package com.wires.app.data.model
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDateTime
 
+@Parcelize
 data class Message(
     val id: Int,
     val author: UserPreview,
@@ -10,4 +12,4 @@ data class Message(
     val sendTime: LocalDateTime,
     val isInitial: Boolean,
     val isRead: Boolean
-) : Serializable
+) : Parcelable

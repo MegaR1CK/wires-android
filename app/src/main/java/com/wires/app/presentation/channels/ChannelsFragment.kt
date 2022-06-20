@@ -85,7 +85,7 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
 
     private fun setupResultListeners() {
         setFragmentResultListener(ChatFragment.LAST_MESSAGE_CHANGED_RESULT_KEY) { _, bundle ->
-            (bundle.getSerializable(ChatFragment.LAST_MESSAGE_RESULT_KEY) as? Message)?.let { message ->
+            (bundle.getParcelable(ChatFragment.LAST_MESSAGE_RESULT_KEY) as? Message)?.let { message ->
                 channelsAdapter.updateLastSentMessage(bundle.getInt(ChatFragment.CHANNEL_ID_RESULT_KEY), message)
                 channelsAdapter.sortByLastMessageDate()
             }
