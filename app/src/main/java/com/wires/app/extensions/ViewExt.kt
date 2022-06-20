@@ -4,11 +4,11 @@ import android.graphics.Rect
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.annotation.MenuRes
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import com.wires.app.R
 
 fun View.doOnApplyWindowInsets(block: (View, insets: WindowInsetsCompat, Rect) -> WindowInsetsCompat) {
     val initialPadding = recordInitialPaddingForView(this)
@@ -123,9 +123,9 @@ fun View.setMargin(start: Int? = null, top: Int? = null, end: Int? = null, botto
     layoutParams = params
 }
 
-fun View.showPopupMenu(onItemClick: (Int) -> Unit) {
+fun View.showPopupMenu(@MenuRes menuRes: Int, onItemClick: (Int) -> Unit) {
     PopupMenu(context, this).run {
-        inflate(R.menu.menu_channel_create)
+        inflate(menuRes)
         setOnMenuItemClickListener { menuItem ->
             onItemClick(menuItem.itemId)
             true

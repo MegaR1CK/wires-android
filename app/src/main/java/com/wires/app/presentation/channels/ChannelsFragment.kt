@@ -35,7 +35,7 @@ class ChannelsFragment : BaseFragment(R.layout.fragment_channels) {
         root.fitTopInsetsWithPadding()
         stateViewFlipperChannels.setRetryMethod { callOperations() }
         buttonChannelsCreate.setOnClickListener { button ->
-            button.showPopupMenu { itemId ->
+            button.showPopupMenu(R.menu.menu_channel_create) { itemId ->
                 when (itemId) {
                     R.id.channelCreateActionPersonal -> viewModel.openCreateChannel(ChannelType.PERSONAL)
                     R.id.channelCreateActionGroup -> viewModel.openCreateChannel(ChannelType.GROUP)

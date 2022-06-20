@@ -41,7 +41,7 @@ class PostViewHolder(
             root.setOnClickListener { onItemClick.invoke(post.id) }
             buttonPostActions.isVisible = post.isEditable
             buttonPostActions.setOnClickListener { button ->
-                button.showPopupMenu { itemId ->
+                button.showPopupMenu(R.menu.menu_post_actions) { itemId ->
                     when (itemId) {
                         R.id.postActionEdit -> onEditClick(post.id)
                         R.id.postActionDelete -> onDeleteClick(post.id)
