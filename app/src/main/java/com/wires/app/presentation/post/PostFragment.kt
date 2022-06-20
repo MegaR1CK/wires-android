@@ -87,6 +87,7 @@ class PostFragment : BaseFragment(R.layout.fragment_post) {
         }
         toolbarPost.setNavigationOnClickListener { navigateBack() }
         recyclerViewPostComments.adapter = commentsAdapter.apply {
+            onItemClick = viewModel::openProfile
             addLoadStateListener(viewModel::bindPagingState)
         }.withLoadStateFooter(PagingLoadStateAdapter { commentsAdapter.retry() })
         messageInputViewComment.setOnSendClickListener { text ->

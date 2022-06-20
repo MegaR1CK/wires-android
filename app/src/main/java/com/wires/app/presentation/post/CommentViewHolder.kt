@@ -13,7 +13,7 @@ class CommentViewHolder(
     private val dateFormatter: DateFormatter
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(comment: Comment) = with(binding) {
+    fun bind(comment: Comment, onItemClick: (Int) -> Unit) = with(binding) {
         imageViewCommentAuthorAvatar.load(
             imageUrl = comment.author.avatar?.url,
             placeHolderRes = R.drawable.ic_avatar_placeholder,
@@ -22,5 +22,8 @@ class CommentViewHolder(
         textViewCommentAuthorName.text = comment.author.getDisplayName()
         textViewCommentBody.text = comment.text
         textViewCommentTime.text = dateFormatter.getDateTimeRelative(comment.sendTime)
+        root.setOnClickListener {
+            onItemClick(comment.author.id)
+        }
     }
 }
