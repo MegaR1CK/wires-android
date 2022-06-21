@@ -102,6 +102,6 @@ class WiresFirebaseMessagingService : FirebaseMessagingService() {
         context,
         NOTIFICATION_INTENT_REQUEST_CODE,
         Intent(context, MainActivity::class.java),
-        PendingIntent.FLAG_UPDATE_CURRENT
+        PendingIntent.FLAG_IMMUTABLE
     )
 }
