@@ -58,7 +58,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
     /** Позиция последнего прочитанного сообщения в канале */
     private var lastReadMessagePosition = 0
     private var isChannelEdited = false
-    private var isFirstLaunch = true
+    private var isReturningToScreen = false
 
     @Inject lateinit var messagesAdapter: MessagesAdapter
 
@@ -88,6 +88,17 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
     }
 
     override fun onBindViewModel() = with(viewModel) {
+        userLiveData.observe { result ->
+            if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
+            result.doOnSuccess { userWrapper ->
+                userWrapper.user?.id?.let(::setupMessagesList)
+                if (!isReturningToScreen) viewModel.getChannel(args.channelId)
+            }
+            result.doOnFailure { error ->
+                Timber.e(error.message)
+            }
+        }
+
         channelLiveData.observe { result ->
             if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
             result.doOnSuccess { channel ->
@@ -104,7 +115,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                     channel.ownerId == userLiveData.value?.getOrNull()?.user?.id && channel.type == ChannelType.GROUP
                 // Если есть много непрочитанных сообщений, то запрашиваем
                 // их количество + дополнительный лимит на случай скролла вверх
-                if (isFirstLaunch) getMessages(
+                if (!isReturningToScreen) getMessages(
                     channelId = args.channelId,
                     limit = args.unreadMessagesCount.takeIf { it > UNREAD_MESSAGES_WITHOUT_PAGINATION }?.plus(ADDITIONAL_LIMIT)
                 )
@@ -115,34 +126,23 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         messagesLiveData.observe { result ->
-            if ((messagesAdapter.isEmpty && !result.isSuccess) || (result.isSuccess && !isFirstLaunch)) {
+            if ((messagesAdapter.isEmpty && !result.isSuccess) || (result.isSuccess && isReturningToScreen)) {
                 binding.stateViewFlipperChat.setStateFromResult(result)
-                if (isFirstLaunch) isFirstLaunch = false
             }
             result.doOnSuccess { items ->
                 initialMessageSent = items.isNotEmpty()
                 val displayingItems = items.filter { !it.isInitial }
                 binding.emptyViewMessageList.isVisible = displayingItems.isEmpty() && messagesAdapter.isEmpty
                 val isFirstPage = messagesAdapter.isEmpty
-                messagesAdapter.addToEnd(displayingItems)
-                if (!isFirstLaunch || isFirstPage) {
+                if (messagesAdapter.isEmpty || isReturningToScreen) {
                     listenChannel(args.channelId)
-                    if (isFirstPage) scrollToFirstUnreadPosition(displayingItems)
+                    if (isReturningToScreen) isReturningToScreen = false
                 }
+                messagesAdapter.addToEnd(displayingItems)
+                if (isFirstPage) scrollToFirstUnreadPosition(displayingItems)
             }
             result.doOnFailure { error ->
                 if (!messagesAdapter.isEmpty) showSnackbar(error.message)
-                Timber.e(error.message)
-            }
-        }
-
-        userLiveData.observe { result ->
-            if (!result.isSuccess) binding.stateViewFlipperChat.setStateFromResult(result)
-            result.doOnSuccess { userWrapper ->
-                userWrapper.user?.id?.let(::setupMessagesList)
-                if (isFirstLaunch) viewModel.getChannel(args.channelId)
-            }
-            result.doOnFailure { error ->
                 Timber.e(error.message)
             }
         }
@@ -188,6 +188,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     override fun onStop() {
         super.onStop()
+        isReturningToScreen = true
         viewModel.readMessages(args.channelId)
         setFragmentResult(
             requestKey = UNREAD_MESSAGES_CHANGED_RESULT_KEY,
