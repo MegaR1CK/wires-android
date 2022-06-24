@@ -2,7 +2,7 @@
 <resources>
 
     <style name="FontStyle">
-        <item name="android:textColor">@color/primary_black</item>
+        <item name="android:textColor">?textColorPrimary</item>
     </style>
 
     <style name="FontStyle.Heading1">

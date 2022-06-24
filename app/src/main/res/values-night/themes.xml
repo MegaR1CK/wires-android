@@ -1,39 +1,39 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorSecondary">@color/blue</item>
+        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorSecondary">@color/light_blue</item>
         <item name="colorOnPrimary">@color/off_white</item>
 
         <item name="colorPrimaryDark">@color/dark_blue</item>
         <item name="colorPrimaryBackground">@color/lightest_blue</item>
 
-        <item name="colorSurface">@color/white</item>
-        <item name="colorOnSurface">@color/primary_black</item>
-        <item name="colorControlHighlight">@color/light_gray</item>
+        <item name="colorSurface">@color/primary_black</item>
+        <item name="colorOnSurface">@color/off_white</item>
+        <item name="colorControlHighlight">@color/darkest_gray</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
 
-        <item name="textColorPrimary">@color/primary_black</item>
+        <item name="textColorPrimary">@color/off_white</item>
         <item name="textColorSecondary">@color/dark_gray</item>
         <item name="textColorAccent">@color/red</item>
         <item name="textColorOnContrast">@color/white</item>
         <item name="errorColor">@color/red</item>
 
-        <item name="iconColorPrimary">@color/primary_black</item>
+        <item name="iconColorPrimary">@color/off_white</item>
         <item name="iconColorSecondary">@color/gray</item>
         <item name="iconColorOnContrast">@color/white</item>
-        <item name="iconColorBottomNavDisabled">@color/dark_gray</item>
+        <item name="iconColorBottomNavDisabled">@color/white</item>
 
-        <item name="colorSurfaceChat">@color/off_white</item>
-        <item name="colorInputBackground">@color/off_white</item>
+        <item name="colorSurfaceChat">@color/darkest_blue</item>
+        <item name="colorInputBackground">@color/darkest_blue</item>
         <item name="colorInputHint">@color/gray</item>
 
         <item name="colorTabSelected">@color/blue</item>
         <item name="colorTabUnselected">@color/blue_50</item>
 
-        <item name="dividerColor">@color/light_gray</item>
-        <item name="splashColor">@color/blue</item>
+        <item name="dividerColor">@color/darkest_blue</item>
+        <item name="splashColor">@color/deep_dark_blue</item>
 
         <item name="colorImagePlaceholder">@color/off_white</item>
         <item name="colorRippleDark">@color/gray</item>

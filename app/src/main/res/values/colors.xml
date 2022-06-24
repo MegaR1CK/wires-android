@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="blue">#002DE3</color>
+    <color name="light_blue">#375FFF</color>
     <color name="dark_blue">#001A83</color>
-    <color name="light_blue">#D2D5F9</color>
+    <color name="lightest_blue">#D2D5F9</color>
     <color name="primary_black">#0F1828</color>
-    <color name="darkest_blue">#1B2B48</color>
+    <color name="darkest_blue">#152033</color>
+    <color name="deep_dark_blue">#1B2B48</color>
+    <color name="darkest_gray">#646464</color>
     <color name="dark_gray">#A4A4A4</color>
     <color name="gray">#ADB5BD</color>
     <color name="light_gray">#EDEDED</color>

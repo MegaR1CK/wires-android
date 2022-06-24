@@ -13,6 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:defaultNavHost="true"
+        android:background="?colorSurface"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -23,9 +24,11 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?colorSurface"
         app:elevation="8dp"
         app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:itemIconTint="@color/color_bottom_nav_icon"
         app:menu="@menu/menu_bottom_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,7 @@
             android:background="?colorSurface"
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="?iconColorPrimary"
             app:title="@string/edit_profile_title"
             app:titleTextAppearance="@style/FontStyle.Subheading1">
 

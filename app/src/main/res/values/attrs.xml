@@ -44,6 +44,7 @@
     <attr name="iconColorPrimary" format="reference|color" />
     <attr name="iconColorSecondary" format="reference|color" />
     <attr name="iconColorOnContrast" format="reference|color" />
+    <attr name="iconColorBottomNavDisabled" format="reference|color" />
 
     <attr name="colorSurfaceChat" format="reference|color" />
     <attr name="colorInputBackground" format="reference|color" />
@@ -53,6 +54,7 @@
     <attr name="colorTabUnselected" format="reference|color" />
 
     <attr name="dividerColor" format="reference|color" />
+    <attr name="splashColor" format="reference|color" />
 
     <attr name="colorImagePlaceholder" format="reference|color" />
     <attr name="colorRippleDark" format="reference|color" />

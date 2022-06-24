@@ -9,9 +9,10 @@
         <item name="android:textAppearance">@style/FontStyle.Subheading2</item>
     </style>
 
-    <style name="ButtonStyle.Contrast">
-        <item name="android:textColor">?colorPrimary</item>
-        <item name="backgroundTint">?colorSurface</item>
+    <!-- Кнопки должны быть белыми всегда, независимо от темы -->
+    <style name="ButtonStyle.Splash">
+        <item name="android:textColor">?splashColor</item>
+        <item name="backgroundTint">@color/white</item>
         <item name="rippleColor">?colorRippleDark</item>
     </style>
 

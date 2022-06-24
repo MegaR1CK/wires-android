@@ -10,7 +10,8 @@
         android:id="@+id/appBarLayoutChannels"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="?colorSurface">
+        android:background="@null"
+        app:elevation="0.5dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbarChannels"
@@ -31,13 +32,13 @@
                 app:iconSize="24dp" />
 
         </com.google.android.material.appbar.MaterialToolbar>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.wires.app.presentation.views.StateViewFlipper
         android:id="@+id/stateViewFlipperChannels"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?colorSurface"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout

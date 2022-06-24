@@ -17,6 +17,7 @@
             android:background="?colorSurface"
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="?iconColorPrimary"
             app:title="@string/settings_title"
             app:titleTextAppearance="@style/FontStyle.Subheading1"/>
 
@@ -42,7 +43,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_lock" />
+                android:src="@drawable/ic_lock"
+                app:tint="?iconColorPrimary" />
 
             <TextView
                 android:layout_width="0dp"
@@ -55,7 +57,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                app:tint="?iconColorPrimary" />
         </LinearLayout>
 
         <View
@@ -76,7 +79,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_language" />
+                android:src="@drawable/ic_language"
+                app:tint="?iconColorPrimary" />
 
             <TextView
                 android:layout_width="0dp"
@@ -89,7 +93,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                app:tint="?iconColorPrimary" />
         </LinearLayout>
 
         <View
@@ -110,7 +115,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_attention" />
+                android:src="@drawable/ic_attention"
+                app:tint="?iconColorPrimary" />
 
             <TextView
                 android:layout_width="0dp"
@@ -123,7 +129,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_right" />
+                android:src="@drawable/ic_arrow_right"
+                app:tint="?iconColorPrimary" />
         </LinearLayout>
 
         <View
