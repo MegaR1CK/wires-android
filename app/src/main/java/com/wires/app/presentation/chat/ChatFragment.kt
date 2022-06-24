@@ -5,7 +5,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,8 +23,6 @@ import com.wires.app.extensions.navigateTo
 import com.wires.app.extensions.showSnackbar
 import com.wires.app.presentation.base.BaseFragment
 import com.wires.app.presentation.createchannel.CreateChannelFragment
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -63,9 +60,6 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
     private var isChannelEdited = false
     private var isFirstLaunch = true
 
-    private var canReceive = true
-    private var canSend = true
-
     @Inject lateinit var messagesAdapter: MessagesAdapter
 
     override fun callOperations() {
@@ -79,13 +73,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         stateViewFlipperChat.setRetryMethod { callOperations() }
         toolbarChat.setNavigationOnClickListener { navigateBack() }
         messageInputChat.setOnSendClickListener { text ->
-            if (canSend) {
-                viewModel.sendMessage(args.channelId, text, isInitial = false)
-                canSend = false
-                root.postDelayed({
-                    canSend = true
-                }, 1000)
-            }
+            viewModel.sendMessage(args.channelId, text, isInitial = false)
         }
         buttonChatEdit.setOnClickListener {
             viewModel.readMessages(args.channelId)
@@ -173,23 +161,16 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 showSnackbar(getString(R.string.error_no_network_description))
             }
             result.doOnMessage { message ->
-                if (canReceive) {
-                    if (!message.isInitial) {
-                        messagesAdapter.addNewMessage(message)
-                        viewModel.messagesIdsForRead.add(message.id)
-                        binding.recyclerViewMessages.scrollToPosition(0)
-                    }
-                    binding.emptyViewMessageList.isVisible = messagesAdapter.isEmpty
-                    setFragmentResult(
-                        requestKey = LAST_MESSAGE_CHANGED_RESULT_KEY,
-                        result = bundleOf(CHANNEL_ID_RESULT_KEY to args.channelId, LAST_MESSAGE_RESULT_KEY to message)
-                    )
-                    canReceive = false
-                    viewModelScope.launch {
-                        delay(1000)
-                        canReceive = true
-                    }
+                if (!message.isInitial) {
+                    messagesAdapter.addNewMessage(message)
+                    viewModel.messagesIdsForRead.add(message.id)
+                    binding.recyclerViewMessages.scrollToPosition(0)
                 }
+                binding.emptyViewMessageList.isVisible = messagesAdapter.isEmpty
+                setFragmentResult(
+                    requestKey = LAST_MESSAGE_CHANGED_RESULT_KEY,
+                    result = bundleOf(CHANNEL_ID_RESULT_KEY to args.channelId, LAST_MESSAGE_RESULT_KEY to message)
+                )
             }
         }
 
