@@ -37,7 +37,7 @@ open class ApiServiceModule {
     companion object {
         private const val HEADER_AUTH = "Authorization"
         private const val AUTH_TOKEN_PREFIX = "Bearer"
-        private const val BASE_URL = "https://wires-api.herokuapp.com/v1/"
+        private const val BASE_URL = "http://45.89.65.16:8080/v1/"
         private const val CONNECTION_TIMEOUTS_MS = 20000L
     }
 

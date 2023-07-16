@@ -127,8 +127,7 @@
                 android:layout_width="24dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:src="@drawable/ic_like"
-                app:tint="?iconColorPrimary" />
+                android:src="@drawable/ic_like" />
 
             <TextView
                 android:id="@+id/textViewPostLikeCounter"

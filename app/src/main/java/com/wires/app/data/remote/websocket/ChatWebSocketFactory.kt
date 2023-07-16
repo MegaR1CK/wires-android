@@ -10,7 +10,7 @@ class ChatWebSocketFactory @Inject constructor(
     private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) {
     companion object {
-        private const val CHAT_WEBSOCKET_URL = "wss://wires-api.herokuapp.com/v1/channels/%d/listen"
+        private const val CHAT_WEBSOCKET_URL = "ws://45.89.65.16:8080/v1/channels/%d/listen"
         private const val AUTH_HEADER_NAME = "Authorization"
     }
 
